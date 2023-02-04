@@ -1,5 +1,5 @@
 import React from 'react';
-import { ComponentType } from '../constant';
+import { ComponentType } from '../types';
 
 interface PropsType {
 	/** 样式 */

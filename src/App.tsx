@@ -3,7 +3,8 @@ import { useState } from 'react';
 import Canvas from './components/Canvas';
 import CanvasSizeForm from './components/CanvasSizeForm';
 import SideBar from './components/SideBar';
-import { ComponentOptions, ComponentType } from './constant';
+import { ComponentOptions } from './constant';
+import { ComponentType } from './types';
 
 function App() {
 	const [canvasSize, setCanvasSize] = useState({ width: 375, height: 650 });
