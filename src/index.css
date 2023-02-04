@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+#root {
+  min-width: 1080px;
+  background-color: #F5F5F5;
+}
