@@ -1,4 +1,5 @@
 import { InputNumber } from 'antd';
+import React from 'react';
 
 interface PropsType {
 	/** 宽度 */
@@ -7,10 +8,17 @@ interface PropsType {
 	height: number;
 	/** 设置宽高 */
 	onChange(size: { width: number; height: number }): void;
+	/** children */
+	children?: React.ReactNode;
 }
 
 /** 设置画布大小 */
-const CanvasSizeForm = ({ width = 375, height = 650, onChange }: PropsType) => {
+const CanvasSizeForm = ({
+	width = 375,
+	height = 650,
+	onChange,
+	children,
+}: PropsType) => {
 	return (
 		<div className='flex items-center text-16 text-555'>
 			<span className='mr-6'>画布尺寸</span>
@@ -26,6 +34,7 @@ const CanvasSizeForm = ({ width = 375, height = 650, onChange }: PropsType) => {
 				defaultValue={height}
 				onChange={val => onChange({ width, height: val || 1 })}
 			/>
+			{children}
 		</div>
 	);
 };
