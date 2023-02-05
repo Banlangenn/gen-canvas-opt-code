@@ -1,5 +1,4 @@
 import { InputNumber } from 'antd';
-import React from 'react';
 
 interface PropsType {
 	/** 宽度 */

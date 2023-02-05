@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface PropsType {
 	/** 标题 */
 	title: string;

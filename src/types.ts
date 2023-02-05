@@ -8,9 +8,9 @@ export interface BaseComponentOpt {
 	/** 距离画布顶部 px */
 	y: number;
 	/** 宽 px */
-	width: number;
+	width?: number | 'auto';
 	/** 高 px */
-	height: number;
+	height?: number | 'auto';
 	/** 标识符 */
 	name: string;
 	/** 组件类型 */
@@ -25,12 +25,14 @@ export interface BaseComponentOpt {
 
 /** 图片组件配置 */
 export interface ImageOpt extends BaseComponentOpt {
+	type: 'image';
 	/** 图片地址 */
 	url: string;
 }
 
 /** 文本组件配置 */
 export interface TextOpt extends BaseComponentOpt {
+	type: 'text';
 	/** 文本颜色 */
 	fillStyle: CanvasRenderingContext2D['fillStyle'];
 	/** 字体大小 + 字体样式 示例: '11px PingFang-SC-Medium' */
@@ -53,6 +55,7 @@ export interface TextOpt extends BaseComponentOpt {
 
 /** 矩形组件配置 */
 export interface RectOpt extends BaseComponentOpt {
+	type: 'rect';
 	/** 填充内容颜色 */
 	fillStyle: CanvasRenderingContext2D['fillStyle'];
 	/** 边框/线段宽度 px */
@@ -61,4 +64,10 @@ export interface RectOpt extends BaseComponentOpt {
 	strokeStyle?: CanvasRenderingContext2D['strokeStyle'];
 	/** 为 'both' 时表示同时填充内容和边框 */
 	mode?: string;
+}
+
+export interface ComponentOptMap {
+	image: ImageOpt;
+	text: TextOpt;
+	rect: RectOpt;
 }
