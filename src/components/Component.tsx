@@ -43,6 +43,8 @@ const Component = ({ type, options, index }: ComponentPropsType) => {
 		width: options.width,
 		height: options.height,
 		borderRadius: options.radius,
+		position: 'absolute',
+		zIndex: index,
 	};
 	// 特有属性
 	const specific: any = {};

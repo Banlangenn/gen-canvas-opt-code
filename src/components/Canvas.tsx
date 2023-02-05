@@ -61,7 +61,7 @@ const Canvas = ({ style }: PropsType) => {
 
 	return (
 		<div
-			className='bg-white shadow-[2px_2px_20px_0_rgba(0,0,0,0.25)] overflow-hidden'
+			className='bg-white shadow-[2px_2px_20px_0_rgba(0,0,0,0.25)] overflow-hidden relative'
 			style={style}
 			onDragOver={e => e.preventDefault()}
 			onDrop={handleDrop}
