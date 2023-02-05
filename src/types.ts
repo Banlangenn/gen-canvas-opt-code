@@ -17,6 +17,10 @@ export interface BaseComponentOpt {
 	type: ComponentType;
 	/** 圆角 px */
 	radius?: number;
+	/** 鼠标是否放置 */
+	isHovered?: boolean;
+	/** 是否选中 */
+	isSelected?: boolean;
 }
 
 /** 图片组件配置 */
@@ -34,27 +38,27 @@ export interface TextOpt extends BaseComponentOpt {
 	/** 文本内容 */
 	content: string;
 	/** 文本水平对齐方式 */
-	align: CanvasRenderingContext2D['textAlign'];
+	align?: CanvasRenderingContext2D['textAlign'];
 	/** 文本基线对齐方式 */
-	baseline: CanvasRenderingContext2D['textBaseline'];
+	baseline?: CanvasRenderingContext2D['textBaseline'];
 	/** 最大宽度 px 超出打点 ... */
-	maxWidth: number;
+	maxWidth?: number;
 	/** 最多行数 px 超出打点 ... */
-	rowCount: number;
+	rowCount?: number;
 	/** 行高 px */
-	lineHeight: number;
+	lineHeight?: number;
 	/** 文本装饰 目前只支持 line-through 删除线 */
-	textDecoration: string;
+	textDecoration?: string;
 }
 
 /** 矩形组件配置 */
 export interface RectOpt extends BaseComponentOpt {
-	/** 边框/线段宽度 px */
-	lineWidth: CanvasRenderingContext2D['lineWidth'];
 	/** 填充内容颜色 */
 	fillStyle: CanvasRenderingContext2D['fillStyle'];
+	/** 边框/线段宽度 px */
+	lineWidth?: CanvasRenderingContext2D['lineWidth'];
 	/** 填充边框/线段颜色 */
-	strokeStyle: CanvasRenderingContext2D['strokeStyle'];
+	strokeStyle?: CanvasRenderingContext2D['strokeStyle'];
 	/** 为 'both' 时表示同时填充内容和边框 */
-	mode: string;
+	mode?: string;
 }
