@@ -1,13 +1,15 @@
-import { Button } from 'antd';
+import { Button, Row, Col, Form } from 'antd';
 import { useState } from 'react';
 import Canvas from './components/Canvas';
 import CanvasSizeForm from './components/CanvasSizeForm';
 import SideBar from './components/SideBar';
-import { ComponentOptions } from './constant';
+import { ComponentList } from './utils/options';
 import { ComponentType } from './types';
 
 function App() {
 	const [canvasSize, setCanvasSize] = useState({ width: 375, height: 650 });
+	const [optForm] = Form.useForm();
+
 
 	// 开始拖拽
 	const handleDragStart = (
@@ -22,7 +24,7 @@ function App() {
 		<div className='w-full h-[100vh] flex justify-center'>
 			<SideBar title='组件' width={260}>
 				<div className='flex flex-wrap'>
-					{ComponentOptions.map(item => (
+					{ComponentList.map(item => (
 						<div
 							key={item.type}
 							draggable
@@ -58,7 +60,12 @@ function App() {
 				/>
 			</div>
 			<SideBar title='配置' width={300} position='right'>
-				配置
+				<Form form={optForm}>
+					<Row gutter={[20, 20]}>
+
+					</Row>
+				</Form>
+
 			</SideBar>
 		</div>
 	);

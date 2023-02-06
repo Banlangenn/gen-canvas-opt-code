@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { ComponentOptMap } from './types';
+import { ComponentOptMap } from '../types';
 
 type StateListType = Array<ComponentOptMap[keyof ComponentOptMap]>;
 interface StoreType {

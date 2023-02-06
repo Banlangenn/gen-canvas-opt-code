@@ -1,16 +1,16 @@
 /** 组件类型 */
 export type ComponentType = 'image' | 'text' | 'rect';
 
-/** 基础配置 */
+/** 组件基础配置 */
 export interface BaseComponentOpt {
 	/** 距离画布左侧 px */
 	x: number;
 	/** 距离画布顶部 px */
 	y: number;
 	/** 宽 px */
-	width?: number | 'auto';
+	width: number;
 	/** 高 px */
-	height?: number | 'auto';
+	height: number;
 	/** 标识符 */
 	name: string;
 	/** 组件类型 */

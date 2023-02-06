@@ -68,6 +68,7 @@ const Component = ({ type, options, index }: ComponentPropsType) => {
 			opt.maxWidth && (style.maxWidth = opt.maxWidth);
 			opt.lineHeight && (style.lineHeight = opt.lineHeight);
 			opt.textDecoration && (style.textDecoration = opt.textDecoration);
+			style.display = 'inline-block';
 			style.overflow = 'hidden';
 			style.textOverflow = 'ellipsis';
 			if (opt.rowCount && opt.rowCount > 1) {
