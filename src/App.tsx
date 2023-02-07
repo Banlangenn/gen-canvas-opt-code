@@ -5,9 +5,10 @@ import CanvasSizeForm from './components/CanvasSizeForm';
 import SideBar from './components/SideBar';
 import { ComponentList } from './utils/options';
 import { ComponentType } from './types';
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from './utils/constant';
 
 function App() {
-	const [canvasSize, setCanvasSize] = useState({ width: 375, height: 650 });
+	const [canvasSize, setCanvasSize] = useState({ width: CANVAS_WIDTH, height: CANVAS_HEIGHT });
 	const [optForm] = Form.useForm();
 
 

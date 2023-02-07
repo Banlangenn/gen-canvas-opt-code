@@ -1,4 +1,5 @@
 import { InputNumber } from 'antd';
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../utils/constant';
 
 interface PropsType {
 	/** 宽度 */
@@ -13,8 +14,8 @@ interface PropsType {
 
 /** 设置画布大小 */
 const CanvasSizeForm = ({
-	width = 375,
-	height = 650,
+	width = CANVAS_WIDTH,
+	height = CANVAS_HEIGHT,
 	onChange,
 	children,
 }: PropsType) => {
