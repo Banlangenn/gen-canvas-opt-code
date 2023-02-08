@@ -1,6 +1,9 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { Button, Row, Col, Form, Empty, FormItemProps } from 'antd';
+import {
+  PlusOutlined
+} from '@ant-design/icons';
 import { debounce } from 'lodash'
 import { useCanvasStore } from '../store';
 import { OptionType, getComponentOption } from '../utils/options';
@@ -52,10 +55,23 @@ const OptionsForm = ({ state }: { state: ComponentOptMap[ComponentType] }) => {
   }
 
   return <Form form={form} onValuesChange={debounce(handleValuesChange, 500)}>
-    <Row gutter={[20, 20]} >
+    <Row gutter={[20, 0]} >
       {formItems.map((item, index) => (<Col key={index} {...item.colProps}>
         <Form.Item {...item.formItemProps} />
       </Col>))}
+      <Col span={24}>
+        <Form.Item>
+          <Button
+            type="dashed"
+            onClick={() => { }}
+            style={{ width: '100%' }}
+            icon={<PlusOutlined />}
+          >
+            Add field
+          </Button>
+        </Form.Item>
+      </Col>
+
     </Row >
   </Form>
 }
