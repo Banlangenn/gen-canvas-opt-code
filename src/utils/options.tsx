@@ -47,8 +47,6 @@ export const ComponentList = [
 ];
 
 export interface OptionType {
-	/** 是否为可选字段 可选字段可以动态增删 */
-	isOptional?: boolean;
 	/** Col Props */
 	colProps: ColProps,
 	/** From.Item Props */
@@ -121,14 +119,13 @@ export const getComponentOption = (type: ComponentType) => {
 		],
 		optional: [
 			{
-				isOptional: true,
 				colProps: {
-					span: 12
+					span: 24
 				},
 				formItemProps: {
 					label: '圆角',
 					name: 'radius',
-					children: <InputNumber min={0} />
+					children: <InputNumber defaultValue={4} min={0} />
 				},
 			},
 		]
@@ -145,7 +142,7 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '图片地址',
 						name: 'url',
-						children: <Input.TextArea />
+						children: <Input.TextArea defaultValue={''} />
 					},
 				},
 			],
@@ -160,7 +157,7 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '颜色',
 						name: 'fillStyle',
-						children: <Input type='color' />
+						children: <Input defaultValue={'#333'} type='color' />
 					},
 				},
 				{
@@ -170,7 +167,7 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '字号字体',
 						name: 'font',
-						children: <Input placeholder='示例：11px PingFang-SC-Medium' />
+						children: <Input defaultValue={`16px PingFang-SC-Medium`} placeholder='示例：16px PingFang-SC-Medium' />
 					},
 				},
 				{
@@ -186,9 +183,8 @@ export const getComponentOption = (type: ComponentType) => {
 			],
 			optional: [
 				{
-					isOptional: true,
 					colProps: {
-						span: 12
+						span: 24
 					},
 					formItemProps: {
 						label: '水平对齐',
@@ -204,9 +200,8 @@ export const getComponentOption = (type: ComponentType) => {
 					},
 				},
 				{
-					isOptional: true,
 					colProps: {
-						span: 12
+						span: 24
 					},
 					formItemProps: {
 						label: '垂直对齐',
@@ -222,42 +217,38 @@ export const getComponentOption = (type: ComponentType) => {
 					},
 				},
 				{
-					isOptional: true,
 					colProps: {
-						span: 12
+						span: 24
 					},
 					formItemProps: {
 						label: '最大宽度',
 						name: 'maxWidth',
-						children: <InputNumber min={0} />
+						children: <InputNumber defaultValue={500} min={0} />
 					},
 				},
 				{
-					isOptional: true,
 					colProps: {
-						span: 12
+						span: 24
 					},
 					formItemProps: {
 						label: '最多行数',
 						name: 'rowCount',
-						children: <InputNumber min={1} />
+						children: <InputNumber defaultValue={2} min={1} />
 					},
 				},
 				{
-					isOptional: true,
 					colProps: {
-						span: 12
+						span: 24
 					},
 					formItemProps: {
 						label: '行高',
 						name: 'lineHeight',
-						children: <InputNumber min={0} />
+						children: <InputNumber defaultValue={20} min={0} />
 					},
 				},
 				{
-					isOptional: true,
 					colProps: {
-						span: 12
+						span: 24
 					},
 					formItemProps: {
 						label: '文本装饰',
@@ -281,37 +272,34 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '填充颜色',
 						name: 'fillStyle',
-						children: <Input type='color' />
+						children: <Input defaultValue={'#ccc'} type='color' />
 					},
 				},
 			],
 			optional: [
 				{
-					isOptional: true,
 					colProps: {
-						span: 12
+						span: 24
 					},
 					formItemProps: {
 						label: '边框宽度',
 						name: 'lineWidth',
-						children: <InputNumber min={0} />
+						children: <InputNumber defaultValue={1} min={0} />
 					},
 				},
 				{
-					isOptional: true,
 					colProps: {
-						span: 12
+						span: 24
 					},
 					formItemProps: {
 						label: '边框',
 						name: 'strokeStyle',
-						children: <Input type='color' />
+						children: <Input defaultValue={'#ccc'} type='color' />
 					},
 				},
 				{
-					isOptional: true,
 					colProps: {
-						span: 12
+						span: 24
 					},
 					formItemProps: {
 						label: '填充模式',

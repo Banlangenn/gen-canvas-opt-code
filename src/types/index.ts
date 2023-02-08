@@ -40,7 +40,7 @@ export interface TextOpt extends BaseComponentOpt {
 	type: 'text';
 	/** 文本颜色 */
 	fillStyle: CanvasRenderingContext2D['fillStyle'];
-	/** 字体大小 + 字体样式 示例: '11px PingFang-SC-Medium' */
+	/** 字体大小 + 字体样式 示例: '16px PingFang-SC-Medium' */
 	font: string;
 	/** 文本内容 */
 	content: string;
@@ -76,3 +76,5 @@ export interface ComponentOptMap {
 	text: TextOpt;
 	rect: RectOpt;
 }
+
+export type ComponentUniType = ComponentOptMap[ComponentType]

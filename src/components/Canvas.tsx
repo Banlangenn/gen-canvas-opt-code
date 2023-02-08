@@ -42,7 +42,7 @@ const Canvas = ({ style }: PropsType) => {
 					height: 20,
 					name: `text-${stateList.length}`,
 					content: '文本内容',
-					font: '11px PingFang-SC-Medium',
+					font: '16px PingFang-SC-Medium',
 					fillStyle: '#333',
 					internal: {
 						id: stateList.length,
