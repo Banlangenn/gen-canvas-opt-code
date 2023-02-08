@@ -1,4 +1,4 @@
-import { Button, Row, Col, Form } from 'antd';
+import { Button } from 'antd';
 import { useState } from 'react';
 import Canvas from './components/Canvas';
 import CanvasSizeForm from './components/CanvasSizeForm';
@@ -6,10 +6,10 @@ import SideBar from './components/SideBar';
 import { ComponentList } from './utils/options';
 import { ComponentType } from './types';
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from './utils/constant';
+import Options from './components/Options';
 
 function App() {
 	const [canvasSize, setCanvasSize] = useState({ width: CANVAS_WIDTH, height: CANVAS_HEIGHT });
-	const [optForm] = Form.useForm();
 
 
 	// 开始拖拽
@@ -61,12 +61,7 @@ function App() {
 				/>
 			</div>
 			<SideBar title='配置' width={300} position='right'>
-				<Form form={optForm}>
-					<Row gutter={[20, 20]}>
-
-					</Row>
-				</Form>
-
+				<Options />
 			</SideBar>
 		</div>
 	);

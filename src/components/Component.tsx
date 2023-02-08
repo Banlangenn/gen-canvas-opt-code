@@ -33,8 +33,8 @@ interface ComponentPropsType {
 
 /** 画布中的组件 */
 const Component = ({ type, options, index }: ComponentPropsType) => {
-	// store 更新器
-	const { updateStateList, updateSelectedIndex } = useCanvasStore();
+	// 元素状态列表
+	const { stateList, updateStateList } = useCanvasStore();
 
 	// 样式
 	const style: React.CSSProperties = {
@@ -93,7 +93,21 @@ const Component = ({ type, options, index }: ComponentPropsType) => {
 			break;
 		}
 	}
-	return <Element type={type} style={style} {...specific} />;
+
+	/** 事件处理 */
+	// 订正选中的列表项
+	const handleSelect = () => {
+		stateList.forEach(s => {
+			s.internal.isSelected = options.internal.id === s.internal.id
+		});
+		updateStateList(stateList);
+	}
+	// 元素点击
+	const handleClick = () => {
+		if (options.internal.isSelected) return;
+		handleSelect();
+	}
+	return <Element type={type} style={style} {...specific} onClick={handleClick} />;
 };
 
 export default Component;

@@ -17,10 +17,15 @@ export interface BaseComponentOpt {
 	type: ComponentType;
 	/** 圆角 px */
 	radius?: number;
-	/** 鼠标是否放置 */
-	isHovered?: boolean;
-	/** 是否选中 */
-	isSelected?: boolean;
+	/** 内置状态 用于组件交互 */
+	internal: {
+		/** 组件 id */
+		id: number;
+		/** 鼠标是否放置 */
+		isHovered?: boolean;
+		/** 是否选中 */
+		isSelected?: boolean;
+	}
 }
 
 /** 图片组件配置 */

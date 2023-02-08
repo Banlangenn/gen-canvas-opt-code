@@ -46,14 +46,14 @@ export const ComponentList = [
 	},
 ];
 
-interface OptionType {
+export interface OptionType {
 	/** Col Props */
 	colProps: ColProps,
 	/** From.Item Props */
 	formItemProps: FormItemProps
 }
 
-interface OptionsMapType {
+export interface OptionsMapType {
 	/** 必填配置 */
 	required: OptionType[];
 	/** 可选配置 */
@@ -62,6 +62,7 @@ interface OptionsMapType {
 
 /** 组件配置 */
 export const getComponentOption = (type: ComponentType) => {
+	if (!type) return [[], []]
 	/** 基础配置 */
 	const baseOptions: OptionsMapType = {
 		required: [

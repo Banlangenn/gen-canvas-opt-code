@@ -27,6 +27,9 @@ const Canvas = ({ style }: PropsType) => {
 					height: COMPONENT_HEIGHT,
 					name: `image-${stateList.length}`,
 					url: 'https://pic.qqtn.com/up/2019-9/15690311636958128.jpg',
+					internal: {
+						id: stateList.length,
+					},
 				});
 				break;
 			}
@@ -41,6 +44,9 @@ const Canvas = ({ style }: PropsType) => {
 					content: '文本内容',
 					font: '11px PingFang-SC-Medium',
 					fillStyle: '#333',
+					internal: {
+						id: stateList.length,
+					},
 				});
 				break;
 			}
@@ -53,10 +59,17 @@ const Canvas = ({ style }: PropsType) => {
 					height: COMPONENT_HEIGHT,
 					name: `rect-${stateList.length}`,
 					fillStyle: '#ccc',
+					internal: {
+						id: stateList.length,
+					},
 				});
 				break;
 			}
 		}
+		stateList.forEach(s => {
+			s.internal.isSelected = false;
+		});
+		stateList[stateList.length - 1].internal.isSelected = true;
 		updateStateList(stateList);
 	};
 
@@ -69,7 +82,7 @@ const Canvas = ({ style }: PropsType) => {
 		>
 			{stateList.map((state, index) => (
 				<Component
-					key={state.name}
+					key={index}
 					type={state.type}
 					options={state}
 					index={index}
