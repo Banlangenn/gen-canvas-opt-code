@@ -47,6 +47,8 @@ export const ComponentList = [
 ];
 
 export interface OptionType {
+	/** 是否为可选字段 可选字段可以动态增删 */
+	isOptional?: boolean;
 	/** Col Props */
 	colProps: ColProps,
 	/** From.Item Props */
@@ -119,6 +121,7 @@ export const getComponentOption = (type: ComponentType) => {
 		],
 		optional: [
 			{
+				isOptional: true,
 				colProps: {
 					span: 12
 				},
@@ -142,7 +145,7 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '图片地址',
 						name: 'url',
-						children: <Input />
+						children: <Input.TextArea />
 					},
 				},
 			],
@@ -183,6 +186,7 @@ export const getComponentOption = (type: ComponentType) => {
 			],
 			optional: [
 				{
+					isOptional: true,
 					colProps: {
 						span: 12
 					},
@@ -200,6 +204,7 @@ export const getComponentOption = (type: ComponentType) => {
 					},
 				},
 				{
+					isOptional: true,
 					colProps: {
 						span: 12
 					},
@@ -217,6 +222,7 @@ export const getComponentOption = (type: ComponentType) => {
 					},
 				},
 				{
+					isOptional: true,
 					colProps: {
 						span: 12
 					},
@@ -227,6 +233,7 @@ export const getComponentOption = (type: ComponentType) => {
 					},
 				},
 				{
+					isOptional: true,
 					colProps: {
 						span: 12
 					},
@@ -237,6 +244,7 @@ export const getComponentOption = (type: ComponentType) => {
 					},
 				},
 				{
+					isOptional: true,
 					colProps: {
 						span: 12
 					},
@@ -247,6 +255,7 @@ export const getComponentOption = (type: ComponentType) => {
 					},
 				},
 				{
+					isOptional: true,
 					colProps: {
 						span: 12
 					},
@@ -278,6 +287,7 @@ export const getComponentOption = (type: ComponentType) => {
 			],
 			optional: [
 				{
+					isOptional: true,
 					colProps: {
 						span: 12
 					},
@@ -288,6 +298,7 @@ export const getComponentOption = (type: ComponentType) => {
 					},
 				},
 				{
+					isOptional: true,
 					colProps: {
 						span: 12
 					},
@@ -298,6 +309,7 @@ export const getComponentOption = (type: ComponentType) => {
 					},
 				},
 				{
+					isOptional: true,
 					colProps: {
 						span: 12
 					},

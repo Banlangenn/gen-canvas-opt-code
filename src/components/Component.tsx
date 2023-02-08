@@ -107,7 +107,7 @@ const Component = ({ type, options, index }: ComponentPropsType) => {
 		if (options.internal.isSelected) return;
 		handleSelect();
 	}
-	return <Element type={type} style={style} {...specific} onClick={handleClick} />;
+	return <Element type={type} style={style} {...specific} draggable="false" onClick={handleClick} />;
 };
 
 export default Component;

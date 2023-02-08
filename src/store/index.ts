@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { devtools, persist } from 'zustand/middleware'
 import { ComponentOptMap } from '../types';
 
 type StateListType = Array<ComponentOptMap[keyof ComponentOptMap]>;
@@ -10,8 +11,17 @@ interface StoreType {
 }
 
 /** 画布状态 */
-export const useCanvasStore = create<StoreType>(set => ({
-	stateList: [],
-	updateStateList: (stateList: StateListType) =>
-		set(state => ({ ...state, stateList })),
-}));
+export const useCanvasStore = create<StoreType>()(
+  devtools(
+    persist(
+      (set) => ({
+        stateList: [],
+				updateStateList: (stateList: StateListType) =>
+					set(state => ({ ...state, stateList })),
+			}),
+      {
+        name: 'canvas-storage',
+      }
+    )
+  )
+)
