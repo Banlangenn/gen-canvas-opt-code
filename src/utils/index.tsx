@@ -17,7 +17,7 @@ export const addOption = (list: ComponentUniType[], type: ComponentType) => {
 					id: list.length,
 				},
 			});
-			break;
+			return;
 		}
 		case 'text': {
 			list.push({
@@ -34,7 +34,7 @@ export const addOption = (list: ComponentUniType[], type: ComponentType) => {
 					id: list.length,
 				},
 			});
-			break;
+			return;
 		}
 		case 'rect': {
 			list.push({
@@ -49,7 +49,7 @@ export const addOption = (list: ComponentUniType[], type: ComponentType) => {
 					id: list.length,
 				},
 			});
-			break;
+			return;
 		}
 	}
 };

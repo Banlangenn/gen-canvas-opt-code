@@ -3,7 +3,11 @@ import { Button, Row, Col, Form, Empty, Dropdown } from 'antd';
 import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { debounce } from 'lodash';
 import { useCanvasStore } from '../store';
-import { OptionType, getComponentOption } from '../utils/options';
+import {
+	OptionType,
+	getComponentOption,
+	optionalFieldsDefaultValues,
+} from '../utils/options';
 import { ComponentUniType } from '../types';
 
 const OptionsForm = ({ state }: { state: ComponentUniType }) => {
@@ -15,6 +19,8 @@ const OptionsForm = ({ state }: { state: ComponentUniType }) => {
 	const [optionalItems, setOptionalItems] = useState<OptionType[]>([]);
 
 	useEffect(() => {
+		console.log('state 变化');
+
 		/** requiredOpt: 必有字段 optionalOpt: 可选字段 */
 		const [requiredOpt, optionalOpt] = getComponentOption(state.type);
 		/** 根据必有字段和可选字段中有值的字段得出 */
@@ -95,15 +101,21 @@ const OptionsForm = ({ state }: { state: ComponentUniType }) => {
 	// 添加表单字段
 	const handleAddField = (val: any) => {
 		const { key } = val;
-		setOptionalItems(
-			optionalItems.filter(item => {
-				if (item.formItemProps.name === key) {
-					setFormItems([...formItems, item]);
-					return false;
-				}
-				return true;
-			}),
-		);
+		optionalItems.forEach(item => {
+			if (item.formItemProps.name === key) {
+				// setFormItems([...formItems, item]);
+				// form.setFieldValue(key, optionalFieldsDefaultValues[key]);
+				updateStateList(
+					stateList.map(s => {
+						if (s.internal.id === state.internal.id) {
+							// @ts-ignore
+							s[key] = optionalFieldsDefaultValues[key];
+						}
+						return s;
+					}),
+				);
+			}
+		});
 	};
 
 	return (
@@ -148,7 +160,7 @@ const Options = () => {
 	console.log(state);
 
 	return state ? (
-		<OptionsForm state={state} key={state.internal.id} />
+		<OptionsForm state={state} key={Math.random()} />
 	) : (
 		<Empty description={<span className='text-666'>未选择组件～</span>} />
 	);

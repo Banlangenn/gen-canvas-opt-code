@@ -125,7 +125,7 @@ export const getComponentOption = (type: ComponentType) => {
 				formItemProps: {
 					label: '圆角',
 					name: 'radius',
-					children: <InputNumber defaultValue={4} min={0} />,
+					children: <InputNumber min={0} />,
 				},
 			},
 		],
@@ -142,7 +142,7 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '图片地址',
 						name: 'url',
-						children: <Input.TextArea defaultValue={''} />,
+						children: <Input.TextArea />,
 					},
 				},
 			],
@@ -157,7 +157,7 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '颜色',
 						name: 'fillStyle',
-						children: <Input defaultValue={'#333'} type='color' />,
+						children: <Input type='color' />,
 					},
 				},
 				{
@@ -168,10 +168,7 @@ export const getComponentOption = (type: ComponentType) => {
 						label: '字号字体',
 						name: 'font',
 						children: (
-							<Input
-								defaultValue={`16px PingFang-SC-Medium`}
-								placeholder='示例：16px PingFang-SC-Medium'
-							/>
+							<Input placeholder='示例：16px PingFang-SC-Medium' />
 						),
 					},
 				},
@@ -196,7 +193,6 @@ export const getComponentOption = (type: ComponentType) => {
 						name: 'align',
 						children: (
 							<Select
-								defaultValue='left'
 								options={[
 									{ value: 'left', label: '左' },
 									{ value: 'center', label: '中' },
@@ -215,7 +211,6 @@ export const getComponentOption = (type: ComponentType) => {
 						name: 'baseline',
 						children: (
 							<Select
-								defaultValue='bottom'
 								options={[
 									{ value: 'top', label: '上' },
 									{ value: 'middle', label: '中' },
@@ -232,7 +227,7 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '最大宽度',
 						name: 'maxWidth',
-						children: <InputNumber defaultValue={500} min={0} />,
+						children: <InputNumber min={0} />,
 					},
 				},
 				{
@@ -242,7 +237,7 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '最多行数',
 						name: 'rowCount',
-						children: <InputNumber defaultValue={2} min={1} />,
+						children: <InputNumber min={1} />,
 					},
 				},
 				{
@@ -252,7 +247,7 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '行高',
 						name: 'lineHeight',
-						children: <InputNumber defaultValue={20} min={0} />,
+						children: <InputNumber min={0} />,
 					},
 				},
 				{
@@ -264,7 +259,6 @@ export const getComponentOption = (type: ComponentType) => {
 						name: 'textDecoration',
 						children: (
 							<Select
-								defaultValue='line-through'
 								options={[
 									{ value: 'line-through', label: '删除线' },
 								]}
@@ -283,7 +277,7 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '填充颜色',
 						name: 'fillStyle',
-						children: <Input defaultValue={'#ccc'} type='color' />,
+						children: <Input type='color' />,
 					},
 				},
 			],
@@ -295,7 +289,7 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '边框宽度',
 						name: 'lineWidth',
-						children: <InputNumber defaultValue={1} min={0} />,
+						children: <InputNumber min={0} />,
 					},
 				},
 				{
@@ -303,9 +297,9 @@ export const getComponentOption = (type: ComponentType) => {
 						span: 24,
 					},
 					formItemProps: {
-						label: '边框',
+						label: '边框颜色',
 						name: 'strokeStyle',
-						children: <Input defaultValue={'#ccc'} type='color' />,
+						children: <Input type='color' />,
 					},
 				},
 				{
@@ -333,4 +327,32 @@ export const getComponentOption = (type: ComponentType) => {
 		[...baseOptions.required, ...specificOptions[type].required],
 		[...baseOptions.optional, ...specificOptions[type].optional],
 	];
+};
+
+/** 可选字段默认值 */
+export const optionalFieldsDefaultValues = {
+	/** 圆角 */
+	radius: 4,
+	/** 填充颜色 */
+	fillStyle: '#cccccc',
+	/** 字号字体 */
+	font: '16px PingFang-SC-Medium',
+	/** 水平对齐 */
+	align: 'left',
+	/** 垂直对齐 */
+	baseline: 'bottom',
+	/** 最大宽度 */
+	maxWidth: 500,
+	/** 最大行数 */
+	rowCount: 2,
+	/** 行高 */
+	lineHeight: 20,
+	/** 边框宽度 */
+	lineWidth: 1,
+	/** 文本装饰 */
+	textDecoration: 'line-through',
+	/** 边框颜色 */
+	strokeStyle: '#cccccc',
+	/** 填充模式 */
+	mode: 'both',
 };
