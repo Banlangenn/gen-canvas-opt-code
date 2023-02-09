@@ -1,3 +1,4 @@
+import { isEqual } from 'lodash';
 import { useCanvasStore } from '../store';
 import { ComponentType } from '../types';
 import { addOption } from '../utils';
@@ -10,19 +11,20 @@ interface PropsType {
 
 /** 画布 */
 const Canvas = ({ style }: PropsType) => {
-	const { stateList, updateStateList } = useCanvasStore();
+	const elList = useCanvasStore(state => state.elList, isEqual);
+	const updateElList = useCanvasStore(state => state.updateElList);
 
 	// 放置组件
 	const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
 		event.preventDefault();
 		event.stopPropagation();
 		const type = event.dataTransfer.getData('type') as ComponentType;
-		addOption(stateList, type);
-		stateList.forEach(s => {
+		addOption(elList, type);
+		elList.forEach(s => {
 			s.internal.isSelected = false;
 		});
-		stateList[stateList.length - 1].internal.isSelected = true;
-		updateStateList(stateList);
+		elList[elList.length - 1].internal.isSelected = true;
+		updateElList(elList);
 	};
 
 	return (
@@ -32,7 +34,7 @@ const Canvas = ({ style }: PropsType) => {
 			onDragOver={e => e.preventDefault()}
 			onDrop={handleDrop}
 		>
-			{stateList.map((state, index) => (
+			{elList.map((state, index) => (
 				<Component
 					key={index}
 					type={state.type}

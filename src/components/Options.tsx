@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { isEqual } from 'lodash';
+import { useEffect, useState } from 'react';
 import { Button, Row, Col, Form, Empty, Dropdown } from 'antd';
 import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { debounce } from 'lodash';
@@ -11,7 +12,8 @@ import {
 import { ComponentUniType } from '../types';
 
 const OptionsForm = ({ state }: { state: ComponentUniType }) => {
-	const { stateList, updateStateList } = useCanvasStore();
+	const elList = useCanvasStore(state => state.elList, isEqual);
+	const updateElList = useCanvasStore(state => state.updateElList);
 	const [form] = Form.useForm();
 	/** 表单项 根据已有值字段得出 */
 	const [formItems, setFormItems] = useState<OptionType[]>([]);
@@ -75,8 +77,10 @@ const OptionsForm = ({ state }: { state: ComponentUniType }) => {
 
 	// 表单字段修改
 	const handleValuesChange = (value: any) => {
-		updateStateList(
-			stateList.map(s => {
+		const values = form.getFieldsValue();
+		console.log(values);
+		updateElList(
+			elList.map(s => {
 				return s.internal.id === state.internal.id
 					? { ...state, ...value }
 					: s;
@@ -86,10 +90,8 @@ const OptionsForm = ({ state }: { state: ComponentUniType }) => {
 
 	// 删除表单字段
 	const handleDelete = (name: keyof ComponentUniType) => {
-		console.log(name);
-
-		updateStateList(
-			stateList.map(s => {
+		updateElList(
+			elList.map(s => {
 				if (s.internal.id === state.internal.id) {
 					delete s[name];
 				}
@@ -105,8 +107,8 @@ const OptionsForm = ({ state }: { state: ComponentUniType }) => {
 			if (item.formItemProps.name === key) {
 				// setFormItems([...formItems, item]);
 				// form.setFieldValue(key, optionalFieldsDefaultValues[key]);
-				updateStateList(
-					stateList.map(s => {
+				updateElList(
+					elList.map(s => {
 						if (s.internal.id === state.internal.id) {
 							// @ts-ignore
 							s[key] = optionalFieldsDefaultValues[key];
@@ -154,9 +156,9 @@ const OptionsForm = ({ state }: { state: ComponentUniType }) => {
 
 /** 组件配置 */
 const Options = () => {
-	const stateList = useCanvasStore(state => state.stateList);
+	const elList = useCanvasStore(state => state.elList, isEqual);
 
-	const state = stateList.find(s => s.internal.isSelected);
+	const state = elList.find(s => s.internal.isSelected);
 	console.log(state);
 
 	return state ? (

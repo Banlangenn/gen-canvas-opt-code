@@ -34,7 +34,7 @@ interface ComponentPropsType {
 /** 画布中的组件 */
 const Component = ({ type, options, index }: ComponentPropsType) => {
 	// 元素状态列表
-	const { stateList, updateStateList } = useCanvasStore();
+	const { elList, updateElList } = useCanvasStore();
 
 	// 样式
 	const style: React.CSSProperties = {
@@ -97,17 +97,25 @@ const Component = ({ type, options, index }: ComponentPropsType) => {
 	/** 事件处理 */
 	// 订正选中的列表项
 	const handleSelect = () => {
-		stateList.forEach(s => {
-			s.internal.isSelected = options.internal.id === s.internal.id
+		elList.forEach(s => {
+			s.internal.isSelected = options.internal.id === s.internal.id;
 		});
-		updateStateList(stateList);
-	}
+		updateElList(elList);
+	};
 	// 元素点击
 	const handleClick = () => {
 		if (options.internal.isSelected) return;
 		handleSelect();
-	}
-	return <Element type={type} style={style} {...specific} draggable="false" onClick={handleClick} />;
+	};
+	return (
+		<Element
+			type={type}
+			style={style}
+			{...specific}
+			draggable='false'
+			onClick={handleClick}
+		/>
+	);
 };
 
 export default Component;
