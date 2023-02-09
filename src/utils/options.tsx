@@ -3,7 +3,7 @@ import {
 	FontSizeOutlined,
 	BorderOutlined,
 } from '@ant-design/icons';
-import { InputNumber, ColProps, FormItemProps, Input, Select } from 'antd'
+import { InputNumber, ColProps, FormItemProps, Input, Select } from 'antd';
 import { ComponentType } from '../types';
 
 /** 组件列表 */
@@ -48,9 +48,9 @@ export const ComponentList = [
 
 export interface OptionType {
 	/** Col Props */
-	colProps: ColProps,
+	colProps: ColProps;
 	/** From.Item Props */
-	formItemProps: FormItemProps
+	formItemProps: FormItemProps;
 }
 
 export interface OptionsMapType {
@@ -62,73 +62,73 @@ export interface OptionsMapType {
 
 /** 组件配置 */
 export const getComponentOption = (type: ComponentType) => {
-	if (!type) return [[], []]
+	if (!type) return [[], []];
 	/** 基础配置 */
 	const baseOptions: OptionsMapType = {
 		required: [
 			{
 				colProps: {
-					span: 12
+					span: 12,
 				},
 				formItemProps: {
 					label: 'X',
 					name: 'x',
-					children: <InputNumber min={0} />
+					children: <InputNumber min={0} />,
 				},
 			},
 			{
 				colProps: {
-					span: 12
+					span: 12,
 				},
 				formItemProps: {
 					label: 'Y',
 					name: 'y',
-					children: <InputNumber min={0} />
+					children: <InputNumber min={0} />,
 				},
 			},
 			{
 				colProps: {
-					span: 12
+					span: 12,
 				},
 				formItemProps: {
 					label: '宽',
 					name: 'width',
-					children: <InputNumber min={0} />
+					children: <InputNumber min={0} />,
 				},
 			},
 			{
 				colProps: {
-					span: 12
+					span: 12,
 				},
 				formItemProps: {
 					label: '高',
 					name: 'height',
-					children: <InputNumber min={0} />
+					children: <InputNumber min={0} />,
 				},
 			},
 			{
 				colProps: {
-					span: 24
+					span: 24,
 				},
 				formItemProps: {
 					label: 'name',
 					name: 'name',
-					children: <Input />
+					children: <Input />,
 				},
 			},
 		],
 		optional: [
 			{
 				colProps: {
-					span: 24
+					span: 24,
 				},
 				formItemProps: {
 					label: '圆角',
 					name: 'radius',
-					children: <InputNumber defaultValue={4} min={0} />
+					children: <InputNumber defaultValue={4} min={0} />,
 				},
 			},
-		]
+		],
 	};
 
 	/** 特有配置 */
@@ -137,128 +137,139 @@ export const getComponentOption = (type: ComponentType) => {
 			required: [
 				{
 					colProps: {
-						span: 24
+						span: 24,
 					},
 					formItemProps: {
 						label: '图片地址',
 						name: 'url',
-						children: <Input.TextArea defaultValue={''} />
+						children: <Input.TextArea defaultValue={''} />,
 					},
 				},
 			],
-			optional: []
+			optional: [],
 		},
 		text: {
 			required: [
 				{
 					colProps: {
-						span: 12
+						span: 12,
 					},
 					formItemProps: {
 						label: '颜色',
 						name: 'fillStyle',
-						children: <Input defaultValue={'#333'} type='color' />
+						children: <Input defaultValue={'#333'} type='color' />,
 					},
 				},
 				{
 					colProps: {
-						span: 24
+						span: 24,
 					},
 					formItemProps: {
 						label: '字号字体',
 						name: 'font',
-						children: <Input defaultValue={`16px PingFang-SC-Medium`} placeholder='示例：16px PingFang-SC-Medium' />
+						children: (
+							<Input
+								defaultValue={`16px PingFang-SC-Medium`}
+								placeholder='示例：16px PingFang-SC-Medium'
+							/>
+						),
 					},
 				},
 				{
 					colProps: {
-						span: 24
+						span: 24,
 					},
 					formItemProps: {
 						label: '内容',
 						name: 'content',
-						children: <Input.TextArea />
+						children: <Input.TextArea />,
 					},
 				},
 			],
 			optional: [
 				{
 					colProps: {
-						span: 24
+						span: 24,
 					},
 					formItemProps: {
 						label: '水平对齐',
 						name: 'align',
-						children: <Select
-							defaultValue="left"
-							options={[
-								{ value: 'left', label: '左' },
-								{ value: 'center', label: '中' },
-								{ value: 'right', label: '右' },
-							]}
-						/>
+						children: (
+							<Select
+								defaultValue='left'
+								options={[
+									{ value: 'left', label: '左' },
+									{ value: 'center', label: '中' },
+									{ value: 'right', label: '右' },
+								]}
+							/>
+						),
 					},
 				},
 				{
 					colProps: {
-						span: 24
+						span: 24,
 					},
 					formItemProps: {
 						label: '垂直对齐',
 						name: 'baseline',
-						children: <Select
-							defaultValue="bottom"
-							options={[
-								{ value: 'top', label: '上' },
-								{ value: 'middle', label: '中' },
-								{ value: 'bottom', label: '下' },
-							]}
-						/>
+						children: (
+							<Select
+								defaultValue='bottom'
+								options={[
+									{ value: 'top', label: '上' },
+									{ value: 'middle', label: '中' },
+									{ value: 'bottom', label: '下' },
+								]}
+							/>
+						),
 					},
 				},
 				{
 					colProps: {
-						span: 24
+						span: 24,
 					},
 					formItemProps: {
 						label: '最大宽度',
 						name: 'maxWidth',
-						children: <InputNumber defaultValue={500} min={0} />
+						children: <InputNumber defaultValue={500} min={0} />,
 					},
 				},
 				{
 					colProps: {
-						span: 24
+						span: 24,
 					},
 					formItemProps: {
 						label: '最多行数',
 						name: 'rowCount',
-						children: <InputNumber defaultValue={2} min={1} />
+						children: <InputNumber defaultValue={2} min={1} />,
 					},
 				},
 				{
 					colProps: {
-						span: 24
+						span: 24,
 					},
 					formItemProps: {
 						label: '行高',
 						name: 'lineHeight',
-						children: <InputNumber defaultValue={20} min={0} />
+						children: <InputNumber defaultValue={20} min={0} />,
 					},
 				},
 				{
 					colProps: {
-						span: 24
+						span: 24,
 					},
 					formItemProps: {
 						label: '文本装饰',
 						name: 'textDecoration',
-						children: <Select
-							defaultValue="line-through"
-							options={[
-								{ value: 'line-through', label: '删除线' },
-							]}
-						/>
+						children: (
+							<Select
+								defaultValue='line-through'
+								options={[
+									{ value: 'line-through', label: '删除线' },
+								]}
+							/>
+						),
 					},
 				},
 			],
@@ -267,63 +278,59 @@ export const getComponentOption = (type: ComponentType) => {
 			required: [
 				{
 					colProps: {
-						span: 12
+						span: 12,
 					},
 					formItemProps: {
 						label: '填充颜色',
 						name: 'fillStyle',
-						children: <Input defaultValue={'#ccc'} type='color' />
+						children: <Input defaultValue={'#ccc'} type='color' />,
 					},
 				},
 			],
 			optional: [
 				{
 					colProps: {
-						span: 24
+						span: 24,
 					},
 					formItemProps: {
 						label: '边框宽度',
 						name: 'lineWidth',
-						children: <InputNumber defaultValue={1} min={0} />
+						children: <InputNumber defaultValue={1} min={0} />,
 					},
 				},
 				{
 					colProps: {
-						span: 24
+						span: 24,
 					},
 					formItemProps: {
 						label: '边框',
 						name: 'strokeStyle',
-						children: <Input defaultValue={'#ccc'} type='color' />
+						children: <Input defaultValue={'#ccc'} type='color' />,
 					},
 				},
 				{
 					colProps: {
-						span: 24
+						span: 24,
 					},
 					formItemProps: {
 						label: '填充模式',
 						name: 'mode',
-						children: <Select
-							defaultValue="both"
-							options={[
-								{ value: 'both', label: '填充内容和边框' },
-							]}
-						/>
+						children: (
+							<Select
+								defaultValue='both'
+								options={[
+									{ value: 'both', label: '填充内容和边框' },
+								]}
+							/>
+						),
 					},
-				}
+				},
 			],
 		},
-	}
+	};
 
 	return [
-		[
-			...baseOptions.required,
-			...specificOptions[type].required
-		],
-		[
-			...baseOptions.optional,
-			...specificOptions[type].optional
-		]
-	]
-}
+		[...baseOptions.required, ...specificOptions[type].required],
+		[...baseOptions.optional, ...specificOptions[type].optional],
+	];
+};

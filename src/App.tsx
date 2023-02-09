@@ -9,8 +9,10 @@ import { CANVAS_HEIGHT, CANVAS_WIDTH } from './utils/constant';
 import Options from './components/Options';
 
 function App() {
-	const [canvasSize, setCanvasSize] = useState({ width: CANVAS_WIDTH, height: CANVAS_HEIGHT });
-
+	const [canvasSize, setCanvasSize] = useState({
+		width: CANVAS_WIDTH,
+		height: CANVAS_HEIGHT,
+	});
 
 	// 开始拖拽
 	const handleDragStart = (
@@ -60,7 +62,7 @@ function App() {
 					}}
 				/>
 			</div>
-			<SideBar title='配置' width={300} position='right'>
+			<SideBar title='配置' width={400} position='right'>
 				<Options />
 			</SideBar>
 		</div>

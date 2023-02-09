@@ -1,6 +1,6 @@
 import { useCanvasStore } from '../store';
 import { ComponentType } from '../types';
-import { COMPONENT_HEIGHT, COMPONENT_WIDTH } from '../utils/constant';
+import { addOption } from '../utils';
 import Component from './Component';
 
 interface PropsType {
@@ -17,55 +17,7 @@ const Canvas = ({ style }: PropsType) => {
 		event.preventDefault();
 		event.stopPropagation();
 		const type = event.dataTransfer.getData('type') as ComponentType;
-		switch (type) {
-			case 'image': {
-				stateList.push({
-					type: 'image',
-					x: 20,
-					y: 20,
-					width: COMPONENT_WIDTH,
-					height: COMPONENT_HEIGHT,
-					name: `image-${stateList.length}`,
-					url: 'https://pic.qqtn.com/up/2019-9/15690311636958128.jpg',
-					internal: {
-						id: stateList.length,
-					},
-				});
-				break;
-			}
-			case 'text': {
-				stateList.push({
-					type: 'text',
-					x: 20,
-					y: 20,
-					width: 200,
-					height: 20,
-					name: `text-${stateList.length}`,
-					content: '文本内容',
-					font: '16px PingFang-SC-Medium',
-					fillStyle: '#333',
-					internal: {
-						id: stateList.length,
-					},
-				});
-				break;
-			}
-			case 'rect': {
-				stateList.push({
-					type: 'rect',
-					x: 20,
-					y: 20,
-					width: COMPONENT_WIDTH,
-					height: COMPONENT_HEIGHT,
-					name: `rect-${stateList.length}`,
-					fillStyle: '#ccc',
-					internal: {
-						id: stateList.length,
-					},
-				});
-				break;
-			}
-		}
+		addOption(stateList, type);
 		stateList.forEach(s => {
 			s.internal.isSelected = false;
 		});
