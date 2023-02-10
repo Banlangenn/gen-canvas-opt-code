@@ -1,7 +1,7 @@
 import { isEqual } from 'lodash';
 import { useCanvasStore } from '../store';
 import { ComponentType } from '../types';
-import { addOption } from '../utils';
+import { getElDefaultOpt } from '../utils';
 import Component from './Component';
 
 interface PropsType {
@@ -12,19 +12,18 @@ interface PropsType {
 /** 画布 */
 const Canvas = ({ style }: PropsType) => {
 	const elList = useCanvasStore(state => state.elList, isEqual);
-	const updateElList = useCanvasStore(state => state.updateElList);
+	const activeEl = useCanvasStore(state => state.activeEl, isEqual);
+	const { updateEl, addEl } = useCanvasStore(state => ({ updateEl: state.updateEl, addEl: state.addEl }))
 
 	// 放置组件
 	const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
 		event.preventDefault();
 		event.stopPropagation();
 		const type = event.dataTransfer.getData('type') as ComponentType;
-		addOption(elList, type);
-		elList.forEach(s => {
-			s.internal.isSelected = false;
-		});
-		elList[elList.length - 1].internal.isSelected = true;
-		updateElList(elList);
+		const option = getElDefaultOpt(type, elList.length);
+		addEl(option);
+		updateEl(option);
+
 	};
 
 	return (
@@ -34,14 +33,20 @@ const Canvas = ({ style }: PropsType) => {
 			onDragOver={e => e.preventDefault()}
 			onDrop={handleDrop}
 		>
-			{elList.map((state, index) => (
-				<Component
-					key={index}
-					type={state.type}
-					options={state}
-					index={index}
-				/>
+			{elList.map((el, index) => (
+				el.internal.id === activeEl?.internal.id ? null :
+					<Component
+						key={index}
+						type={el.type}
+						options={el}
+						index={index}
+					/>
 			))}
+			{activeEl && <Component
+				type={activeEl.type}
+				options={activeEl}
+				index={activeEl.internal.id}
+			/>}
 		</div>
 	);
 };

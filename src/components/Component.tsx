@@ -4,7 +4,7 @@ import {
 	ImageOpt,
 	TextOpt,
 	RectOpt,
-	ComponentOptMap,
+	ComponentUniType,
 } from '../types';
 
 interface ElPropsType {
@@ -26,15 +26,15 @@ interface ComponentPropsType {
 	/** 组件类型 */
 	type: ComponentType;
 	/** 组件配置 */
-	options: ComponentOptMap[keyof ComponentOptMap];
-	/** 组件状态在 store 的索引 */
+	options: ComponentUniType;
+	/** 组件的层级*/
 	index: number;
 }
 
 /** 画布中的组件 */
 const Component = ({ type, options, index }: ComponentPropsType) => {
-	// 元素状态列表
-	const { elList, updateElList } = useCanvasStore();
+	const isActive = options.internal.isSelected;
+	const { updateEl, updateActiveEl } = useCanvasStore(state => ({ updateActiveEl: state.updateActiveEl, updateEl: state.updateEl }));
 
 	// 样式
 	const style: React.CSSProperties = {
@@ -95,17 +95,11 @@ const Component = ({ type, options, index }: ComponentPropsType) => {
 	}
 
 	/** 事件处理 */
-	// 订正选中的列表项
-	const handleSelect = () => {
-		elList.forEach(s => {
-			s.internal.isSelected = options.internal.id === s.internal.id;
-		});
-		updateElList(elList);
-	};
 	// 元素点击
 	const handleClick = () => {
-		if (options.internal.isSelected) return;
-		handleSelect();
+		if (isActive) return;
+		updateEl(options);
+
 	};
 	return (
 		<Element

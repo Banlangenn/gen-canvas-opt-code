@@ -77,4 +77,4 @@ export interface ComponentOptMap {
 	rect: RectOpt;
 }
 
-export type ComponentUniType = ComponentOptMap[ComponentType]
+export type ComponentUniType = ComponentOptMap[ComponentType];
