@@ -34,7 +34,10 @@ interface ComponentPropsType {
 /** 画布中的组件 */
 const Component = ({ type, options, index }: ComponentPropsType) => {
 	const isActive = options.internal.isSelected;
-	const { updateEl, updateActiveEl } = useCanvasStore(state => ({ updateActiveEl: state.updateActiveEl, updateEl: state.updateEl }));
+	const { updateEl, updateActiveEl } = useCanvasStore(state => ({
+		updateActiveEl: state.updateActiveEl,
+		updateEl: state.updateEl,
+	}));
 
 	// 样式
 	const style: React.CSSProperties = {
@@ -98,8 +101,7 @@ const Component = ({ type, options, index }: ComponentPropsType) => {
 	// 元素点击
 	const handleClick = () => {
 		if (isActive) return;
-		updateEl(options);
-
+		updateEl({ ...options });
 	};
 	return (
 		<Element

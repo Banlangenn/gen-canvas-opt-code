@@ -47,6 +47,8 @@ export const ComponentList = [
 ];
 
 export interface OptionType {
+	/** 是否为可选字段 */
+	isOptional?: boolean;
 	/** Col Props */
 	colProps: ColProps;
 	/** From.Item Props */

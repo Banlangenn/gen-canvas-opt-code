@@ -1,4 +1,3 @@
-import { isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
 import { Button, Row, Col, Form, Empty, Dropdown } from 'antd';
 import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
@@ -11,9 +10,11 @@ import {
 } from '../utils/options';
 import { ComponentUniType } from '../types';
 
-const OptionsForm = ({ state }: { state: ComponentUniType }) => {
-	const elList = useCanvasStore(state => state.elList, isEqual);
-	const updateElList = useCanvasStore(state => state.updateElList);
+const OptionsForm = () => {
+	const activeEl = useCanvasStore(
+		state => state.activeEl,
+	) as ComponentUniType;
+	const updateActiveEl = useCanvasStore(state => state.updateActiveEl);
 	const [form] = Form.useForm();
 	/** 表单项 根据已有值字段得出 */
 	const [formItems, setFormItems] = useState<OptionType[]>([]);
@@ -21,51 +22,38 @@ const OptionsForm = ({ state }: { state: ComponentUniType }) => {
 	const [optionalItems, setOptionalItems] = useState<OptionType[]>([]);
 
 	useEffect(() => {
-		console.log('state 变化');
-
 		/** requiredOpt: 必有字段 optionalOpt: 可选字段 */
-		const [requiredOpt, optionalOpt] = getComponentOption(state.type);
+		const [requiredOpt, optionalOpt] = getComponentOption(activeEl.type);
 		/** 根据必有字段和可选字段中有值的字段得出 */
 		const items: OptionType[] = [];
+
+		// 将必选字段加入到表单项中
 		requiredOpt.forEach(opt => {
 			const key = opt.formItemProps
 				.name as unknown as keyof ComponentUniType;
-			form.setFieldValue(key, state[key]);
+			form.setFieldValue(key, activeEl[key]);
 			items.push(opt);
 		});
-		/** 将有值的字段 */
+
+		/** 将有值的可选字段添加到表单中 */
 		setOptionalItems(
 			optionalOpt.filter(opt => {
-				// 可选项添加可删除组件
-				opt.formItemProps.children = (
-					<>
-						{opt.formItemProps.children}
-						<MinusCircleOutlined
-							style={{
-								fontSize: 20,
-								color: '#666',
-								marginLeft: 10,
-							}}
-							onClick={() =>
-								handleDelete(
-									opt.formItemProps
-										.name as keyof ComponentUniType,
-								)
-							}
-						/>
-					</>
-				);
-				// 根据 state 中是否有值确定是否将可选项加入表单
+				// 字段名
 				const key = opt.formItemProps
 					.name as unknown as keyof ComponentUniType;
-				if (key && state[key]) {
-					form.setFieldValue(key, state[key]);
+				// 根据 state 中是否有值确定是否将可选项加入表单
+				if (key && activeEl.hasOwnProperty(key)) {
+					// 可选项添加标识
+					opt.isOptional = true;
+					form.setFieldValue(key, activeEl[key]);
 					items.push(opt);
+					// 添加到表单后将该项从可选列表中剔除
 					return false;
 				}
 				return true;
 			}),
 		);
+
 		setFormItems(items);
 
 		return () => {
@@ -73,50 +61,28 @@ const OptionsForm = ({ state }: { state: ComponentUniType }) => {
 			setFormItems([]);
 			setOptionalItems([]);
 		};
-	}, [state]);
+	}, [activeEl]);
 
 	// 表单字段修改
 	const handleValuesChange = (value: any) => {
-		const values = form.getFieldsValue();
-		console.log(values);
-		updateElList(
-			elList.map(s => {
-				return s.internal.id === state.internal.id
-					? { ...state, ...value }
-					: s;
-			}),
-		);
+		console.log(`handleValuesChange: ${value}`);
+
+		updateActiveEl({ ...activeEl, ...value });
 	};
 
 	// 删除表单字段
 	const handleDelete = (name: keyof ComponentUniType) => {
-		updateElList(
-			elList.map(s => {
-				if (s.internal.id === state.internal.id) {
-					delete s[name];
-				}
-				return s;
-			}),
-		);
+		delete activeEl[name];
+		updateActiveEl(activeEl);
 	};
 
 	// 添加表单字段
 	const handleAddField = (val: any) => {
 		const { key } = val;
-		optionalItems.forEach(item => {
-			if (item.formItemProps.name === key) {
-				// setFormItems([...formItems, item]);
-				// form.setFieldValue(key, optionalFieldsDefaultValues[key]);
-				updateElList(
-					elList.map(s => {
-						if (s.internal.id === state.internal.id) {
-							// @ts-ignore
-							s[key] = optionalFieldsDefaultValues[key];
-						}
-						return s;
-					}),
-				);
-			}
+		updateActiveEl({
+			...activeEl,
+			// @ts-ignore
+			[key]: optionalFieldsDefaultValues[key],
 		});
 	};
 
@@ -125,7 +91,31 @@ const OptionsForm = ({ state }: { state: ComponentUniType }) => {
 			<Row gutter={[20, 0]}>
 				{formItems.map((item, index) => (
 					<Col key={index} {...item.colProps}>
-						<Form.Item {...item.formItemProps} />
+						{item.isOptional ? (
+							<Form.Item
+								{...item.formItemProps}
+								children={
+									<>
+										{item.formItemProps.children}
+										<MinusCircleOutlined
+											style={{
+												fontSize: 20,
+												color: '#666',
+												marginLeft: 10,
+											}}
+											onClick={() =>
+												handleDelete(
+													item.formItemProps
+														.name as keyof ComponentUniType,
+												)
+											}
+										/>
+									</>
+								}
+							/>
+						) : (
+							<Form.Item {...item.formItemProps} />
+						)}
 					</Col>
 				))}
 				<Col span={24}>
@@ -156,13 +146,10 @@ const OptionsForm = ({ state }: { state: ComponentUniType }) => {
 
 /** 组件配置 */
 const Options = () => {
-	const elList = useCanvasStore(state => state.elList, isEqual);
+	const activeEl = useCanvasStore(state => state.activeEl);
 
-	const state = elList.find(s => s.internal.isSelected);
-	console.log(state);
-
-	return state ? (
-		<OptionsForm state={state} key={Math.random()} />
+	return activeEl ? (
+		<OptionsForm />
 	) : (
 		<Empty description={<span className='text-666'>未选择组件～</span>} />
 	);
