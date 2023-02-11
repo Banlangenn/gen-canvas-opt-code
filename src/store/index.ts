@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from './../utils/constant';
 import { ComponentUniType } from '../types';
 
 /**
@@ -12,7 +13,7 @@ import { ComponentUniType } from '../types';
  * - 当有新的组件激活时，将上一个激活的组件同步到组件列表中
  * - 当导出代码时，将当前激活的组件同步到组件列表，取消当前组件的激活状态
  */
-interface StoreType {
+interface CanvasStoreType {
 	/** 画布中的组件列表 */
 	elList: ComponentUniType[];
 	/** 当前激活的组件 */
@@ -30,7 +31,7 @@ interface StoreType {
 }
 
 /** 画布状态 */
-export const useCanvasStore = create<StoreType>()(
+export const useCanvasStore = create<CanvasStoreType>()(
 	devtools(
 		persist(
 			set => ({
@@ -38,14 +39,14 @@ export const useCanvasStore = create<StoreType>()(
 				activeEl: null,
 				updateEl: (el: ComponentUniType) =>
 					set(({ activeEl, elList }) => {
-						elList.forEach(el => (el.internal.isSelected = false));
 						el.internal.isSelected = true;
 						if (activeEl) {
 							elList[activeEl.internal.id] = activeEl;
 						}
+						elList.forEach(el => (el.internal.isSelected = false));
 						return {
 							activeEl: { ...el },
-							elList: { ...elList },
+							elList: [...elList],
 						};
 					}),
 				updateActiveEl: (el: ComponentUniType) =>
@@ -62,10 +63,40 @@ export const useCanvasStore = create<StoreType>()(
 						}
 						return { activeEl: null, elList: [...elList] };
 					}),
-				clearStore: () => set(() => ({ elList: [], activeEl: null })),
+				clearStore: () => set({ elList: [], activeEl: null }),
 			}),
 			{
 				name: 'canvas-storage',
+			},
+		),
+	),
+);
+
+interface CanvasSizeStoreType {
+	size: {
+		/** 画布宽度 */
+		width: number;
+		/** 画布高度 */
+		height: number;
+	};
+	/** 更新画布尺寸 */
+	updateSize: (width: number, height: number) => void;
+}
+
+/** 画布尺寸 */
+export const useCanvasSizeStore = create<CanvasSizeStoreType>()(
+	devtools(
+		persist(
+			set => ({
+				size: {
+					width: CANVAS_WIDTH,
+					height: CANVAS_HEIGHT,
+				},
+				updateSize: (width: number, height: number) =>
+					set({ size: { width, height } }),
+			}),
+			{
+				name: 'canvas-size-storage',
 			},
 		),
 	),

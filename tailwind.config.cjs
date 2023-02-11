@@ -48,6 +48,9 @@ module.exports = {
         22: '22px',
         24: '24px',
       },
+      minWidth: {
+        100: '100px',
+      }
     },
   },
   plugins: [],

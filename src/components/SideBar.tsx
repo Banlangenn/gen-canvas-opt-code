@@ -18,7 +18,7 @@ const SideBar = ({
 }: PropsType) => {
 	return (
 		<div
-			className='h-[100vh] overflow-y-scroll bg-white transition-all duration-300'
+			className='min-h-[100vh] overflow-y-scroll bg-white transition-all duration-300'
 			style={{
 				width,
 				boxShadow:

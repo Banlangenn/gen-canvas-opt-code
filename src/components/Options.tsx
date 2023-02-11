@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Row, Col, Form, Empty, Dropdown } from 'antd';
+import { Button, Row, Col, Form, Empty, Dropdown, Space } from 'antd';
 import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { debounce } from 'lodash';
 import { useCanvasStore } from '../store';
@@ -88,57 +88,57 @@ const OptionsForm = () => {
 
 	return (
 		<Form form={form} onValuesChange={debounce(handleValuesChange, 500)}>
-			<Row gutter={[20, 0]}>
+			<Row gutter={[20, 20]}>
 				{formItems.map((item, index) => (
 					<Col key={index} {...item.colProps}>
 						{item.isOptional ? (
-							<Form.Item
-								{...item.formItemProps}
-								children={
-									<>
-										{item.formItemProps.children}
-										<MinusCircleOutlined
-											style={{
-												fontSize: 20,
-												color: '#666',
-												marginLeft: 10,
-											}}
-											onClick={() =>
-												handleDelete(
-													item.formItemProps
-														.name as keyof ComponentUniType,
-												)
-											}
-										/>
-									</>
-								}
-							/>
+							<Form.Item>
+								<Space align='baseline'>
+									<Form.Item {...item.formItemProps} />
+									<MinusCircleOutlined
+										style={{
+											fontSize: 20,
+											color: '#666',
+											marginLeft: 10,
+											verticalAlign: 'middle',
+										}}
+										onClick={() =>
+											handleDelete(
+												item.formItemProps
+													.name as keyof ComponentUniType,
+											)
+										}
+									/>
+								</Space>
+							</Form.Item>
 						) : (
 							<Form.Item {...item.formItemProps} />
 						)}
 					</Col>
 				))}
-				<Col span={24}>
-					<Form.Item>
-						<Dropdown
-							menu={{
-								items: optionalItems.map(item => ({
-									key: item.formItemProps.name as string,
-									label: `${item.formItemProps.label}(${item.formItemProps.name})`,
-								})),
-								onClick: handleAddField,
-							}}
-						>
-							<Button
-								type='dashed'
-								style={{ width: '100%' }}
-								icon={<PlusOutlined />}
+				{optionalItems.length > 0 && (
+					<Col span={24}>
+						<Form.Item>
+							<Dropdown
+								menu={{
+									items: optionalItems.map(item => ({
+										key: item.formItemProps.name as string,
+										label: `${item.formItemProps.label}(${item.formItemProps.name})`,
+									})),
+									onClick: handleAddField,
+								}}
 							>
-								添加字段
-							</Button>
-						</Dropdown>
-					</Form.Item>
-				</Col>
+								<Button
+									type='dashed'
+									style={{ width: '100%' }}
+									icon={<PlusOutlined />}
+								>
+									添加字段
+								</Button>
+							</Dropdown>
+						</Form.Item>
+					</Col>
+				)}
 			</Row>
 		</Form>
 	);

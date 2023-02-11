@@ -7,7 +7,7 @@ interface PropsType {
 	/** 高度 */
 	height: number;
 	/** 设置宽高 */
-	onChange(size: { width: number; height: number }): void;
+	onChange(width: number, height: number): void;
 	/** children */
 	children?: React.ReactNode;
 }
@@ -25,14 +25,14 @@ const CanvasSizeForm = ({
 			<InputNumber
 				min={1}
 				max={375}
-				defaultValue={width}
-				onChange={val => onChange({ width: val || 1, height })}
+				value={width}
+				onChange={val => onChange(val || 1, height)}
 			/>
 			<span className='mx-6'>x</span>
 			<InputNumber
 				min={1}
-				defaultValue={height}
-				onChange={val => onChange({ width, height: val || 1 })}
+				value={height}
+				onChange={val => onChange(width, val || 1)}
 			/>
 			{children}
 		</div>

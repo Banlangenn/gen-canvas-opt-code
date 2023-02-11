@@ -7,12 +7,15 @@ import { ComponentList } from './utils/options';
 import { ComponentType } from './types';
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from './utils/constant';
 import Options from './components/Options';
+import { useCanvasSizeStore, useCanvasStore } from './store';
 
 function App() {
-	const [canvasSize, setCanvasSize] = useState({
-		width: CANVAS_WIDTH,
-		height: CANVAS_HEIGHT,
-	});
+	const { exportCode, clearStore } = useCanvasStore(state => ({
+		exportCode: state.exportCode,
+		clearStore: state.clearStore,
+	}));
+	const canvasSize = useCanvasSizeStore(state => state.size);
+	const updateCanvasSize = useCanvasSizeStore(state => state.updateSize);
 
 	// 开始拖拽
 	const handleDragStart = (
@@ -23,8 +26,14 @@ function App() {
 		event.dataTransfer.setData('type', type);
 	};
 
+	// 重置
+	const handleRest = () => {
+		updateCanvasSize(CANVAS_WIDTH, CANVAS_HEIGHT);
+		clearStore();
+	};
+
 	return (
-		<div className='w-full h-[100vh] flex justify-center'>
+		<div className='w-[100vw] h-[100vh] flex justify-center overflow-hidden'>
 			<SideBar title='组件' width={260}>
 				<div className='flex flex-wrap'>
 					{ComponentList.map(item => (
@@ -46,10 +55,21 @@ function App() {
 				<CanvasSizeForm
 					width={canvasSize.width}
 					height={canvasSize.height}
-					onChange={setCanvasSize}
+					onChange={updateCanvasSize}
 				>
-					<Button type='primary' className='ml-20'>
+					<Button
+						type='primary'
+						className='ml-10'
+						onClick={exportCode}
+					>
 						导出
+					</Button>
+					<Button
+						type='primary'
+						className='ml-10'
+						onClick={handleRest}
+					>
+						重置
 					</Button>
 				</CanvasSizeForm>
 				<Canvas
@@ -57,7 +77,6 @@ function App() {
 						width: canvasSize.width,
 						height: canvasSize.height,
 						marginTop: 20,
-						marginBottom: 100,
 						flexShrink: 0,
 					}}
 				/>
