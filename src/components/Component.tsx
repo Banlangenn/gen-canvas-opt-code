@@ -16,7 +16,7 @@ interface ElPropsType {
 /** 创建组件类型对应的元素 */
 export const Element = ({ type, ...props }: ElPropsType) => {
 	return {
-		image: <img {...props} />,
+		image: <div {...props} />,
 		text: <p {...props} />,
 		rect: <div {...props} />,
 	}[type];
@@ -29,11 +29,12 @@ interface ComponentPropsType {
 	options: ComponentUniType;
 	/** 组件的层级*/
 	index: number;
+	/** 是否是激活的组件 */
+	isActive?: boolean;
 }
 
 /** 画布中的组件 */
-const Component = ({ type, options, index }: ComponentPropsType) => {
-	const isActive = options.internal.isSelected;
+const Component = ({ type, options, index, isActive }: ComponentPropsType) => {
 	const { updateEl, updateActiveEl } = useCanvasStore(state => ({
 		updateActiveEl: state.updateActiveEl,
 		updateEl: state.updateEl,
@@ -55,7 +56,10 @@ const Component = ({ type, options, index }: ComponentPropsType) => {
 	// 设置不同元素的样式和属性
 	switch (type) {
 		case 'image': {
-			specific.src = (options as ImageOpt).url;
+			style.background = `url(${
+				(options as ImageOpt).url
+			}) no-repeat center center`;
+			style.backgroundSize = '100% 100%';
 			break;
 		}
 
@@ -107,9 +111,24 @@ const Component = ({ type, options, index }: ComponentPropsType) => {
 		<Element
 			type={type}
 			style={style}
+			className={`${!isActive && 'hover:el-active'}`}
 			{...specific}
 			draggable='false'
 			onClick={handleClick}
+			children={
+				isActive && (
+					<>
+						<div className='line line-top cursor-ns-resize'></div>
+						<div className='line line-bottom cursor-ns-resize'></div>
+						<div className='line line-left cursor-ew-resize'></div>
+						<div className='line line-right cursor-ew-resize'></div>
+						<div className='pointer pointer-top-left cursor-nwse-resize'></div>
+						<div className='pointer pointer-top-right cursor-nesw-resize'></div>
+						<div className='pointer pointer-bottom-left cursor-nesw-resize'></div>
+						<div className='pointer pointer-bottom-right cursor-nwse-resize'></div>
+					</>
+				)
+			}
 		/>
 	);
 };

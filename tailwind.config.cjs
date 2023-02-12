@@ -11,6 +11,8 @@ module.exports = {
         888: '#888',
         999: '#999',
         ccc: '#ccc',
+        primary: '#4F81FF',
+        white: '#fff',
       },
       spacing: {
         2: '2px',

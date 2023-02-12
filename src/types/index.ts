@@ -21,11 +21,7 @@ export interface BaseComponentOpt {
 	internal: {
 		/** 组件 id */
 		id: number;
-		/** 鼠标是否放置 */
-		isHovered?: boolean;
-		/** 是否选中 */
-		isSelected?: boolean;
-	}
+	};
 }
 
 /** 图片组件配置 */

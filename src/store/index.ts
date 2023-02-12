@@ -35,15 +35,13 @@ export const useCanvasStore = create<CanvasStoreType>()(
 	devtools(
 		persist(
 			set => ({
-				elList: [],
+				elList: [] as ComponentUniType[],
 				activeEl: null,
 				updateEl: (el: ComponentUniType) =>
 					set(({ activeEl, elList }) => {
-						el.internal.isSelected = true;
 						if (activeEl) {
 							elList[activeEl.internal.id] = activeEl;
 						}
-						elList.forEach(el => (el.internal.isSelected = false));
 						return {
 							activeEl: { ...el },
 							elList: [...elList],
