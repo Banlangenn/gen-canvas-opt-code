@@ -103,9 +103,22 @@ const Component = ({ type, options, index, isActive }: ComponentPropsType) => {
 
 	/** 事件处理 */
 	// 元素点击
-	const handleClick = () => {
+	const handleClick = (e: any) => {
+		console.log('Click', e.target.dataset.type);
 		if (isActive) return;
 		updateEl({ ...options });
+	};
+	// 鼠标按下
+	const handleMouseDown = (e: any) => {
+		console.log('MouseDown', e.target.dataset.type);
+	};
+	// 鼠标移动
+	const handleMouseMove = (e: any) => {
+		// console.log('MouseMove', e.target);
+	};
+	// 鼠标松开
+	const handleMouseUp = (e: any) => {
+		console.log('MouseUp', e.target.dataset.type);
 	};
 	return (
 		<Element
@@ -115,17 +128,44 @@ const Component = ({ type, options, index, isActive }: ComponentPropsType) => {
 			{...specific}
 			draggable='false'
 			onClick={handleClick}
+			onMouseDown={handleMouseDown}
+			onMouseMove={handleMouseMove}
+			onMouseUp={handleMouseUp}
 			children={
 				isActive && (
 					<>
-						<div className='line line-top cursor-ns-resize'></div>
-						<div className='line line-bottom cursor-ns-resize'></div>
-						<div className='line line-left cursor-ew-resize'></div>
-						<div className='line line-right cursor-ew-resize'></div>
-						<div className='pointer pointer-top-left cursor-nwse-resize'></div>
-						<div className='pointer pointer-top-right cursor-nesw-resize'></div>
-						<div className='pointer pointer-bottom-left cursor-nesw-resize'></div>
-						<div className='pointer pointer-bottom-right cursor-nwse-resize'></div>
+						<div
+							className='line line-top cursor-ns-resize'
+							data-type='line-top'
+						></div>
+						<div
+							className='line line-bottom cursor-ns-resize'
+							data-type='line-bottom'
+						></div>
+						<div
+							className='line line-left cursor-ew-resize'
+							data-type='line-left'
+						></div>
+						<div
+							className='line line-right cursor-ew-resize'
+							data-type='line-right'
+						></div>
+						<div
+							className='pointer pointer-top-left cursor-nwse-resize'
+							data-type='pointer-top-left'
+						></div>
+						<div
+							className='pointer pointer-top-right cursor-nesw-resize'
+							data-type='pointer-top-right'
+						></div>
+						<div
+							className='pointer pointer-bottom-left cursor-nesw-resize'
+							data-type='pointer-bottom-left'
+						></div>
+						<div
+							className='pointer pointer-bottom-right cursor-nwse-resize'
+							data-type='pointer-bottom-right'
+						></div>
 					</>
 				)
 			}
