@@ -39,7 +39,6 @@ const Canvas = ({ style }: PropsType) => {
 				el.internal.id === activeEl?.internal.id ? null : (
 					<Component
 						key={index}
-						type={el.type}
 						options={el}
 						index={index}
 					/>
@@ -48,7 +47,6 @@ const Canvas = ({ style }: PropsType) => {
 			{activeEl && (
 				<Component
 					isActive
-					type={activeEl.type}
 					options={activeEl}
 					index={activeEl.internal.id}
 				/>

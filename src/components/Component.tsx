@@ -1,11 +1,10 @@
+import { useRef } from 'react'
 import { useCanvasStore } from '../store';
 import {
 	ComponentType,
-	ImageOpt,
-	TextOpt,
-	RectOpt,
 	ComponentUniType,
 } from '../types';
+import { setElOpt } from '../utils';
 
 interface ElPropsType {
 	/** 组件类型 */
@@ -23,8 +22,6 @@ export const Element = ({ type, ...props }: ElPropsType) => {
 };
 
 interface ComponentPropsType {
-	/** 组件类型 */
-	type: ComponentType;
 	/** 组件配置 */
 	options: ComponentUniType;
 	/** 组件的层级*/
@@ -33,12 +30,35 @@ interface ComponentPropsType {
 	isActive?: boolean;
 }
 
+interface OperationElType {
+	/** 操作类型 移动/线/点 */
+	type: '' | 'move' | 'line-top' | 'line-bottom' | 'line-left' | 'line-right' | 'pointer-top-left' | 'pointer-top-right' | 'pointer-bottom-left' | 'pointer-bottom-right';
+	/** 鼠标按下时的 x 坐标 */
+	mouseX: number;
+	/** 鼠标按下时的 y 坐标 */
+	mouseY: number;
+	/** 拖放元素的 x 坐标 */
+	offsetX: number;
+	/** 拖放元素的 y 坐标 */
+	offsetY: number;
+}
+const operationElDefault: OperationElType = {
+	type: '',
+	mouseX: 0,
+	mouseY: 0,
+	offsetX: 0,
+	offsetY: 0,
+}
+
 /** 画布中的组件 */
-const Component = ({ type, options, index, isActive }: ComponentPropsType) => {
+const Component = ({ options, index, isActive }: ComponentPropsType) => {
 	const { updateEl, updateActiveEl } = useCanvasStore(state => ({
 		updateActiveEl: state.updateActiveEl,
 		updateEl: state.updateEl,
 	}));
+
+	// 当前操作的元素信息
+	const crtOperElRef = useRef<OperationElType>(operationElDefault);
 
 	// 样式
 	const style: React.CSSProperties = {
@@ -53,76 +73,32 @@ const Component = ({ type, options, index, isActive }: ComponentPropsType) => {
 	// 特有属性
 	const specific: any = {};
 
-	// 设置不同元素的样式和属性
-	switch (type) {
-		case 'image': {
-			style.background = `url(${
-				(options as ImageOpt).url
-			}) no-repeat center center`;
-			style.backgroundSize = '100% 100%';
-			break;
-		}
-
-		case 'text': {
-			const opt = options as TextOpt;
-			const [fontSize, fontFamily] = opt.font.split(' ');
-			style.fontFamily = fontFamily;
-			style.fontSize = Number(fontSize.replace('px', ''));
-			// @ts-ignore
-			style.color = opt.fillStyle;
-			style.textAlign = opt.align || 'left';
-			opt.baseline && (style.verticalAlign = opt.baseline);
-			opt.maxWidth && (style.maxWidth = opt.maxWidth);
-			opt.lineHeight && (style.lineHeight = opt.lineHeight);
-			opt.textDecoration && (style.textDecoration = opt.textDecoration);
-			style.display = 'inline-block';
-			style.overflow = 'hidden';
-			style.textOverflow = 'ellipsis';
-			if (opt.rowCount && opt.rowCount > 1) {
-				style.display = '-webkit-box';
-				style.WebkitLineClamp = opt.rowCount;
-				style.WebkitBoxOrient = 'vertical';
-			} else {
-				style.whiteSpace = 'nowrap';
-			}
-			specific.children = opt.content;
-			break;
-		}
-
-		case 'rect': {
-			const opt = options as RectOpt;
-			// @ts-ignore
-			style.backgroundColor = opt.fillStyle;
-			if (opt.strokeStyle) {
-				style.border = `${opt.lineWidth}px solid ${opt.strokeStyle}`;
-			}
-			// TODO: opt.mode 需要验证一下才知道有没有效果
-			break;
-		}
-	}
+	// 设置元素的样式和属性
+	setElOpt(options, style, specific);
 
 	/** 事件处理 */
-	// 元素点击
-	const handleClick = (e: any) => {
-		console.log('Click', e.target.dataset.type);
+	// 元素点击 如果点的不是自己则更新 store
+	const handleClick = () => {
 		if (isActive) return;
 		updateEl({ ...options });
 	};
-	// 鼠标按下
+	// 鼠标按下：记录当前操作类型、元素坐标点和鼠标坐标点
 	const handleMouseDown = (e: any) => {
-		console.log('MouseDown', e.target.dataset.type);
+		const { type } = e.target.dataset;
 	};
-	// 鼠标移动
+	// 鼠标移动：计算偏移量 根据操作类型确定修改元素的哪些样式
 	const handleMouseMove = (e: any) => {
-		// console.log('MouseMove', e.target);
+		if (!crtOperElRef.current.type) return;
 	};
-	// 鼠标松开
-	const handleMouseUp = (e: any) => {
-		console.log('MouseUp', e.target.dataset.type);
+	// 鼠标松开：清空记录的数据
+	const handleMouseUp = () => {
+		if (crtOperElRef.current.type) {
+			crtOperElRef.current = operationElDefault;
+		}
 	};
 	return (
 		<Element
-			type={type}
+			type={options.type}
 			style={style}
 			className={`${!isActive && 'hover:el-active'}`}
 			{...specific}
