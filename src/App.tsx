@@ -8,14 +8,16 @@ import { ComponentType } from './types';
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from './utils/constant';
 import Options from './components/Options';
 import { useCanvasSizeStore, useCanvasStore } from './store';
+import ExportCodeModal from './components/ExportCodeModal';
 
 function App() {
-	const { exportCode, clearStore } = useCanvasStore(state => ({
-		exportCode: state.exportCode,
+	const { cancelSelect, clearStore } = useCanvasStore((state) => ({
+		cancelSelect: state.cancelSelect,
 		clearStore: state.clearStore,
 	}));
-	const canvasSize = useCanvasSizeStore(state => state.size);
-	const updateCanvasSize = useCanvasSizeStore(state => state.updateSize);
+	const canvasSize = useCanvasSizeStore((state) => state.size);
+	const updateCanvasSize = useCanvasSizeStore((state) => state.updateSize);
+	const [exportModalOpen, setExportModalOpen] = useState(false);
 
 	// 开始拖拽
 	const handleDragStart = (
@@ -32,43 +34,39 @@ function App() {
 		clearStore();
 	};
 
+	// 导出代码
+	const handleExportCode = () => {
+		cancelSelect();
+		setExportModalOpen(true);
+	};
+
 	return (
-		<div className='w-[100vw] h-[100vh] flex justify-center overflow-hidden'>
-			<SideBar title='组件' width={260}>
-				<div className='flex flex-wrap'>
-					{ComponentList.map(item => (
+		<div className="w-[100vw] h-[100vh] flex justify-center overflow-hidden">
+			<SideBar title="组件" width={260}>
+				<div className="flex flex-wrap">
+					{ComponentList.map((item) => (
 						<div
 							key={item.type}
 							draggable
-							className='flex flex-col justify-center items-center w-[100px] h-[100px] rounded-8 bg-[#cccccc33] odd:mr-20 mb-20 cursor-pointer hover:shadow-2xl transition-all duration-300'
-							onDragStart={e => handleDragStart(e, item.type)}
+							className="flex flex-col justify-center items-center w-[100px] h-[100px] rounded-8 bg-[#cccccc33] odd:mr-20 mb-20 cursor-pointer hover:shadow-2xl transition-all duration-300"
+							onDragStart={(e) => handleDragStart(e, item.type)}
 						>
 							{item.icon}
-							<span className='text-18 text-666 mt-[3px]'>
-								{item.label}
-							</span>
+							<span className="text-18 text-666 mt-[3px]">{item.label}</span>
 						</div>
 					))}
 				</div>
 			</SideBar>
-			<div className='flex-1 flex items-center flex-col h-[100vh] overflow-y-scroll pt-[100px]'>
+			<div className="flex-1 flex items-center flex-col h-[100vh] overflow-y-scroll pt-[100px]">
 				<CanvasSizeForm
 					width={canvasSize.width}
 					height={canvasSize.height}
 					onChange={updateCanvasSize}
 				>
-					<Button
-						type='primary'
-						className='ml-10'
-						onClick={exportCode}
-					>
+					<Button type="primary" className="ml-10" onClick={handleExportCode}>
 						导出
 					</Button>
-					<Button
-						type='primary'
-						className='ml-10'
-						onClick={handleRest}
-					>
+					<Button type="primary" className="ml-10" onClick={handleRest}>
 						重置
 					</Button>
 				</CanvasSizeForm>
@@ -81,9 +79,10 @@ function App() {
 					}}
 				/>
 			</div>
-			<SideBar title='配置' width={400} position='right'>
+			<SideBar title="配置" width={400} position="right">
 				<Options />
 			</SideBar>
+			<ExportCodeModal open={exportModalOpen} setOpen={setExportModalOpen} />
 		</div>
 	);
 }
