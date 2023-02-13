@@ -24,8 +24,8 @@ interface CanvasStoreType {
 	updateActiveEl: (el: ComponentUniType) => void;
 	/** 添加组件 */
 	addEl: (el: ComponentUniType) => void;
-	/** 导出代码，将上一次激活的组件(如果有的话)同步到列表，重置激活状态 */
-	exportCode: () => void;
+	/** 取消选择，同步状态，将上一次激活的组件(如果有的话)同步到列表，重置激活状态 */
+	cancelSelect: () => void;
 	/** 清空画布(清空store) */
 	clearStore: () => void;
 }
@@ -34,7 +34,7 @@ interface CanvasStoreType {
 export const useCanvasStore = create<CanvasStoreType>()(
 	devtools(
 		persist(
-			set => ({
+			(set) => ({
 				elList: [] as ComponentUniType[],
 				activeEl: null,
 				updateEl: (el: ComponentUniType) =>
@@ -48,13 +48,13 @@ export const useCanvasStore = create<CanvasStoreType>()(
 						};
 					}),
 				updateActiveEl: (el: ComponentUniType) =>
-					set(state => ({ ...state, activeEl: { ...el } })),
+					set((state) => ({ ...state, activeEl: { ...el } })),
 				addEl: (el: ComponentUniType) =>
-					set(state => ({
+					set((state) => ({
 						...state,
 						elList: state.elList.concat(el),
 					})),
-				exportCode: () =>
+				cancelSelect: () =>
 					set(({ activeEl, elList }) => {
 						if (activeEl) {
 							elList[activeEl.internal.id] = activeEl;
@@ -85,7 +85,7 @@ interface CanvasSizeStoreType {
 export const useCanvasSizeStore = create<CanvasSizeStoreType>()(
 	devtools(
 		persist(
-			set => ({
+			(set) => ({
 				size: {
 					width: CANVAS_WIDTH,
 					height: CANVAS_HEIGHT,

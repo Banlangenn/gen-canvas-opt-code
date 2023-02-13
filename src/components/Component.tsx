@@ -1,3 +1,4 @@
+import React from 'react';
 import { useCanvasStore } from '../store';
 import { ComponentType, ComponentUniType } from '../types';
 import { setElOpt } from '../utils';
@@ -48,7 +49,8 @@ const Component = ({ options, index, isActive }: ComponentPropsType) => {
 
 	/** 事件处理 */
 	// 元素点击 如果点的不是自己则更新 store
-	const handleClick = () => {
+	const handleClick = (e: React.PointerEvent<HTMLDivElement>) => {
+		e.stopPropagation();
 		if (isActive) return;
 		updateEl({ ...options });
 	};
