@@ -75,7 +75,7 @@ export const getComponentOption = (type: ComponentType) => {
 				formItemProps: {
 					label: 'X',
 					name: 'x',
-					children: <InputNumber className='min-w-100' min={0} />,
+					children: <InputNumber className="min-w-100" min={0} />,
 				},
 			},
 			{
@@ -85,7 +85,7 @@ export const getComponentOption = (type: ComponentType) => {
 				formItemProps: {
 					label: 'Y',
 					name: 'y',
-					children: <InputNumber className='min-w-100' min={0} />,
+					children: <InputNumber className="min-w-100" min={0} />,
 				},
 			},
 			{
@@ -95,7 +95,7 @@ export const getComponentOption = (type: ComponentType) => {
 				formItemProps: {
 					label: '宽',
 					name: 'width',
-					children: <InputNumber className='min-w-100' min={0} />,
+					children: <InputNumber className="min-w-100" min={0} />,
 				},
 			},
 			{
@@ -105,7 +105,7 @@ export const getComponentOption = (type: ComponentType) => {
 				formItemProps: {
 					label: '高',
 					name: 'height',
-					children: <InputNumber className='min-w-100' min={0} />,
+					children: <InputNumber className="min-w-100" min={0} />,
 				},
 			},
 			{
@@ -127,7 +127,7 @@ export const getComponentOption = (type: ComponentType) => {
 				formItemProps: {
 					label: '圆角',
 					name: 'radius',
-					children: <InputNumber className='min-w-100' min={0} />,
+					children: <InputNumber className="min-w-100" min={0} />,
 				},
 			},
 		],
@@ -159,7 +159,7 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '颜色',
 						name: 'fillStyle',
-						children: <Input className='min-w-100' type='color' />,
+						children: <Input className="min-w-100" type="color" />,
 					},
 				},
 				{
@@ -169,9 +169,7 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '字号字体',
 						name: 'font',
-						children: (
-							<Input placeholder='示例：16px PingFang-SC-Medium' />
-						),
+						children: <Input placeholder="示例：16px PingFang-SC-Medium" />,
 					},
 				},
 				{
@@ -229,7 +227,7 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '最大宽度',
 						name: 'maxWidth',
-						children: <InputNumber className='min-w-100' min={0} />,
+						children: <InputNumber className="min-w-100" min={0} />,
 					},
 				},
 				{
@@ -239,7 +237,7 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '最多行数',
 						name: 'rowCount',
-						children: <InputNumber className='min-w-100' min={1} />,
+						children: <InputNumber className="min-w-100" min={1} />,
 					},
 				},
 				{
@@ -249,7 +247,7 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '行高',
 						name: 'lineHeight',
-						children: <InputNumber className='min-w-100' min={0} />,
+						children: <InputNumber className="min-w-100" min={0} />,
 					},
 				},
 				{
@@ -260,11 +258,7 @@ export const getComponentOption = (type: ComponentType) => {
 						label: '文本装饰',
 						name: 'textDecoration',
 						children: (
-							<Select
-								options={[
-									{ value: 'line-through', label: '删除线' },
-								]}
-							/>
+							<Select options={[{ value: 'line-through', label: '删除线' }]} />
 						),
 					},
 				},
@@ -279,7 +273,7 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '填充颜色',
 						name: 'fillStyle',
-						children: <Input className='min-w-100' type='color' />,
+						children: <Input className="min-w-100" type="color" />,
 					},
 				},
 			],
@@ -291,7 +285,7 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '边框宽度',
 						name: 'lineWidth',
-						children: <InputNumber className='min-w-100' min={0} />,
+						children: <InputNumber className="min-w-100" min={0} />,
 					},
 				},
 				{
@@ -301,7 +295,7 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '边框颜色',
 						name: 'strokeStyle',
-						children: <Input className='min-w-100' type='color' />,
+						children: <Input className="min-w-100" type="color" />,
 					},
 				},
 				{
@@ -312,11 +306,7 @@ export const getComponentOption = (type: ComponentType) => {
 						label: '填充模式',
 						name: 'mode',
 						children: (
-							<Select
-								options={[
-									{ value: 'both', label: '填充内容和边框' },
-								]}
-							/>
+							<Select options={[{ value: 'both', label: '填充内容和边框' }]} />
 						),
 					},
 				},

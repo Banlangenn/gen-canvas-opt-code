@@ -12,9 +12,9 @@ import { ComponentUniType } from '../types';
 
 const OptionsForm = () => {
 	const activeEl = useCanvasStore(
-		state => state.activeEl,
+		(state) => state.activeEl,
 	) as ComponentUniType;
-	const updateActiveEl = useCanvasStore(state => state.updateActiveEl);
+	const updateActiveEl = useCanvasStore((state) => state.updateActiveEl);
 	const [form] = Form.useForm();
 	/** 表单项 根据已有值字段得出 */
 	const [formItems, setFormItems] = useState<OptionType[]>([]);
@@ -28,19 +28,17 @@ const OptionsForm = () => {
 		const items: OptionType[] = [];
 
 		// 将必选字段加入到表单项中
-		requiredOpt.forEach(opt => {
-			const key = opt.formItemProps
-				.name as unknown as keyof ComponentUniType;
+		requiredOpt.forEach((opt) => {
+			const key = opt.formItemProps.name as unknown as keyof ComponentUniType;
 			form.setFieldValue(key, activeEl[key]);
 			items.push(opt);
 		});
 
 		/** 将有值的可选字段添加到表单中 */
 		setOptionalItems(
-			optionalOpt.filter(opt => {
+			optionalOpt.filter((opt) => {
 				// 字段名
-				const key = opt.formItemProps
-					.name as unknown as keyof ComponentUniType;
+				const key = opt.formItemProps.name as unknown as keyof ComponentUniType;
 				// 根据 state 中是否有值确定是否将可选项加入表单
 				if (key && activeEl.hasOwnProperty(key)) {
 					// 可选项添加标识
@@ -93,7 +91,7 @@ const OptionsForm = () => {
 					<Col key={index} {...item.colProps}>
 						{item.isOptional ? (
 							<Form.Item>
-								<Space align='baseline'>
+								<Space align="baseline">
 									<Form.Item {...item.formItemProps} />
 									<MinusCircleOutlined
 										style={{
@@ -104,8 +102,7 @@ const OptionsForm = () => {
 										}}
 										onClick={() =>
 											handleDelete(
-												item.formItemProps
-													.name as keyof ComponentUniType,
+												item.formItemProps.name as keyof ComponentUniType,
 											)
 										}
 									/>
@@ -121,7 +118,7 @@ const OptionsForm = () => {
 						<Form.Item>
 							<Dropdown
 								menu={{
-									items: optionalItems.map(item => ({
+									items: optionalItems.map((item) => ({
 										key: item.formItemProps.name as string,
 										label: `${item.formItemProps.label}(${item.formItemProps.name})`,
 									})),
@@ -129,7 +126,7 @@ const OptionsForm = () => {
 								}}
 							>
 								<Button
-									type='dashed'
+									type="dashed"
 									style={{ width: '100%' }}
 									icon={<PlusOutlined />}
 								>
@@ -146,12 +143,12 @@ const OptionsForm = () => {
 
 /** 组件配置 */
 const Options = () => {
-	const activeEl = useCanvasStore(state => state.activeEl);
+	const activeEl = useCanvasStore((state) => state.activeEl);
 
 	return activeEl ? (
 		<OptionsForm />
 	) : (
-		<Empty description={<span className='text-666'>未选择组件～</span>} />
+		<Empty description={<span className="text-666">未选择组件～</span>} />
 	);
 };
 

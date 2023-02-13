@@ -11,9 +11,9 @@ interface PropsType {
 
 /** 画布 */
 const Canvas = ({ style }: PropsType) => {
-	const elList = useCanvasStore(state => state.elList, isEqual);
-	const activeEl = useCanvasStore(state => state.activeEl, isEqual);
-	const { updateEl, addEl } = useCanvasStore(state => ({
+	const elList = useCanvasStore((state) => state.elList, isEqual);
+	const activeEl = useCanvasStore((state) => state.activeEl, isEqual);
+	const { updateEl, addEl } = useCanvasStore((state) => ({
 		updateEl: state.updateEl,
 		addEl: state.addEl,
 	}));
@@ -30,26 +30,18 @@ const Canvas = ({ style }: PropsType) => {
 
 	return (
 		<div
-			className='bg-white shadow-[2px_2px_20px_0_rgba(0,0,0,0.25)] overflow-hidden relative'
+			className="bg-white shadow-[2px_2px_20px_0_rgba(0,0,0,0.25)] overflow-hidden relative"
 			style={style}
-			onDragOver={e => e.preventDefault()}
+			onDragOver={(e) => e.preventDefault()}
 			onDrop={handleDrop}
 		>
 			{elList.map((el, index) =>
 				el.internal.id === activeEl?.internal.id ? null : (
-					<Component
-						key={index}
-						options={el}
-						index={index}
-					/>
+					<Component key={index} options={el} index={index} />
 				),
 			)}
 			{activeEl && (
-				<Component
-					isActive
-					options={activeEl}
-					index={activeEl.internal.id}
-				/>
+				<Component isActive options={activeEl} index={activeEl.internal.id} />
 			)}
 		</div>
 	);

@@ -1,9 +1,6 @@
-import { useRef } from 'react'
+import { useRef } from 'react';
 import { useCanvasStore } from '../store';
-import {
-	ComponentType,
-	ComponentUniType,
-} from '../types';
+import { ComponentType, ComponentUniType } from '../types';
 import { setElOpt } from '../utils';
 
 interface ElPropsType {
@@ -32,7 +29,17 @@ interface ComponentPropsType {
 
 interface OperationElType {
 	/** 操作类型 移动/线/点 */
-	type: '' | 'move' | 'line-top' | 'line-bottom' | 'line-left' | 'line-right' | 'pointer-top-left' | 'pointer-top-right' | 'pointer-bottom-left' | 'pointer-bottom-right';
+	type:
+		| ''
+		| 'move'
+		| 'line-top'
+		| 'line-bottom'
+		| 'line-left'
+		| 'line-right'
+		| 'pointer-top-left'
+		| 'pointer-top-right'
+		| 'pointer-bottom-left'
+		| 'pointer-bottom-right';
 	/** 鼠标按下时的 x 坐标 */
 	mouseX: number;
 	/** 鼠标按下时的 y 坐标 */
@@ -48,11 +55,11 @@ const operationElDefault: OperationElType = {
 	mouseY: 0,
 	offsetX: 0,
 	offsetY: 0,
-}
+};
 
 /** 画布中的组件 */
 const Component = ({ options, index, isActive }: ComponentPropsType) => {
-	const { updateEl, updateActiveEl } = useCanvasStore(state => ({
+	const { updateEl, updateActiveEl } = useCanvasStore((state) => ({
 		updateActiveEl: state.updateActiveEl,
 		updateEl: state.updateEl,
 	}));
@@ -102,7 +109,7 @@ const Component = ({ options, index, isActive }: ComponentPropsType) => {
 			style={style}
 			className={`${!isActive && 'hover:el-active'}`}
 			{...specific}
-			draggable='false'
+			draggable="false"
 			onClick={handleClick}
 			onMouseDown={handleMouseDown}
 			onMouseMove={handleMouseMove}
@@ -111,36 +118,36 @@ const Component = ({ options, index, isActive }: ComponentPropsType) => {
 				isActive && (
 					<>
 						<div
-							className='line line-top cursor-ns-resize'
-							data-type='line-top'
+							className="line line-top cursor-ns-resize"
+							data-type="line-top"
 						></div>
 						<div
-							className='line line-bottom cursor-ns-resize'
-							data-type='line-bottom'
+							className="line line-bottom cursor-ns-resize"
+							data-type="line-bottom"
 						></div>
 						<div
-							className='line line-left cursor-ew-resize'
-							data-type='line-left'
+							className="line line-left cursor-ew-resize"
+							data-type="line-left"
 						></div>
 						<div
-							className='line line-right cursor-ew-resize'
-							data-type='line-right'
+							className="line line-right cursor-ew-resize"
+							data-type="line-right"
 						></div>
 						<div
-							className='pointer pointer-top-left cursor-nwse-resize'
-							data-type='pointer-top-left'
+							className="pointer pointer-top-left cursor-nwse-resize"
+							data-type="pointer-top-left"
 						></div>
 						<div
-							className='pointer pointer-top-right cursor-nesw-resize'
-							data-type='pointer-top-right'
+							className="pointer pointer-top-right cursor-nesw-resize"
+							data-type="pointer-top-right"
 						></div>
 						<div
-							className='pointer pointer-bottom-left cursor-nesw-resize'
-							data-type='pointer-bottom-left'
+							className="pointer pointer-bottom-left cursor-nesw-resize"
+							data-type="pointer-bottom-left"
 						></div>
 						<div
-							className='pointer pointer-bottom-right cursor-nwse-resize'
-							data-type='pointer-bottom-right'
+							className="pointer pointer-bottom-right cursor-nwse-resize"
+							data-type="pointer-bottom-right"
 						></div>
 					</>
 				)
