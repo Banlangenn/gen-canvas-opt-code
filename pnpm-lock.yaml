@@ -11,6 +11,7 @@ specifiers:
   antd: ^5.1.7
   autoprefixer: ^10.4.13
   eslint: ^8.33.0
+  eslint-config-prettier: ^8.6.0
   eslint-plugin-prettier: ^4.2.1
   eslint-plugin-react: ^7.32.2
   lodash: ^4.17.21
@@ -40,7 +41,8 @@ devDependencies:
   '@vitejs/plugin-react': registry.npmmirror.com/@vitejs/plugin-react/3.0.1_vite@4.0.4
   autoprefixer: 10.4.13_postcss@8.4.21
   eslint: 8.33.0
-  eslint-plugin-prettier: registry.npmmirror.com/eslint-plugin-prettier/4.2.1_kcm2pbg4372aakdkvxabn7z2ri
+  eslint-config-prettier: registry.npmmirror.com/eslint-config-prettier/8.6.0_eslint@8.33.0
+  eslint-plugin-prettier: registry.npmmirror.com/eslint-plugin-prettier/4.2.1_qa2thblfovmfepmgrc7z2owbo4
   eslint-plugin-react: 7.32.2_eslint@8.33.0
   postcss: 8.4.21
   prettier: registry.npmmirror.com/prettier/2.8.4
@@ -3453,7 +3455,19 @@ packages:
     engines: {node: '>=0.8.0'}
     dev: true
 
-  registry.npmmirror.com/eslint-plugin-prettier/4.2.1_kcm2pbg4372aakdkvxabn7z2ri:
+  registry.npmmirror.com/eslint-config-prettier/8.6.0_eslint@8.33.0:
+    resolution: {integrity: sha512-bAF0eLpLVqP5oEVUFKpMA+NnRFICwn9X8B5jrR9FcqnYBuPbqWEjTEspPWMj5ye6czoSLDweCzSo3Ko7gGrZaA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/eslint-config-prettier/-/eslint-config-prettier-8.6.0.tgz}
+    id: registry.npmmirror.com/eslint-config-prettier/8.6.0
+    name: eslint-config-prettier
+    version: 8.6.0
+    hasBin: true
+    peerDependencies:
+      eslint: '>=7.0.0'
+    dependencies:
+      eslint: 8.33.0
+    dev: true
+
+  registry.npmmirror.com/eslint-plugin-prettier/4.2.1_qa2thblfovmfepmgrc7z2owbo4:
     resolution: {integrity: sha512-f/0rXLXUt0oFYs8ra4w49wYZBG5GKZpAYsJSm6rnYL5uVDjd+zowwMwVZHnAjf4edNrKpCDYfXDgmRE/Ak7QyQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/eslint-plugin-prettier/-/eslint-plugin-prettier-4.2.1.tgz}
     id: registry.npmmirror.com/eslint-plugin-prettier/4.2.1
     name: eslint-plugin-prettier
@@ -3468,6 +3482,7 @@ packages:
         optional: true
     dependencies:
       eslint: 8.33.0
+      eslint-config-prettier: registry.npmmirror.com/eslint-config-prettier/8.6.0_eslint@8.33.0
       prettier: registry.npmmirror.com/prettier/2.8.4
       prettier-linter-helpers: registry.npmmirror.com/prettier-linter-helpers/1.0.0
     dev: true

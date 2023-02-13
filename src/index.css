@@ -3,91 +3,94 @@
 @tailwind utilities;
 
 @layer components {
-  .el-active {
-    border: 2px solid #4F81FF;
-  }
+	.el-active {
+		border: 2px solid #4f81ff;
+	}
 
-  /** 组件操作点 */
-  .pointer {
-    width: 6px;
-    height: 6px;
-    position: absolute;
-    background: theme('colors.white');
-    border: 2px solid theme('colors.primary');
-  }
+	/** 组件操作点 */
+	.pointer {
+		width: 6px;
+		height: 6px;
+		position: absolute;
+		background: theme('colors.white');
+		border: 2px solid theme('colors.primary');
+		-webkit-user-drag: none;
+		user-select: none;
+	}
 
-  .pointer-top-left {
-    top: -6px;
-    left: -6px;
-  }
+	.pointer-top-left {
+		top: -6px;
+		left: -6px;
+	}
 
-  .pointer-top-right {
-    top: -6px;
-    right: -6px;
-  }
+	.pointer-top-right {
+		top: -6px;
+		right: -6px;
+	}
 
-  .pointer-bottom-left {
-    bottom: -6px;
-    left: -6px;
-  }
+	.pointer-bottom-left {
+		bottom: -6px;
+		left: -6px;
+	}
 
-  .pointer-bottom-right {
-    bottom: -6px;
-    right: -6px;
-  }
+	.pointer-bottom-right {
+		bottom: -6px;
+		right: -6px;
+	}
 
-  /** 组件操作线 */
-  .line {
-    background-color: theme('colors.primary');
-    position: absolute;
-  }
+	/** 组件操作线 */
+	.line {
+		background-color: theme('colors.primary');
+		position: absolute;
+		-webkit-user-drag: none;
+		user-select: none;
+	}
 
-  .line-top,
-  .line-bottom {
-    height: 2px;
-    width: 100%;
-  }
+	.line-top,
+	.line-bottom {
+		height: 2px;
+		width: 100%;
+	}
 
-  .line-top {
-    top: -2px;
-    left: 0;
-  }
+	.line-top {
+		top: -2px;
+		left: 0;
+	}
 
-  .line-bottom {
-    bottom: -2px;
-    left: 0;
-  }
+	.line-bottom {
+		bottom: -2px;
+		left: 0;
+	}
 
-  .line-left,
-  .line-right {
-    height: 100%;
-    width: 2px;
-  }
+	.line-left,
+	.line-right {
+		height: 100%;
+		width: 2px;
+	}
 
-  .line-left {
-    left: -2px;
-    top: 0;
-  }
+	.line-left {
+		left: -2px;
+		top: 0;
+	}
 
-  .line-right {
-    right: -2px;
-    top: 0;
-  }
-
+	.line-right {
+		right: -2px;
+		top: 0;
+	}
 }
 
 * {
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 #root {
-  height: 100vh;
-  min-width: 1080px;
-  background-color: #F5F5F5;
-  overflow: hidden;
+	height: 100vh;
+	min-width: 1080px;
+	background-color: #f5f5f5;
+	overflow: hidden;
 }
 
 .ant-form-item {
-  margin-bottom: 0;
+	margin-bottom: 0;
 }
