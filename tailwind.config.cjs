@@ -12,6 +12,7 @@ module.exports = {
         999: '#999',
         ccc: '#ccc',
         primary: '#4F81FF',
+        orange: '#FF8D1A',
         white: '#fff',
       },
       spacing: {

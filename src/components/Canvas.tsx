@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { isEqual, debounce } from 'lodash';
 import { useCanvasStore } from '../store';
 import { ComponentType, ComponentUniType } from '../types';
@@ -62,6 +62,9 @@ const Canvas = ({ style }: PropsType) => {
 			cancelActive: state.cancelActive,
 		}),
 	);
+
+	// 是否正在移动（显示标尺）
+	const [isMoving, setIsMoving] = useState(false);
 
 	// 当前操作的元素信息
 	const crtOperElRef = useRef<OperationElType>(operationElDefault);
@@ -180,6 +183,7 @@ const Canvas = ({ style }: PropsType) => {
 			}
 			// 元素移动 top left 变化
 			case 'move': {
+				setIsMoving(true);
 				updateActivedEl({
 					...(activedEl as ComponentUniType),
 					x: left,
@@ -193,6 +197,7 @@ const Canvas = ({ style }: PropsType) => {
 	// 鼠标松开：清空记录的数据
 	const handleMouseUp = () => {
 		if (crtOperElRef.current.type) {
+			setIsMoving(false);
 			crtOperElRef.current = { ...operationElDefault };
 		}
 	};
@@ -200,6 +205,7 @@ const Canvas = ({ style }: PropsType) => {
 	// 鼠标离开画布：清空记录的数据
 	const handleMouseLeave = () => {
 		if (crtOperElRef.current.type) {
+			setIsMoving(false);
 			crtOperElRef.current = { ...operationElDefault };
 		}
 	};
@@ -213,7 +219,7 @@ const Canvas = ({ style }: PropsType) => {
 			onDragOver={(e) => e.preventDefault()}
 			onDrop={handleDrop}
 			onMouseDown={handleMouseDown}
-			onMouseMove={debounce(handleMouseMove, 10)}
+			onMouseMove={debounce(handleMouseMove, 16)}
 			onMouseUp={handleMouseUp}
 			onMouseLeave={handleMouseLeave}
 		>
@@ -230,6 +236,37 @@ const Canvas = ({ style }: PropsType) => {
 						index={activedEl?.internal?.id}
 					/>
 				)}
+			{isMoving && (
+				<>
+					{/* top */}
+					<div
+						className="flex flex-col items-center absolute origin-top-left rotate-[-90deg]"
+						style={{
+							width: activedEl?.y,
+							top: activedEl?.y,
+							left: activedEl?.x,
+						}}
+					>
+						<div className="ruler-line" />
+						<span className="mt-4 bg-orange px-[5px] h-[16px] rounded-4 flex justify-center items-center text-8 text-white select-none">
+							{activedEl?.y}
+						</span>
+					</div>
+					{/* left */}
+					<div
+						className="flex flex-col items-center absolute left-0"
+						style={{
+							width: activedEl?.x,
+							top: activedEl?.y,
+						}}
+					>
+						<div className="ruler-line" />
+						<span className="mt-4 bg-orange px-[5px] h-[16px] rounded-4 flex justify-center items-center text-8 text-white select-none">
+							{activedEl?.x}
+						</span>
+					</div>
+				</>
+			)}
 		</div>
 	);
 };

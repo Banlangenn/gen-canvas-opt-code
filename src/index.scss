@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+	.el-active {
+		border: 2px solid #4f81ff;
+	}
+
+	/** 组件操作点 */
+	.pointer {
+		width: 6px;
+		height: 6px;
+		position: absolute;
+		background: theme('colors.white');
+		border: 2px solid theme('colors.primary');
+		-webkit-user-drag: none;
+		user-select: none;
+		&-top-left {
+			top: -6px;
+			left: -6px;
+		}
+		&-top-right {
+			top: -6px;
+			right: -6px;
+		}
+		&-bottom-left {
+			bottom: -6px;
+			left: -6px;
+		}
+		&-bottom-right {
+			bottom: -6px;
+			right: -6px;
+		}
+	}
+
+	/** 组件操作线 */
+	.line {
+		background-color: theme('colors.primary');
+		position: absolute;
+		-webkit-user-drag: none;
+		user-select: none;
+		&-top,
+		&-bottom {
+			height: 2px;
+			width: 100%;
+		}
+		&-top {
+			top: -2px;
+			left: 0;
+		}
+		&-bottom {
+			bottom: -2px;
+			left: 0;
+		}
+		&-left,
+		&-right {
+			height: 100%;
+			width: 2px;
+		}
+		&-left {
+			left: -2px;
+			top: 0;
+		}
+		&-right {
+			right: -2px;
+			top: 0;
+		}
+	}
+
+	/** 标尺线 */
+	.ruler-line {
+		width: 100%;
+		height: 2px;
+		background-color: theme('colors.orange');
+		position: relative;
+		&::before {
+			display: inline-block;
+			position: absolute;
+			content: '';
+			width: 2px;
+			height: 9px;
+			background-color: theme('colors.orange');
+			top: -4px;
+			left: 0;
+		}
+		&::after {
+			display: inline-block;
+			position: absolute;
+			content: '';
+			width: 2px;
+			height: 9px;
+			background-color: theme('colors.orange');
+			top: -4px;
+			right: 0;
+		}
+	}
+}
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+#root {
+	height: 100vh;
+	min-width: 1080px;
+	background-color: #f5f5f5;
+	overflow: hidden;
+}
+
+.ant-form-item {
+	margin-bottom: 0;
+}

@@ -18,6 +18,8 @@
 	"plugins": ["react", "@typescript-eslint", "prettier"],
 	"rules": {
 		"prettier/prettier": "error",
+		"no-console": "warn",
+		"no-unused-vars": "warn",
 		"react/react-in-jsx-scope": "off"
 	},
 	"files": ["src/**/*.tsx"]

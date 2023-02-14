@@ -41,7 +41,7 @@ function App() {
 	};
 
 	return (
-		<div className="w-[100vw] h-[100vh] flex justify-center overflow-hidden">
+		<div className="w-[100vw] min-w-[1100px] h-[100vh] flex justify-center overflow-hidden">
 			<SideBar title="组件" width={260}>
 				<div className="flex flex-wrap">
 					{ComponentList.map((item) => (

@@ -184,6 +184,31 @@ export interface RectOpt extends BaseComponentOpt {
 
 #### 配置栏
 
-##### 技术点
+功能点：
 
--
+- 没有激活的组件时显示占位图；
+- 根据当前激活组件有值的字段渲染表单字段；
+- 可以动态添加、删除字段，根据组件类型而定；
+- 可以删除当前激活的组件。
+
+实现：
+
+- 画布内容 store 中 `activedEl` 为 `null` 时渲染占位图；
+- 编写不同类型组件的必填配置列表和可选配置列表，在 `form` 中先设置必填字段的值，再遍历可选字段配置列表，将有值的字段添加到 `form` 中；
+- 剩余的的可选字段存储到 `optionalItems` 列表中，添加按钮的 `Dropdown` 使用 `optionalItems` 渲染，选择其中的字段时，给当前激活的组件添加对应的属性；
+- 点击删除按钮时，触发 store 中的 `deleteEl` 方法。
+
+#### 导出代码弹窗
+
+功能点：
+
+- 高亮显示格式化后的小程序画海报需要的 `json` 代码；
+- 支持编辑代码；
+- 支持复制代码；。
+
+实现：
+
+- 从画布内容 store 中取出 `elList` 组件列表，遍历组件列表，剔除里面的 `internal` 属性（小程序不需要此属性），使用 `JSON.stringify` 序列化处理后的 `elList` 列表；
+- 使用 `prettier` 中的 `format` 来格式化 `json` 字符串；
+- 使用 `react-simple-code-editor` 和 `prism-react-renderer` 来支持可编辑和高亮显示 `json` 代码；
+- 使用 `react-copy-to-clipboard` 复制代码。
