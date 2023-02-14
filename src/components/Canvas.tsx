@@ -11,7 +11,7 @@ interface PropsType {
 }
 
 interface ElTargetType extends HTMLElement {
-	dataset: { type: OperationElType['type'] };
+	dataset: { type: OperationElType['type']; actived: string };
 }
 
 interface OperationElType {
@@ -80,8 +80,9 @@ const Canvas = ({ style }: PropsType) => {
 	// 鼠标按下：记录当前操作类型、元素坐标点和鼠标坐标点
 	const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
 		const target = e.target as ElTargetType;
-		const { type } = target.dataset;
-		if (!type) return;
+		const { type, actived } = target.dataset;
+
+		if (!type || !actived) return;
 		crtOperElRef.current = {
 			type,
 			mouseX: e.clientX,

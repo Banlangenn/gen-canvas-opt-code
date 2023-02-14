@@ -1,22 +1,7 @@
 import React from 'react';
 import { useCanvasStore } from '../store';
-import { ComponentType, ComponentUniType } from '../types';
+import { ComponentUniType } from '../types';
 import { setElOpt } from '../utils';
-
-interface ElPropsType {
-	/** 组件类型 */
-	type: ComponentType;
-	[key: string]: any;
-}
-
-/** 创建组件类型对应的元素 */
-export const Element = ({ type, ...props }: ElPropsType) => {
-	return {
-		image: <div {...props} />,
-		text: <div {...props} />,
-		rect: <div {...props} />,
-	}[type];
-};
 
 interface ComponentPropsType {
 	/** 组件配置 */
@@ -55,19 +40,21 @@ const Component = ({ options, index, isActive }: ComponentPropsType) => {
 		options.type && updateEl({ ...options });
 	};
 	return (
-		<Element
+		<div
 			type={options.type}
 			style={style}
 			className={`${!isActive && 'hover:el-active'}`}
 			{...specific}
 			draggable="false"
 			data-type="move"
+			data-actived={isActive}
 			onClick={handleClick}
 			children={
 				<>
 					{options.type === 'text' && (
 						<div
 							data-type="move"
+							data-actived={isActive}
 							className="overflow-hidden text-ellipsis w-full h-full select-none"
 						>
 							{options.content}
@@ -78,41 +65,49 @@ const Component = ({ options, index, isActive }: ComponentPropsType) => {
 							<div
 								className="line line-top cursor-ns-resize"
 								data-type="line-top"
+								data-actived={isActive}
 								draggable="false"
 							></div>
 							<div
 								className="line line-bottom cursor-ns-resize"
 								data-type="line-bottom"
+								data-actived={isActive}
 								draggable="false"
 							></div>
 							<div
 								className="line line-left cursor-ew-resize"
 								data-type="line-left"
+								data-actived={isActive}
 								draggable="false"
 							></div>
 							<div
 								className="line line-right cursor-ew-resize"
 								data-type="line-right"
+								data-actived={isActive}
 								draggable="false"
 							></div>
 							<div
 								className="pointer pointer-top-left cursor-nwse-resize"
 								data-type="pointer-top-left"
+								data-actived={isActive}
 								draggable="false"
 							></div>
 							<div
 								className="pointer pointer-top-right cursor-nesw-resize"
 								data-type="pointer-top-right"
+								data-actived={isActive}
 								draggable="false"
 							></div>
 							<div
 								className="pointer pointer-bottom-left cursor-nesw-resize"
 								data-type="pointer-bottom-left"
+								data-actived={isActive}
 								draggable="false"
 							></div>
 							<div
 								className="pointer pointer-bottom-right cursor-nwse-resize"
 								data-type="pointer-bottom-right"
+								data-actived={isActive}
 								draggable="false"
 							></div>
 						</>
