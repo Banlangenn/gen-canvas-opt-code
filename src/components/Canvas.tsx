@@ -53,13 +53,13 @@ const operationElDefault: OperationElType = {
 /** 画布 */
 const Canvas = ({ style }: PropsType) => {
 	const elList = useCanvasStore((state) => state.elList, isEqual);
-	const activeEl = useCanvasStore((state) => state.activeEl, isEqual);
-	const { updateEl, addEl, updateActiveEl, cancelSelect } = useCanvasStore(
+	const activedEl = useCanvasStore((state) => state.activedEl, isEqual);
+	const { activeEl, addEl, updateActivedEl, cancelActive } = useCanvasStore(
 		(state) => ({
-			updateEl: state.updateEl,
+			activeEl: state.activeEl,
 			addEl: state.addEl,
-			updateActiveEl: state.updateActiveEl,
-			cancelSelect: state.cancelSelect,
+			updateActivedEl: state.updateActivedEl,
+			cancelActive: state.cancelActive,
 		}),
 	);
 
@@ -74,7 +74,7 @@ const Canvas = ({ style }: PropsType) => {
 		if (!['image', 'text', 'rect'].includes(type)) return;
 		const option = getElDefaultOpt(type, elList.length);
 		addEl(option);
-		updateEl(option);
+		activeEl(option);
 	};
 
 	// 鼠标按下：记录当前操作类型、元素坐标点和鼠标坐标点
@@ -87,10 +87,10 @@ const Canvas = ({ style }: PropsType) => {
 			type,
 			mouseX: e.clientX,
 			mouseY: e.clientY,
-			x: activeEl?.x || 0,
-			y: activeEl?.y || 0,
-			w: activeEl?.width || 0,
-			h: activeEl?.height || 0,
+			x: activedEl?.x || 0,
+			y: activedEl?.y || 0,
+			w: activedEl?.width || 0,
+			h: activedEl?.height || 0,
 		};
 	};
 
@@ -120,28 +120,28 @@ const Canvas = ({ style }: PropsType) => {
 		switch (type) {
 			// 高度变化 top 变化
 			case 'line-top': {
-				updateActiveEl({ ...(activeEl as ComponentUniType), height, y: top });
+				updateActivedEl({ ...(activedEl as ComponentUniType), height, y: top });
 				break;
 			}
 			// 高度变化
 			case 'line-bottom': {
-				updateActiveEl({ ...(activeEl as ComponentUniType), height });
+				updateActivedEl({ ...(activedEl as ComponentUniType), height });
 				break;
 			}
 			// 宽度变化 left 变化
 			case 'line-left': {
-				updateActiveEl({ ...(activeEl as ComponentUniType), width, x: left });
+				updateActivedEl({ ...(activedEl as ComponentUniType), width, x: left });
 				break;
 			}
 			// 宽度变化
 			case 'line-right': {
-				updateActiveEl({ ...(activeEl as ComponentUniType), width });
+				updateActivedEl({ ...(activedEl as ComponentUniType), width });
 				break;
 			}
 			// 宽高变化 top left 变化
 			case 'pointer-top-left': {
-				updateActiveEl({
-					...(activeEl as ComponentUniType),
+				updateActivedEl({
+					...(activedEl as ComponentUniType),
 					width,
 					height,
 					y: top,
@@ -151,8 +151,8 @@ const Canvas = ({ style }: PropsType) => {
 			}
 			// 宽高变化 top 变化
 			case 'pointer-top-right': {
-				updateActiveEl({
-					...(activeEl as ComponentUniType),
+				updateActivedEl({
+					...(activedEl as ComponentUniType),
 					width,
 					height,
 					y: top,
@@ -161,8 +161,8 @@ const Canvas = ({ style }: PropsType) => {
 			}
 			// 宽高变化 left 变化
 			case 'pointer-bottom-left': {
-				updateActiveEl({
-					...(activeEl as ComponentUniType),
+				updateActivedEl({
+					...(activedEl as ComponentUniType),
 					width,
 					height,
 					x: left,
@@ -171,8 +171,8 @@ const Canvas = ({ style }: PropsType) => {
 			}
 			// 宽高变化
 			case 'pointer-bottom-right': {
-				updateActiveEl({
-					...(activeEl as ComponentUniType),
+				updateActivedEl({
+					...(activedEl as ComponentUniType),
 					width,
 					height,
 				});
@@ -180,7 +180,11 @@ const Canvas = ({ style }: PropsType) => {
 			}
 			// 元素移动 top left 变化
 			case 'move': {
-				updateActiveEl({ ...(activeEl as ComponentUniType), x: left, y: top });
+				updateActivedEl({
+					...(activedEl as ComponentUniType),
+					x: left,
+					y: top,
+				});
 				break;
 			}
 		}
@@ -205,7 +209,7 @@ const Canvas = ({ style }: PropsType) => {
 			className="bg-white shadow-[2px_2px_20px_0_rgba(0,0,0,0.25)] overflow-hidden relative"
 			style={style}
 			draggable="false"
-			onClick={cancelSelect}
+			onClick={cancelActive}
 			onDragOver={(e) => e.preventDefault()}
 			onDrop={handleDrop}
 			onMouseDown={handleMouseDown}
@@ -214,13 +218,18 @@ const Canvas = ({ style }: PropsType) => {
 			onMouseLeave={handleMouseLeave}
 		>
 			{elList.map((el, index) =>
-				el.internal.id === activeEl?.internal?.id ? null : (
+				el.internal.id === activedEl?.internal?.id ? null : (
 					<Component key={index} options={el} index={index} />
 				),
 			)}
-			{activeEl && ['image', 'text', 'rect'].includes(activeEl?.type || '') && (
-				<Component isActive options={activeEl} index={activeEl?.internal?.id} />
-			)}
+			{activedEl &&
+				['image', 'text', 'rect'].includes(activedEl?.type || '') && (
+					<Component
+						isActive
+						options={activedEl}
+						index={activedEl?.internal?.id}
+					/>
+				)}
 		</div>
 	);
 };

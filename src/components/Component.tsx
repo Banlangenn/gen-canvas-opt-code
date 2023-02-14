@@ -14,7 +14,7 @@ interface ComponentPropsType {
 
 /** 画布中的组件 */
 const Component = ({ options, index, isActive }: ComponentPropsType) => {
-	const updateEl = useCanvasStore((state) => state.updateEl);
+	const activeEl = useCanvasStore((state) => state.activeEl);
 
 	// 样式
 	const style: React.CSSProperties = {
@@ -37,7 +37,7 @@ const Component = ({ options, index, isActive }: ComponentPropsType) => {
 	const handleClick = (e: React.PointerEvent<HTMLDivElement>) => {
 		e.stopPropagation();
 		if (isActive) return;
-		options.type && updateEl({ ...options });
+		options.type && activeEl({ ...options });
 	};
 	return (
 		<div

@@ -66,6 +66,7 @@ const ExportCodeModal = ({ open, setOpen }: PropsType) => {
 	const handleCopyed = () => {
 		message.success('复制成功');
 	};
+
 	return (
 		<Modal
 			title="导出代码"
@@ -81,9 +82,9 @@ const ExportCodeModal = ({ open, setOpen }: PropsType) => {
 						type="dashed"
 						size="small"
 						ghost
+						icon={<CopyOutlined />}
 						className="absolute top-[10px] right-[10px] z-50"
 					>
-						<CopyOutlined />
 						复制代码
 					</Button>
 				</CopyToClipboard>

@@ -17,7 +17,7 @@ export interface BaseComponentOpt {
 	type: ComponentType;
 	/** 圆角 px */
 	radius?: number;
-	/** 内置状态 用于组件交互 */
+	/** 内置状态 用于组件交互 导出代码时过滤掉 */
 	internal: {
 		/** 组件 id */
 		id: number;

@@ -11,8 +11,8 @@ import { useCanvasSizeStore, useCanvasStore } from './store';
 import ExportCodeModal from './components/ExportCodeModal';
 
 function App() {
-	const { cancelSelect, clearStore } = useCanvasStore((state) => ({
-		cancelSelect: state.cancelSelect,
+	const { cancelActive, clearStore } = useCanvasStore((state) => ({
+		cancelActive: state.cancelActive,
 		clearStore: state.clearStore,
 	}));
 	const canvasSize = useCanvasSizeStore((state) => state.size);
@@ -36,7 +36,7 @@ function App() {
 
 	// 导出代码
 	const handleExportCode = () => {
-		cancelSelect();
+		cancelActive();
 		setExportModalOpen(true);
 	};
 
