@@ -1,22 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal } from 'antd';
+import { format } from 'prettier';
+import parser from 'prettier/parser-babel';
 import Editor from 'react-simple-code-editor';
 import Highlight, { defaultProps } from 'prism-react-renderer';
 import theme from 'prism-react-renderer/themes/nightOwl';
+import { useCanvasStore } from '../store';
 
 interface PropsType {
 	open: boolean;
 	setOpen: (open: boolean) => void;
 }
-
-const exampleCode = `
-(function someDemo() {
-  var test = "Hello World!";
-  console.log(test);
-})();
-
-return () => <App />;
-`;
 
 const styles = {
 	root: {
@@ -26,8 +20,30 @@ const styles = {
 	},
 };
 
+const parserConfig = {
+	parser: 'json',
+	plugins: [parser],
+};
+
+/** 导出代码弹窗 */
 const ExportCodeModal = ({ open, setOpen }: PropsType) => {
-	const [code, setCode] = useState(exampleCode);
+	const elList = useCanvasStore((state) => state.elList);
+	const [code, setCode] = useState('');
+
+	useEffect(() => {
+		const elListJsonStr = JSON.stringify(
+			elList.map((el) => {
+				const expKeys = Object.keys(el).filter((k) => k !== 'internal');
+				const expObj: any = {};
+				expKeys.forEach((key) => {
+					// @ts-ignore
+					expObj[key] = el[key];
+				});
+				return expObj;
+			}),
+		);
+		setCode(format(elListJsonStr, parserConfig));
+	}, [elList]);
 
 	const highlight = (code: string) => (
 		<Highlight {...defaultProps} theme={theme} code={code} language="jsx">
