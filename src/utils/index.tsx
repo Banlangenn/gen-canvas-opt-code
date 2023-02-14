@@ -1,4 +1,10 @@
-import { ComponentType, ComponentUniType, ImageOpt, TextOpt, RectOpt } from '../types';
+import {
+	ComponentType,
+	ComponentUniType,
+	ImageOpt,
+	TextOpt,
+	RectOpt,
+} from '../types';
 import { COMPONENT_HEIGHT, COMPONENT_WIDTH, PLACEHOLDER_IMG } from './constant';
 
 /** 获取画布元素默认配置 */
@@ -41,16 +47,21 @@ export const getElDefaultOpt = (type: ComponentType, id: number) => {
 			internal: {
 				id: id,
 			},
-		}
+		},
 	}[type] as ComponentUniType;
 };
 
 /** 根据元素类型设置不同的样式和属性 */
-export const setElOpt = (options: ComponentUniType, style: React.CSSProperties, specific: any) => {
+export const setElOpt = (
+	options: ComponentUniType,
+	style: React.CSSProperties,
+	specific: any,
+) => {
 	switch (options.type) {
 		case 'image': {
-			style.background = `url(${(options as ImageOpt).url
-				}) no-repeat center center`;
+			style.background = `url(${
+				(options as ImageOpt).url
+			}) no-repeat center center`;
 			style.backgroundSize = '100% 100%';
 			break;
 		}
@@ -67,9 +78,6 @@ export const setElOpt = (options: ComponentUniType, style: React.CSSProperties, 
 			opt.maxWidth && (style.maxWidth = opt.maxWidth);
 			opt.lineHeight && (style.lineHeight = opt.lineHeight);
 			opt.textDecoration && (style.textDecoration = opt.textDecoration);
-			style.display = 'inline-block';
-			style.overflow = 'hidden';
-			style.textOverflow = 'ellipsis';
 			if (opt.rowCount && opt.rowCount > 1) {
 				style.display = '-webkit-box';
 				style.WebkitLineClamp = opt.rowCount;
@@ -77,7 +85,6 @@ export const setElOpt = (options: ComponentUniType, style: React.CSSProperties, 
 			} else {
 				style.whiteSpace = 'nowrap';
 			}
-			specific.children = opt.content;
 			break;
 		}
 
@@ -92,4 +99,4 @@ export const setElOpt = (options: ComponentUniType, style: React.CSSProperties, 
 			break;
 		}
 	}
-}
+};

@@ -13,7 +13,7 @@ interface ElPropsType {
 export const Element = ({ type, ...props }: ElPropsType) => {
 	return {
 		image: <div {...props} />,
-		text: <p {...props} />,
+		text: <div {...props} />,
 		rect: <div {...props} />,
 	}[type];
 };
@@ -52,7 +52,7 @@ const Component = ({ options, index, isActive }: ComponentPropsType) => {
 	const handleClick = (e: React.PointerEvent<HTMLDivElement>) => {
 		e.stopPropagation();
 		if (isActive) return;
-		updateEl({ ...options });
+		options.type && updateEl({ ...options });
 	};
 	return (
 		<Element
@@ -64,50 +64,60 @@ const Component = ({ options, index, isActive }: ComponentPropsType) => {
 			data-type="move"
 			onClick={handleClick}
 			children={
-				isActive && (
-					<>
+				<>
+					{options.type === 'text' && (
 						<div
-							className="line line-top cursor-ns-resize"
-							data-type="line-top"
-							draggable="false"
-						></div>
-						<div
-							className="line line-bottom cursor-ns-resize"
-							data-type="line-bottom"
-							draggable="false"
-						></div>
-						<div
-							className="line line-left cursor-ew-resize"
-							data-type="line-left"
-							draggable="false"
-						></div>
-						<div
-							className="line line-right cursor-ew-resize"
-							data-type="line-right"
-							draggable="false"
-						></div>
-						<div
-							className="pointer pointer-top-left cursor-nwse-resize"
-							data-type="pointer-top-left"
-							draggable="false"
-						></div>
-						<div
-							className="pointer pointer-top-right cursor-nesw-resize"
-							data-type="pointer-top-right"
-							draggable="false"
-						></div>
-						<div
-							className="pointer pointer-bottom-left cursor-nesw-resize"
-							data-type="pointer-bottom-left"
-							draggable="false"
-						></div>
-						<div
-							className="pointer pointer-bottom-right cursor-nwse-resize"
-							data-type="pointer-bottom-right"
-							draggable="false"
-						></div>
-					</>
-				)
+							data-type="move"
+							className="overflow-hidden text-ellipsis w-full h-full select-none"
+						>
+							{options.content}
+						</div>
+					)}
+					{isActive && (
+						<>
+							<div
+								className="line line-top cursor-ns-resize"
+								data-type="line-top"
+								draggable="false"
+							></div>
+							<div
+								className="line line-bottom cursor-ns-resize"
+								data-type="line-bottom"
+								draggable="false"
+							></div>
+							<div
+								className="line line-left cursor-ew-resize"
+								data-type="line-left"
+								draggable="false"
+							></div>
+							<div
+								className="line line-right cursor-ew-resize"
+								data-type="line-right"
+								draggable="false"
+							></div>
+							<div
+								className="pointer pointer-top-left cursor-nwse-resize"
+								data-type="pointer-top-left"
+								draggable="false"
+							></div>
+							<div
+								className="pointer pointer-top-right cursor-nesw-resize"
+								data-type="pointer-top-right"
+								draggable="false"
+							></div>
+							<div
+								className="pointer pointer-bottom-left cursor-nesw-resize"
+								data-type="pointer-bottom-left"
+								draggable="false"
+							></div>
+							<div
+								className="pointer pointer-bottom-right cursor-nwse-resize"
+								data-type="pointer-bottom-right"
+								draggable="false"
+							></div>
+						</>
+					)}
+				</>
 			}
 		/>
 	);

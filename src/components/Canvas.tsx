@@ -71,7 +71,7 @@ const Canvas = ({ style }: PropsType) => {
 		event.preventDefault();
 		event.stopPropagation();
 		const type = event.dataTransfer.getData('type') as ComponentType;
-		if (!type) return;
+		if (!['image', 'text', 'rect'].includes(type)) return;
 		const option = getElDefaultOpt(type, elList.length);
 		addEl(option);
 		updateEl(option);
@@ -213,12 +213,12 @@ const Canvas = ({ style }: PropsType) => {
 			onMouseLeave={handleMouseLeave}
 		>
 			{elList.map((el, index) =>
-				el.internal.id === activeEl?.internal.id ? null : (
+				el.internal.id === activeEl?.internal?.id ? null : (
 					<Component key={index} options={el} index={index} />
 				),
 			)}
-			{activeEl && (
-				<Component isActive options={activeEl} index={activeEl.internal.id} />
+			{activeEl && ['image', 'text', 'rect'].includes(activeEl?.type || '') && (
+				<Component isActive options={activeEl} index={activeEl?.internal?.id} />
 			)}
 		</div>
 	);
