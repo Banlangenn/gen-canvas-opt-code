@@ -8,4 +8,4 @@ export const COMPONENT_WIDTH = 100;
 export const COMPONENT_HEIGHT = 100;
 /** 默认占位图片 */
 export const PLACEHOLDER_IMG =
-	'https://pic.qqtn.com/up/2019-9/15690311636958128.jpg';
+	'https://static.guaguayoupin.com/ui/mini-ggyp/avatar/default_avatar.jpg';

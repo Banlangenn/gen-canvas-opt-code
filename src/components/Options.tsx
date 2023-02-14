@@ -124,9 +124,9 @@ const OptionsForm = () => {
 						)}
 					</Col>
 				))}
-				{optionalItems.length > 0 && (
-					<Col span={24}>
-						<Form.Item>
+				<Col span={24}>
+					<Form.Item>
+						{optionalItems.length > 0 && (
 							<Dropdown
 								menu={{
 									items: optionalItems.map((item) => ({
@@ -144,19 +144,20 @@ const OptionsForm = () => {
 									添加字段
 								</Button>
 							</Dropdown>
-							<Button
-								type="primary"
-								danger
-								style={{ width: '100%' }}
-								className="mt-20"
-								icon={<DeleteOutlined />}
-								onClick={handleDeleteEl}
-							>
-								删除组件
-							</Button>
-						</Form.Item>
-					</Col>
-				)}
+						)}
+
+						<Button
+							type="primary"
+							danger
+							style={{ width: '100%' }}
+							className="mt-20"
+							icon={<DeleteOutlined />}
+							onClick={handleDeleteEl}
+						>
+							删除组件
+						</Button>
+					</Form.Item>
+				</Col>
 			</Row>
 		</Form>
 	);
