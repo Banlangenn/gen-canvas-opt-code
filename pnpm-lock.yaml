@@ -5,6 +5,7 @@ specifiers:
   '@types/lodash': ^4.14.191
   '@types/prettier': ^2.7.2
   '@types/react': ^18.0.26
+  '@types/react-copy-to-clipboard': ^5.0.4
   '@types/react-dom': ^18.0.9
   '@typescript-eslint/eslint-plugin': ^5.50.0
   '@typescript-eslint/parser': ^5.50.0
@@ -44,6 +45,7 @@ devDependencies:
   '@types/lodash': registry.npmmirror.com/@types/lodash/4.14.191
   '@types/prettier': registry.npmmirror.com/@types/prettier/2.7.2
   '@types/react': registry.npmmirror.com/@types/react/18.0.27
+  '@types/react-copy-to-clipboard': registry.npmmirror.com/@types/react-copy-to-clipboard/5.0.4
   '@types/react-dom': registry.npmmirror.com/@types/react-dom/18.0.10
   '@typescript-eslint/eslint-plugin': 5.50.0_go4drrxstycfikanvu45pi4vgq
   '@typescript-eslint/parser': 5.50.0_4vsywjlpuriuw3tl5oq6zy5a64
@@ -3286,6 +3288,14 @@ packages:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/prop-types/-/prop-types-15.7.5.tgz}
     name: '@types/prop-types'
     version: 15.7.5
+    dev: true
+
+  registry.npmmirror.com/@types/react-copy-to-clipboard/5.0.4:
+    resolution: {integrity: sha512-otTJsJpofYAeaIeOwV5xBUGpo6exXG2HX7X4nseToCB2VgPEBxGBHCm/FecZ676doNR7HCSTVtmohxfG2b3/yQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/react-copy-to-clipboard/-/react-copy-to-clipboard-5.0.4.tgz}
+    name: '@types/react-copy-to-clipboard'
+    version: 5.0.4
+    dependencies:
+      '@types/react': registry.npmmirror.com/@types/react/18.0.27
     dev: true
 
   registry.npmmirror.com/@types/react-dom/18.0.10:

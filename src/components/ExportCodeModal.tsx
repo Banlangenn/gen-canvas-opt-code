@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Modal } from 'antd';
+import { Button, Modal, message } from 'antd';
+import { CopyOutlined } from '@ant-design/icons';
 import { format } from 'prettier';
 import parser from 'prettier/parser-babel';
 import Editor from 'react-simple-code-editor';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Highlight, { defaultProps } from 'prism-react-renderer';
 import theme from 'prism-react-renderer/themes/nightOwl';
 import { useCanvasStore } from '../store';
@@ -15,7 +17,7 @@ interface PropsType {
 const styles = {
 	root: {
 		boxSizing: 'border-box',
-		fontFamily: '"Dank Mono", "Fira Code", monospace',
+		fontFamily: 'Menlo, Monaco, "Courier New", monospace',
 		...theme.plain,
 	},
 };
@@ -60,21 +62,40 @@ const ExportCodeModal = ({ open, setOpen }: PropsType) => {
 			)}
 		</Highlight>
 	);
+
+	const handleCopyed = () => {
+		message.success('复制成功');
+	};
 	return (
 		<Modal
 			title="导出代码"
+			width={800}
 			open={open}
 			onCancel={() => setOpen(false)}
 			centered
 			footer={null}
 		>
-			<Editor
-				value={code}
-				onValueChange={setCode}
-				highlight={highlight}
-				padding={10}
-				style={styles.root as React.CSSProperties}
-			/>
+			<div className="relative">
+				<CopyToClipboard onCopy={handleCopyed} text={code}>
+					<Button
+						type="dashed"
+						size="small"
+						ghost
+						className="absolute top-[10px] right-[10px] z-50"
+					>
+						<CopyOutlined />
+						复制代码
+					</Button>
+				</CopyToClipboard>
+
+				<Editor
+					value={code}
+					onValueChange={setCode}
+					highlight={highlight}
+					padding={10}
+					style={styles.root as React.CSSProperties}
+				/>
+			</div>
 		</Modal>
 	);
 };
