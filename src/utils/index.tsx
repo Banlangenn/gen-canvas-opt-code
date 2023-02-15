@@ -1,3 +1,4 @@
+import { useCanvasSizeStore } from '../store';
 import {
 	ComponentType,
 	ComponentUniType,
@@ -5,15 +6,26 @@ import {
 	TextOpt,
 	RectOpt,
 } from '../types';
-import { COMPONENT_HEIGHT, COMPONENT_WIDTH, PLACEHOLDER_IMG } from './constant';
+import {
+	COMPONENT_HEIGHT,
+	COMPONENT_WIDTH,
+	PLACEHOLDER_IMG,
+	TEXT_COMPONENT_HEIGHT,
+	TEXT_COMPONENT_WIDTH,
+} from './constant';
 
 /** 获取画布元素默认配置 */
 export const getElDefaultOpt = (type: ComponentType, id: number) => {
+	const { width, height } = useCanvasSizeStore.getState().size;
+	let x = Math.round(
+		width / 2 - (type === 'text' ? TEXT_COMPONENT_WIDTH : COMPONENT_WIDTH) / 2,
+	);
+	let y = Math.round(height / 2 - COMPONENT_HEIGHT / 2);
 	return {
 		image: {
 			type: 'image',
-			x: 20,
-			y: 20,
+			x,
+			y,
 			width: COMPONENT_WIDTH,
 			height: COMPONENT_HEIGHT,
 			name: `image-${id}`,
@@ -24,10 +36,10 @@ export const getElDefaultOpt = (type: ComponentType, id: number) => {
 		},
 		text: {
 			type: 'text' as ComponentType,
-			x: 20,
-			y: 20,
-			width: 200,
-			height: 20,
+			x,
+			y,
+			width: TEXT_COMPONENT_WIDTH,
+			height: TEXT_COMPONENT_HEIGHT,
 			name: `text-${id}`,
 			content: '文本内容',
 			font: '16px PingFang-SC-Medium',
@@ -38,8 +50,8 @@ export const getElDefaultOpt = (type: ComponentType, id: number) => {
 		},
 		rect: {
 			type: 'rect' as ComponentType,
-			x: 20,
-			y: 20,
+			x,
+			y,
 			width: COMPONENT_WIDTH,
 			height: COMPONENT_HEIGHT,
 			name: `rect-${id}`,
