@@ -18,9 +18,9 @@ const OptionsForm = () => {
 	const activedEl = useCanvasStore(
 		(state) => state.activedEl,
 	) as ComponentUniType;
-	const { updateActivedEl, deleteEl } = useCanvasStore((state) => ({
+	const { updateActivedEl, deleteActivedEl } = useCanvasStore((state) => ({
 		updateActivedEl: state.updateActivedEl,
-		deleteEl: state.deleteEl,
+		deleteActivedEl: state.deleteActivedEl,
 	}));
 
 	const [form] = Form.useForm();
@@ -87,7 +87,7 @@ const OptionsForm = () => {
 
 	// 删除组件
 	const handleDeleteEl = () => {
-		deleteEl(activedEl.internal.id);
+		deleteActivedEl();
 	};
 
 	// 失去焦点，同步状态

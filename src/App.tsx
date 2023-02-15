@@ -1,5 +1,5 @@
 import { Button } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Canvas from './components/Canvas';
 import CanvasSizeForm from './components/CanvasSizeForm';
 import SideBar from './components/SideBar';
@@ -11,13 +11,24 @@ import { useCanvasSizeStore, useCanvasStore } from './store';
 import ExportCodeModal from './components/ExportCodeModal';
 
 function App() {
-	const { cancelActive, clearStore } = useCanvasStore((state) => ({
-		cancelActive: state.cancelActive,
-		clearStore: state.clearStore,
-	}));
+	const { cancelActive, clearStore, deleteActivedEl } = useCanvasStore(
+		(state) => ({
+			cancelActive: state.cancelActive,
+			clearStore: state.clearStore,
+			deleteActivedEl: state.deleteActivedEl,
+		}),
+	);
 	const canvasSize = useCanvasSizeStore((state) => state.size);
 	const updateCanvasSize = useCanvasSizeStore((state) => state.updateSize);
 	const [exportModalOpen, setExportModalOpen] = useState(false);
+
+	// 注册键盘按下事件
+	useEffect(() => {
+		document.addEventListener('keydown', handleKeyDown);
+		return () => {
+			document.removeEventListener('keydown', handleKeyDown);
+		};
+	}, []);
 
 	// 开始拖拽
 	const handleDragStart = (
@@ -38,6 +49,13 @@ function App() {
 	const handleExportCode = () => {
 		cancelActive();
 		setExportModalOpen(true);
+	};
+
+	// 键盘按下：监听删除键，删除正在激活的组件
+	const handleKeyDown = (e: KeyboardEvent) => {
+		if (e.code === 'Backspace') {
+			deleteActivedEl();
+		}
 	};
 
 	return (
