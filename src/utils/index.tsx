@@ -59,9 +59,9 @@ export const setElOpt = (
 ) => {
 	switch (options.type) {
 		case 'image': {
-			style.background = `url(${
-				(options as ImageOpt).url
-			}) no-repeat center center`;
+			style.backgroundImage = `url(${(options as ImageOpt).url})`;
+			style.backgroundRepeat = 'no-repeat';
+			style.backgroundPosition = 'center center';
 			style.backgroundSize = '100% 100%';
 			break;
 		}

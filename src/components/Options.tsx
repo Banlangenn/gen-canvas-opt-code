@@ -69,11 +69,6 @@ const OptionsForm = () => {
 		};
 	}, [activedEl]);
 
-	// 表单字段修改
-	const handleValuesChange = (value: any) => {
-		updateActivedEl({ ...activedEl, ...value });
-	};
-
 	// 删除表单字段
 	const handleDelete = (name: keyof ComponentUniType) => {
 		delete activedEl[name];
@@ -95,8 +90,17 @@ const OptionsForm = () => {
 		deleteEl(activedEl.internal.id);
 	};
 
+	// 失去焦点，同步状态
+	const handleBlur = () => {
+		const values = form.getFieldsValue();
+		updateActivedEl({
+			...activedEl,
+			...values,
+		});
+	};
+
 	return (
-		<Form form={form} onValuesChange={debounce(handleValuesChange, 500)}>
+		<Form form={form} onBlur={handleBlur}>
 			<Row gutter={[20, 20]}>
 				{formItems.map((item, index) => (
 					<Col key={index} {...item.colProps}>
