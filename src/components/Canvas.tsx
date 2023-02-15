@@ -104,12 +104,16 @@ const Canvas = ({ style }: PropsType) => {
 		// 计算鼠标偏移值
 		const offsetX = e.clientX - mouseX;
 		const offsetY = e.clientY - mouseY;
+
 		// 新的坐标
-		const left = x + offsetX;
-		const top = y + offsetY;
+		let left = x + offsetX;
+		let top = y + offsetY;
+
 		// 新的宽高
 		let width = w + offsetX;
 		let height = h + offsetY;
+
+		// 负增长
 		if (['line-top', 'pointer-top-left', 'pointer-top-right'].includes(type)) {
 			height = h + -offsetY;
 		}
@@ -118,6 +122,16 @@ const Canvas = ({ style }: PropsType) => {
 		) {
 			width = w + -offsetX;
 		}
+
+		// 底部和右侧边界
+		const bottom = top + height + 1;
+		const right = left + width + 1;
+
+		// 不能超出边界
+		if (height < 0) height = 1;
+		if (width < 0) width = 1;
+		if (top > bottom) top = bottom;
+		if (left > right) left = right;
 
 		// 根据不同操作类型设置不同属性
 		switch (type) {
