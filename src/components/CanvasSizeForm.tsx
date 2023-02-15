@@ -20,7 +20,7 @@ const CanvasSizeForm = ({
 	children,
 }: PropsType) => {
 	return (
-		<div className="flex items-center text-16 text-555">
+		<div className="flex items-center text-16 text-555 justify-center mb-16">
 			<span className="mr-6">画布尺寸</span>
 			<InputNumber
 				min={1}

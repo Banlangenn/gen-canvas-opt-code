@@ -75,27 +75,29 @@ function App() {
 					))}
 				</div>
 			</SideBar>
-			<div className="flex-1 flex items-center flex-col h-[100vh] overflow-y-scroll pt-[100px]">
-				<CanvasSizeForm
-					width={canvasSize.width}
-					height={canvasSize.height}
-					onChange={updateCanvasSize}
-				>
-					<Button type="primary" className="ml-10" onClick={handleExportCode}>
-						导出
-					</Button>
-					<Button type="primary" className="ml-10" onClick={handleRest}>
-						重置
-					</Button>
-				</CanvasSizeForm>
-				<Canvas
-					style={{
-						width: canvasSize.width,
-						height: canvasSize.height,
-						marginTop: 20,
-						flexShrink: 0,
-					}}
-				/>
+			<div className="flex-1 h-[100vh] overflow-y-scroll">
+				<div className="text-center py-[100px]">
+					<CanvasSizeForm
+						width={canvasSize.width}
+						height={canvasSize.height}
+						onChange={updateCanvasSize}
+					>
+						<Button type="primary" className="ml-10" onClick={handleExportCode}>
+							导出
+						</Button>
+						<Button type="primary" className="ml-10" onClick={handleRest}>
+							重置
+						</Button>
+					</CanvasSizeForm>
+					<Canvas
+						style={{
+							width: canvasSize.width,
+							height: canvasSize.height,
+							margin: '0 auto',
+							flexShrink: 0,
+						}}
+					/>
+				</div>
 			</div>
 			<SideBar title="配置" width={400} position="right">
 				<Options />
