@@ -104,8 +104,6 @@ export interface BaseComponentOpt {
 	name: string;
 	/** 组件类型 */
 	type: ComponentType;
-	/** 圆角 px */
-	radius?: number;
 	/** 内置状态 用于组件交互 导出代码时过滤掉 */
 	internal: {
 		/** 组件 id */
@@ -118,6 +116,8 @@ export interface ImageOpt extends BaseComponentOpt {
 	type: 'image';
 	/** 图片地址 */
 	url: string;
+	/** 圆角 px */
+	radius?: number;
 }
 
 /** 文本组件配置 */
@@ -146,6 +146,8 @@ export interface TextOpt extends BaseComponentOpt {
 /** 矩形组件配置 */
 export interface RectOpt extends BaseComponentOpt {
 	type: 'rect';
+	/** 圆角 px */
+	radius?: number;
 	/** 填充内容颜色 */
 	fillStyle: CanvasRenderingContext2D['fillStyle'];
 	/** 边框/线段宽度 px */
