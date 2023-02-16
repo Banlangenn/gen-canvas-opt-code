@@ -119,18 +119,7 @@ export const getComponentOption = (type: ComponentType) => {
 				},
 			},
 		],
-		optional: [
-			{
-				colProps: {
-					span: 24,
-				},
-				formItemProps: {
-					label: '圆角',
-					name: 'radius',
-					children: <InputNumber className="min-w-100" min={0} />,
-				},
-			},
-		],
+		optional: [],
 	};
 
 	/** 特有配置 */
@@ -148,7 +137,18 @@ export const getComponentOption = (type: ComponentType) => {
 					},
 				},
 			],
-			optional: [],
+			optional: [
+				{
+					colProps: {
+						span: 24,
+					},
+					formItemProps: {
+						label: '圆角',
+						name: 'radius',
+						children: <InputNumber className="min-w-100" min={0} />,
+					},
+				},
+			],
 		},
 		text: {
 			required: [
@@ -278,6 +278,16 @@ export const getComponentOption = (type: ComponentType) => {
 				},
 			],
 			optional: [
+				{
+					colProps: {
+						span: 24,
+					},
+					formItemProps: {
+						label: '圆角',
+						name: 'radius',
+						children: <InputNumber className="min-w-100" min={0} />,
+					},
+				},
 				{
 					colProps: {
 						span: 24,

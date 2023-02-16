@@ -65,6 +65,8 @@ const Canvas = ({ style }: PropsType) => {
 
 	// 是否正在移动（显示标尺）
 	const [isMoving, setIsMoving] = useState(false);
+	// 是否正在改变元素宽高（显示宽高）
+	const [isReSize, setIsReSize] = useState(false);
 
 	// 当前操作的元素信息
 	const crtOperElRef = useRef<OperationElType>(operationElDefault);
@@ -196,7 +198,6 @@ const Canvas = ({ style }: PropsType) => {
 			}
 			// 元素移动 top left 变化
 			case 'move': {
-				setIsMoving(true);
 				newState = {
 					x: left,
 					y: top,
@@ -205,12 +206,13 @@ const Canvas = ({ style }: PropsType) => {
 			}
 		}
 
-		// 优化性能
-		requestAnimationFrame(() => {
-			updateActivedEl({
-				...(activedEl as ComponentUniType),
-				...newState,
-			});
+		// 设置是否正在移动和改变宽高
+		type === 'move' ? setIsMoving(true) : setIsReSize(true);
+
+		// 更新元素状态
+		updateActivedEl({
+			...(activedEl as ComponentUniType),
+			...newState,
 		});
 	};
 
@@ -218,30 +220,30 @@ const Canvas = ({ style }: PropsType) => {
 	const handleMouseUp = () => {
 		if (crtOperElRef.current.type) {
 			setIsMoving(false);
+			setIsReSize(false);
 			crtOperElRef.current = { ...operationElDefault };
 		}
 	};
 
 	// 鼠标离开画布：清空记录的数据
-	const handleMouseLeave = () => {
-		if (crtOperElRef.current.type) {
-			setIsMoving(false);
-			crtOperElRef.current = { ...operationElDefault };
-		}
-	};
+	const handleMouseLeave = handleMouseUp;
 
 	return (
 		<div
-			className="bg-white shadow-[2px_2px_20px_0_rgba(0,0,0,0.25)] overflow-hidden relative"
+			className="bg-white shadow-[2px_2px_20px_0_rgba(0,0,0,0.25)] relative overflow-hidden"
 			style={style}
 			draggable="false"
 			onClick={cancelActive}
 			onDragOver={(e) => e.preventDefault()}
 			onDrop={handleDrop}
 			onMouseDown={handleMouseDown}
-			onMouseMove={handleMouseMove}
+			onMouseMove={(e) =>
+				requestAnimationFrame(() => {
+					handleMouseMove(e);
+				})
+			}
 			onMouseUp={handleMouseUp}
-			onMouseLeave={handleMouseLeave}
+			// onMouseLeave={handleMouseLeave}
 		>
 			{elList.map((el, index) =>
 				el.internal.id === activedEl?.internal?.id ? null : (
@@ -286,6 +288,18 @@ const Canvas = ({ style }: PropsType) => {
 						</span>
 					</div>
 				</>
+			)}
+			{/* size */}
+			{isReSize && (
+				<div
+					className="bg-primary px-[5px] h-[16px] rounded-4 flex justify-center items-center text-8 text-white select-none absolute"
+					style={{
+						top: (activedEl?.y || 0) + (activedEl?.height || 0) + 4,
+						left: activedEl?.x || 0,
+					}}
+				>
+					{activedEl?.width} x {activedEl?.height}
+				</div>
 			)}
 		</div>
 	);

@@ -5,7 +5,6 @@ import {
 	MinusCircleOutlined,
 	DeleteOutlined,
 } from '@ant-design/icons';
-import { debounce } from 'lodash';
 import { useCanvasStore } from '../store';
 import {
 	OptionType,

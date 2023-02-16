@@ -71,7 +71,9 @@ export const setElOpt = (
 ) => {
 	switch (options.type) {
 		case 'image': {
-			style.backgroundImage = `url(${(options as ImageOpt).url})`;
+			const opt = options as ImageOpt;
+			style.borderRadius = `${opt.radius}px`;
+			style.backgroundImage = `url(${(opt as ImageOpt).url})`;
 			style.backgroundRepeat = 'no-repeat';
 			style.backgroundPosition = 'center center';
 			style.backgroundSize = '100% 100%';
@@ -102,6 +104,7 @@ export const setElOpt = (
 
 		case 'rect': {
 			const opt = options as RectOpt;
+			style.borderRadius = `${opt.radius}px`;
 			// @ts-ignore
 			style.backgroundColor = opt.fillStyle;
 			if (opt.strokeStyle) {

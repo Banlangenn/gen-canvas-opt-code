@@ -15,6 +15,7 @@ interface ComponentPropsType {
 /** 画布中的组件 */
 const Component = ({ options, index, isActive }: ComponentPropsType) => {
 	const activeEl = useCanvasStore((state) => state.activeEl);
+	const activedEl = useCanvasStore((state) => state.activedEl);
 
 	// 样式
 	const style: React.CSSProperties = {
@@ -22,7 +23,6 @@ const Component = ({ options, index, isActive }: ComponentPropsType) => {
 		left: options.x,
 		width: options.width,
 		height: options.height,
-		borderRadius: options.radius,
 		position: 'absolute',
 		zIndex: index,
 	};
@@ -43,7 +43,7 @@ const Component = ({ options, index, isActive }: ComponentPropsType) => {
 		<div
 			type={options.type}
 			style={style}
-			className={`${!isActive && 'hover:el-active'} ${
+			className={`${!isActive && !activedEl && 'hover:el-active'} ${
 				isActive && 'cursor-move'
 			}`}
 			{...specific}
