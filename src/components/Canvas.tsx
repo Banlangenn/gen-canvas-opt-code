@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { isEqual, debounce } from 'lodash';
+import { isEqual } from 'lodash';
 import { useCanvasStore } from '../store';
 import { ComponentType, ComponentUniType } from '../types';
 import { getElDefaultOpt } from '../utils';
@@ -133,79 +133,85 @@ const Canvas = ({ style }: PropsType) => {
 		if (top > bottom) top = bottom;
 		if (left > right) left = right;
 
+		// 需要改变的状态
+		let newState: any = {};
+
 		// 根据不同操作类型设置不同属性
 		switch (type) {
 			// 高度变化 top 变化
 			case 'line-top': {
-				updateActivedEl({ ...(activedEl as ComponentUniType), height, y: top });
+				newState = { height, y: top };
 				break;
 			}
 			// 高度变化
 			case 'line-bottom': {
-				updateActivedEl({ ...(activedEl as ComponentUniType), height });
+				newState = { height };
 				break;
 			}
 			// 宽度变化 left 变化
 			case 'line-left': {
-				updateActivedEl({ ...(activedEl as ComponentUniType), width, x: left });
+				newState = { width, x: left };
 				break;
 			}
 			// 宽度变化
 			case 'line-right': {
-				updateActivedEl({ ...(activedEl as ComponentUniType), width });
+				newState = { width };
 				break;
 			}
 			// 宽高变化 top left 变化
 			case 'pointer-top-left': {
-				updateActivedEl({
-					...(activedEl as ComponentUniType),
+				newState = {
 					width,
 					height,
 					y: top,
 					x: left,
-				});
+				};
 				break;
 			}
 			// 宽高变化 top 变化
 			case 'pointer-top-right': {
-				updateActivedEl({
-					...(activedEl as ComponentUniType),
+				newState = {
 					width,
 					height,
 					y: top,
-				});
+				};
 				break;
 			}
 			// 宽高变化 left 变化
 			case 'pointer-bottom-left': {
-				updateActivedEl({
-					...(activedEl as ComponentUniType),
+				newState = {
 					width,
 					height,
 					x: left,
-				});
+				};
 				break;
 			}
 			// 宽高变化
 			case 'pointer-bottom-right': {
-				updateActivedEl({
-					...(activedEl as ComponentUniType),
+				newState = {
 					width,
 					height,
-				});
+				};
 				break;
 			}
 			// 元素移动 top left 变化
 			case 'move': {
 				setIsMoving(true);
-				updateActivedEl({
-					...(activedEl as ComponentUniType),
+				newState = {
 					x: left,
 					y: top,
-				});
+				};
 				break;
 			}
 		}
+
+		// 优化性能
+		requestAnimationFrame(() => {
+			updateActivedEl({
+				...(activedEl as ComponentUniType),
+				...newState,
+			});
+		});
 	};
 
 	// 鼠标松开：清空记录的数据
@@ -233,7 +239,7 @@ const Canvas = ({ style }: PropsType) => {
 			onDragOver={(e) => e.preventDefault()}
 			onDrop={handleDrop}
 			onMouseDown={handleMouseDown}
-			onMouseMove={debounce(handleMouseMove, 16)}
+			onMouseMove={handleMouseMove}
 			onMouseUp={handleMouseUp}
 			onMouseLeave={handleMouseLeave}
 		>
