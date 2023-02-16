@@ -262,7 +262,7 @@ const Canvas = ({ style }: PropsType) => {
 				<>
 					{/* top */}
 					<div
-						className="flex flex-col items-center absolute origin-top-left rotate-[-90deg]"
+						className="flex flex-col items-center absolute origin-top-left rotate-[-90deg] z-[999]"
 						style={{
 							width: activedEl?.y,
 							top: activedEl?.y,
@@ -276,7 +276,7 @@ const Canvas = ({ style }: PropsType) => {
 					</div>
 					{/* left */}
 					<div
-						className="flex flex-col items-center absolute left-0"
+						className="flex flex-col items-center absolute left-0 z-[999]"
 						style={{
 							width: activedEl?.x,
 							top: activedEl?.y,
@@ -292,7 +292,7 @@ const Canvas = ({ style }: PropsType) => {
 			{/* size */}
 			{isReSize && (
 				<div
-					className="bg-primary px-[5px] h-[16px] rounded-4 flex justify-center items-center text-8 text-white select-none absolute"
+					className="bg-primary px-[5px] h-[16px] rounded-4 flex justify-center items-center text-8 text-white select-none absolute z-[999]"
 					style={{
 						top: (activedEl?.y || 0) + (activedEl?.height || 0) + 4,
 						left: activedEl?.x || 0,
