@@ -9,6 +9,7 @@ import { CANVAS_HEIGHT, CANVAS_WIDTH } from './utils/constant';
 import Options from './components/Options';
 import { useCanvasSizeStore, useCanvasStore } from './store';
 import ExportCodeModal from './components/ExportCodeModal';
+import { ExportOutlined, SyncOutlined } from '@ant-design/icons';
 
 function App() {
 	const { cancelActive, clearStore, deleteActivedEl } = useCanvasStore(
@@ -53,7 +54,11 @@ function App() {
 
 	// 键盘按下：监听删除键，删除正在激活的组件
 	const handleKeyDown = (e: KeyboardEvent) => {
-		if (e.code === 'Backspace') {
+		if (
+			e.code === 'Backspace' &&
+			// @ts-ignore
+			!['INPUT', 'TEXTAREA'].includes(e?.target?.nodeName)
+		) {
 			deleteActivedEl();
 		}
 	};
@@ -82,10 +87,20 @@ function App() {
 						height={canvasSize.height}
 						onChange={updateCanvasSize}
 					>
-						<Button type="primary" className="ml-10" onClick={handleExportCode}>
+						<Button
+							type="primary"
+							className="ml-10"
+							icon={<ExportOutlined />}
+							onClick={handleExportCode}
+						>
 							导出
 						</Button>
-						<Button type="primary" className="ml-10" onClick={handleRest}>
+						<Button
+							type="primary"
+							className="ml-10"
+							icon={<SyncOutlined />}
+							onClick={handleRest}
+						>
 							重置
 						</Button>
 					</CanvasSizeForm>
