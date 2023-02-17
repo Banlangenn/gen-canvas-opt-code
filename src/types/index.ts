@@ -66,7 +66,7 @@ export interface RectOpt extends BaseComponentOpt {
 	/** 填充边框/线段颜色 */
 	strokeStyle?: CanvasRenderingContext2D['strokeStyle'];
 	/** 为 'both' 时表示同时填充内容和边框 */
-	mode?: string;
+	mode?: 'fill' | 'stroke' | 'both';
 }
 
 export interface ComponentOptMap {

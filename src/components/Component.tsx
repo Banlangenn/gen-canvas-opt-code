@@ -43,7 +43,7 @@ const Component = ({ options, index, isActive }: ComponentPropsType) => {
 		<div
 			type={options.type}
 			style={style}
-			className={`${!isActive && !activedEl && 'hover:el-active'} ${
+			className={`${!isActive && !activedEl && 'hover:!el-active'} ${
 				isActive && 'cursor-move'
 			}`}
 			{...specific}

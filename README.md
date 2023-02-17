@@ -214,3 +214,9 @@ export interface RectOpt extends BaseComponentOpt {
 - 使用 `prettier` 中的 `format` 来格式化 `json` 字符串；
 - 使用 `react-simple-code-editor` 和 `prism-react-renderer` 来支持可编辑和高亮显示 `json` 代码；
 - 使用 `react-copy-to-clipboard` 复制代码。
+
+## TODO
+
+- 拖动列表排序
+- 预设线、圆组件
+- 导入代码
