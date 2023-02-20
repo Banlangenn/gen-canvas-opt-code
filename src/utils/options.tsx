@@ -62,7 +62,7 @@ export interface OptionsMapType {
 	optional: OptionType[];
 }
 
-/** 组件配置 */
+/** 组件配置表单 */
 export const getComponentOption = (type: ComponentType) => {
 	if (!type) return [[], []];
 	/** 基础配置 */
@@ -167,9 +167,11 @@ export const getComponentOption = (type: ComponentType) => {
 						span: 24,
 					},
 					formItemProps: {
-						label: '字号字体',
+						label: '字体相关',
 						name: 'font',
-						children: <Input placeholder="示例：16px PingFang-SC-Medium" />,
+						children: (
+							<Input placeholder="示例：normal 400 14px PingFangSC-Regular" />
+						),
 					},
 				},
 				{
@@ -276,6 +278,24 @@ export const getComponentOption = (type: ComponentType) => {
 						children: <Input className="min-w-100" type="color" />,
 					},
 				},
+				{
+					colProps: {
+						span: 24,
+					},
+					formItemProps: {
+						label: '填充模式',
+						name: 'mode',
+						children: (
+							<Select
+								options={[
+									{ value: 'fill', label: '填充内容区域' },
+									{ value: 'strock', label: '填充边框' },
+									{ value: 'both', label: '填充内容和边框' },
+								]}
+							/>
+						),
+					},
+				},
 			],
 			optional: [
 				{
@@ -308,18 +328,6 @@ export const getComponentOption = (type: ComponentType) => {
 						children: <Input className="min-w-100" type="color" />,
 					},
 				},
-				{
-					colProps: {
-						span: 24,
-					},
-					formItemProps: {
-						label: '填充模式',
-						name: 'mode',
-						children: (
-							<Select options={[{ value: 'both', label: '填充内容和边框' }]} />
-						),
-					},
-				},
 			],
 		},
 	};
@@ -330,30 +338,19 @@ export const getComponentOption = (type: ComponentType) => {
 	];
 };
 
-/** 可选字段默认值 */
-export const optionalFieldsDefaultValues = {
-	/** 圆角 */
-	radius: 4,
-	/** 填充颜色 */
-	fillStyle: '#cccccc',
-	/** 字号字体 */
-	font: '16px PingFang-SC-Medium',
-	/** 水平对齐 */
-	align: 'left',
-	/** 垂直对齐 */
-	baseline: 'bottom',
-	/** 最大宽度 */
-	maxWidth: 500,
-	/** 最大行数 */
-	rowCount: 2,
-	/** 行高 */
-	lineHeight: 20,
-	/** 边框宽度 */
-	lineWidth: 1,
-	/** 文本装饰 */
-	textDecoration: 'line-through',
-	/** 边框颜色 */
-	strokeStyle: '#cccccc',
-	/** 填充模式 */
-	mode: 'both',
+/** 多行文本换行 class */
+export const lineClampMap = (row: number) => {
+	const maps: { [key: number]: string } = {
+		1: 'line-clamp-1',
+		2: 'line-clamp-2',
+		3: 'line-clamp-3',
+		4: 'line-clamp-4',
+		5: 'line-clamp-5',
+		6: 'line-clamp-6',
+		7: 'line-clamp-7',
+		8: 'line-clamp-8',
+		9: 'line-clamp-9',
+		10: 'line-clamp-10',
+	};
+	return maps[row];
 };

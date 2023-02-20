@@ -6,30 +6,26 @@ import {
 	TextOpt,
 	RectOpt,
 } from '../types';
-import {
-	COMPONENT_HEIGHT,
-	COMPONENT_WIDTH,
-	PLACEHOLDER_IMG,
-	TEXT_COMPONENT_HEIGHT,
-	TEXT_COMPONENT_WIDTH,
-} from './constant';
+import { DEFAULT_VALUES } from './constant';
 
 /** 获取画布元素默认配置 */
 export const getElDefaultOpt = (type: ComponentType, id: number) => {
-	const { width, height } = useCanvasSizeStore.getState().size;
+	const { width: canvasWidth, height: canvasHeight } =
+		useCanvasSizeStore.getState().size;
+	const defaultOpt: any = DEFAULT_VALUES[type];
 	let x = Math.round(
-		width / 2 - (type === 'text' ? TEXT_COMPONENT_WIDTH : COMPONENT_WIDTH) / 2,
+		canvasWidth / 2 - (type === 'text' ? canvasWidth : defaultOpt.width) / 2,
 	);
-	let y = Math.round(height / 2 - COMPONENT_HEIGHT / 2);
+	let y = Math.round(canvasHeight / 2 - defaultOpt.height / 2);
 	return {
 		image: {
 			type: 'image',
 			x,
 			y,
-			width: COMPONENT_WIDTH,
-			height: COMPONENT_HEIGHT,
+			width: defaultOpt.width,
+			height: defaultOpt.height,
 			name: `image-${id}`,
-			url: PLACEHOLDER_IMG,
+			url: defaultOpt.url,
 			internal: {
 				id,
 			},
@@ -38,12 +34,13 @@ export const getElDefaultOpt = (type: ComponentType, id: number) => {
 			type: 'text' as ComponentType,
 			x,
 			y,
-			width: TEXT_COMPONENT_WIDTH,
-			height: TEXT_COMPONENT_HEIGHT,
+			lineHeight: defaultOpt.lineHeight,
 			name: `text-${id}`,
-			content: '文本内容',
-			font: '16px PingFang-SC-Medium',
-			fillStyle: '#333333',
+			content: defaultOpt.content,
+			font: defaultOpt.font,
+			fillStyle: defaultOpt.fillStyle,
+			width: defaultOpt.width,
+			height: defaultOpt.height,
 			internal: {
 				id,
 			},
@@ -52,10 +49,11 @@ export const getElDefaultOpt = (type: ComponentType, id: number) => {
 			type: 'rect' as ComponentType,
 			x,
 			y,
-			width: COMPONENT_WIDTH,
-			height: COMPONENT_HEIGHT,
+			width: defaultOpt.width,
+			height: defaultOpt.height,
 			name: `rect-${id}`,
-			fillStyle: '#cccccc',
+			fillStyle: defaultOpt.fillStyle,
+			mode: defaultOpt.mode,
 			internal: {
 				id: id,
 			},
@@ -82,22 +80,25 @@ export const setElOpt = (
 
 		case 'text': {
 			const opt = options as TextOpt;
-			const [fontSize, fontFamily] = opt.font.split(' ');
+			const [fontStyle, fontWeight, fontSize, fontFamily] = opt.font.split(' ');
+			style.fontStyle = fontStyle;
+			style.fontWeight = fontWeight;
+			style.fontSize = fontSize;
 			style.fontFamily = fontFamily;
-			style.fontSize = Number(fontSize.replace('px', ''));
 			// @ts-ignore
 			style.color = opt.fillStyle;
 			style.textAlign = opt.align || 'left';
 			opt.baseline && (style.verticalAlign = opt.baseline);
-			opt.maxWidth && (style.maxWidth = opt.maxWidth);
-			opt.lineHeight && (style.lineHeight = opt.lineHeight);
+			opt.lineHeight && (style.lineHeight = `${opt.lineHeight}px`);
 			opt.textDecoration && (style.textDecoration = opt.textDecoration);
-			if (opt.rowCount && opt.rowCount > 1) {
-				style.display = '-webkit-box';
-				style.WebkitLineClamp = opt.rowCount;
-				style.WebkitBoxOrient = 'vertical';
-			} else {
-				style.whiteSpace = 'nowrap';
+			if (opt.rowCount && opt.rowCount > 0) {
+				style.height = Math.round(
+					opt.lineHeight ? opt.lineHeight * opt.rowCount : opt.rowCount * 22,
+				);
+			}
+			if (opt.maxWidth && opt.maxWidth > 0) {
+				style.width = opt.maxWidth;
+				style.maxWidth = opt.maxWidth;
 			}
 			break;
 		}
@@ -105,12 +106,13 @@ export const setElOpt = (
 		case 'rect': {
 			const opt = options as RectOpt;
 			style.borderRadius = `${opt.radius}px`;
-			// @ts-ignore
-			style.backgroundColor = opt.fillStyle;
-			if (opt.strokeStyle) {
+			if (opt.mode !== 'stroke') {
+				// @ts-ignore
+				style.backgroundColor = opt.fillStyle;
+			}
+			if (opt.strokeStyle && opt.mode !== 'fill') {
 				style.border = `${opt.lineWidth}px solid ${opt.strokeStyle}`;
 			}
-			// TODO: opt.mode 需要验证一下才知道有没有效果
 			break;
 		}
 	}

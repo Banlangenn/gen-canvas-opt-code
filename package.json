@@ -22,6 +22,7 @@
 		"zustand": "^4.3.2"
 	},
 	"devDependencies": {
+		"@tailwindcss/line-clamp": "^0.4.2",
 		"@types/lodash": "^4.14.191",
 		"@types/prettier": "^2.7.2",
 		"@types/react": "^18.0.26",

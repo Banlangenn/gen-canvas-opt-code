@@ -215,9 +215,15 @@ export interface RectOpt extends BaseComponentOpt {
 - 使用 `react-simple-code-editor` 和 `prism-react-renderer` 来支持可编辑和高亮显示 `json` 代码；
 - 使用 `react-copy-to-clipboard` 复制代码。
 
+## BUG
+
+- 文本导出宽高属性去除
+- 文本 font 值 `'normal 400 14px PingFangSC-Regular'` style weight size family
+- 矩形填充模式
+- 向上移动时偏移过大
+
 ## TODO
 
-- 多行文本打点问题
 - 本地上传图片
 - 拖动列表排序
 - 预设线、圆组件

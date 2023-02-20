@@ -2,6 +2,7 @@ import React from 'react';
 import { useCanvasStore } from '../store';
 import { ComponentUniType } from '../types';
 import { setElOpt } from '../utils';
+import { lineClampMap } from '../utils/options';
 
 interface ComponentPropsType {
 	/** 组件配置 */
@@ -57,7 +58,10 @@ const Component = ({ options, index, isActive }: ComponentPropsType) => {
 						<div
 							data-type="move"
 							data-actived={isActive}
-							className="overflow-hidden text-ellipsis w-full h-full select-none"
+							// 坑：twcss不支持动态构造类名 https://tailwindcss.com/docs/content-configuration#dynamic-class-names
+							className={`w-full h-full select-none line-clamp-1 ${lineClampMap(
+								options.rowCount || 1,
+							)}`}
 						>
 							{options.content}
 						</div>

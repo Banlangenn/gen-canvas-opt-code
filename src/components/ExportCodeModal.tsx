@@ -35,7 +35,10 @@ const ExportCodeModal = ({ open, setOpen }: PropsType) => {
 	useEffect(() => {
 		const elListJsonStr = JSON.stringify(
 			elList.map((el) => {
-				const expKeys = Object.keys(el).filter((k) => k !== 'internal');
+				const expKeys = Object.keys(el).filter(
+					(k) =>
+						!(el.type === 'text' && /width|height/.test(k)) && k !== 'internal',
+				);
 				const expObj: any = {};
 				expKeys.forEach((key) => {
 					// @ts-ignore
@@ -45,7 +48,7 @@ const ExportCodeModal = ({ open, setOpen }: PropsType) => {
 			}),
 		);
 		setCode(format(elListJsonStr, parserConfig));
-	}, [elList]);
+	}, [open]);
 
 	const highlight = (code: string) => (
 		<Highlight {...defaultProps} theme={theme} code={code} language="jsx">

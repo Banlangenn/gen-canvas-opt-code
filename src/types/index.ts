@@ -36,7 +36,7 @@ export interface TextOpt extends BaseComponentOpt {
 	type: 'text';
 	/** 文本颜色 */
 	fillStyle: CanvasRenderingContext2D['fillStyle'];
-	/** 字体大小 + 字体样式 示例: '16px PingFang-SC-Medium' */
+	/** 字号字体 style weight size family 示例: 'normal 400 14px PingFangSC-Regular' */
 	font: string;
 	/** 文本内容 */
 	content: string;
@@ -52,6 +52,8 @@ export interface TextOpt extends BaseComponentOpt {
 	lineHeight?: number;
 	/** 文本装饰 目前只支持 line-through 删除线 */
 	textDecoration?: string;
+	/** 画笔透明度 范围 0-1 */
+	alpha: number;
 }
 
 /** 矩形组件配置 */
@@ -75,4 +77,18 @@ export interface ComponentOptMap {
 	rect: RectOpt;
 }
 
+/** 组件联合类型 */
 export type ComponentUniType = ComponentOptMap[ComponentType];
+
+/** 组件默认配置 */
+export type NotNeededFilds = Exclude<
+	keyof BaseComponentOpt,
+	'width' | 'height'
+>;
+export type ImageDefaultOpt = Omit<ImageOpt, NotNeededFilds>;
+export type TextDefaultOpt = Omit<TextOpt, NotNeededFilds>;
+export type RectDefaultOpt = Omit<RectOpt, NotNeededFilds>;
+export type ComponentDefaultOpt =
+	| ImageDefaultOpt
+	| TextDefaultOpt
+	| RectDefaultOpt;

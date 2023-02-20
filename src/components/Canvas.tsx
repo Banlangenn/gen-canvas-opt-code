@@ -230,7 +230,7 @@ const Canvas = ({ style }: PropsType) => {
 
 	return (
 		<div
-			className="bg-white shadow-[2px_2px_20px_0_rgba(0,0,0,0.25)] relative overflow-hidden"
+			className="bg-white shadow-[2px_2px_20px_0_rgba(0,0,0,0.25)] relative"
 			style={style}
 			draggable="false"
 			onClick={cancelActive}

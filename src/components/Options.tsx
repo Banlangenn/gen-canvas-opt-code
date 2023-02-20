@@ -6,12 +6,9 @@ import {
 	DeleteOutlined,
 } from '@ant-design/icons';
 import { useCanvasStore } from '../store';
-import {
-	OptionType,
-	getComponentOption,
-	optionalFieldsDefaultValues,
-} from '../utils/options';
+import { OptionType, getComponentOption } from '../utils/options';
 import { ComponentUniType } from '../types';
+import { DEFAULT_VALUES } from '../utils/constant';
 
 const OptionsForm = () => {
 	const activedEl = useCanvasStore(
@@ -80,7 +77,7 @@ const OptionsForm = () => {
 		updateActivedEl({
 			...activedEl,
 			// @ts-ignore
-			[key]: optionalFieldsDefaultValues[key],
+			[key]: DEFAULT_VALUES[activedEl.type][key],
 		});
 	};
 
