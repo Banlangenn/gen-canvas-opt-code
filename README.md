@@ -217,6 +217,8 @@ export interface RectOpt extends BaseComponentOpt {
 
 ## TODO
 
+- 多行文本打点问题
+- 本地上传图片
 - 拖动列表排序
 - 预设线、圆组件
 - 导入代码
