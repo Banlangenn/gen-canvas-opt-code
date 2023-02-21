@@ -18,7 +18,7 @@ export interface BaseComponentOpt {
 	/** 内置状态 用于组件交互 导出代码时过滤掉 */
 	internal: {
 		/** 组件 id */
-		id: number;
+		id: string;
 		/** 组件层级 */
 		index: number;
 	};

@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import { useCanvasSizeStore, useCanvasStore } from '../store';
 import {
 	ComponentType,
@@ -21,7 +22,7 @@ export const getElDefaultOpt = (type: ComponentType) => {
 	);
 	let y = Math.round(canvasHeight / 2 - defaultOpt.height / 2);
 
-	const id = new Date().getTime();
+	const id = nanoid();
 	const index = elList.length;
 	const name = `${type}-${elList.filter((el) => el.type === type).length}`;
 	return {
