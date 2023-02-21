@@ -106,11 +106,13 @@ export const setElOpt = (
 		case 'rect': {
 			const opt = options as RectOpt;
 			style.borderRadius = `${opt.radius}px`;
+			style.border = 'none';
+			style.backgroundColor = 'transparent';
 			if (opt.mode !== 'stroke') {
 				// @ts-ignore
 				style.backgroundColor = opt.fillStyle;
 			}
-			if (opt.strokeStyle && opt.mode !== 'fill') {
+			if (opt.mode !== 'fill' && opt.strokeStyle && opt.lineWidth) {
 				style.border = `${opt.lineWidth}px solid ${opt.strokeStyle}`;
 			}
 			break;

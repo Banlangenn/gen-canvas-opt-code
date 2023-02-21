@@ -217,10 +217,8 @@ export interface RectOpt extends BaseComponentOpt {
 
 ## BUG
 
-- 文本导出宽高属性去除
-- 文本 font 值 `'normal 400 14px PingFangSC-Regular'` style weight size family
 - 矩形填充模式
-- 向上移动时偏移过大
+- 向上、向左移动超出画布时偏移过大
 
 ## TODO
 

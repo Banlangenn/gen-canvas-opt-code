@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
+import produce from 'immer';
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from './../utils/constant';
 import { ComponentUniType } from '../types';
 
@@ -69,29 +70,37 @@ export const useCanvasStore = create<CanvasStoreType>()(
 				elList: [] as ComponentUniType[],
 				activedEl: null,
 				addEl: (el: ComponentUniType) =>
-					set((state) => ({
-						...state,
-						elList: state.elList.concat(el),
-					})),
+					set((state) =>
+						produce(state, (draftState) => {
+							draftState.elList = draftState.elList.concat(el);
+						}),
+					),
 				activeEl: (el: ComponentUniType) =>
-					set(({ activedEl, elList }) => {
-						if (activedEl) {
-							elList[activedEl.internal.id] = activedEl;
-						}
-						return {
-							activedEl: { ...el },
-							elList: [...elList],
-						};
-					}),
+					set((state) =>
+						produce(state, (draftState) => {
+							if (draftState.activedEl) {
+								draftState.elList[draftState.activedEl.internal.id] =
+									draftState.activedEl;
+							}
+							draftState.activedEl = { ...el };
+						}),
+					),
 				updateActivedEl: (el: ComponentUniType) =>
-					set((state) => ({ ...state, activedEl: { ...el } })),
+					set((state) =>
+						produce(state, (draftState) => {
+							draftState.activedEl = { ...el };
+						}),
+					),
 				cancelActive: () =>
-					set(({ activedEl, elList }) => {
-						if (activedEl) {
-							elList[activedEl.internal.id] = activedEl;
-						}
-						return { activedEl: null, elList: [...elList] };
-					}),
+					set((state) =>
+						produce(state, (draftState) => {
+							if (draftState.activedEl) {
+								draftState.elList[draftState.activedEl.internal.id] =
+									draftState.activedEl;
+							}
+							draftState.activedEl = null;
+						}),
+					),
 				deleteActivedEl: () =>
 					set((state) => ({
 						activedEl: null,

@@ -67,8 +67,14 @@ const OptionsForm = () => {
 
 	// 删除表单字段
 	const handleDelete = (name: keyof ComponentUniType) => {
-		delete activedEl[name];
-		updateActivedEl(activedEl);
+		const newState = {} as ComponentUniType;
+		Object.keys(activedEl).forEach((key) => {
+			if (key !== name) {
+				// @ts-ignore
+				newState[key] = activedEl[key];
+			}
+		});
+		updateActivedEl(newState);
 	};
 
 	// 添加表单字段

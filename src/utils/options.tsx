@@ -289,7 +289,7 @@ export const getComponentOption = (type: ComponentType) => {
 							<Select
 								options={[
 									{ value: 'fill', label: '填充内容区域' },
-									{ value: 'strock', label: '填充边框' },
+									{ value: 'stroke', label: '填充边框' },
 									{ value: 'both', label: '填充内容和边框' },
 								]}
 							/>

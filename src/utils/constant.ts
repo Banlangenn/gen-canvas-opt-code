@@ -53,7 +53,7 @@ export const DEFAULT_VALUES: Record<ComponentType, ComponentDefaultOpt> = {
 		/** 绘制方式 strock/fill/both */
 		mode: 'fill',
 		/** 描边颜色 */
-		strokeStyle: '#fff',
+		strokeStyle: '#000000',
 		/** 图片圆角 */
 		radius: 4,
 	},
