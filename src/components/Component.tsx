@@ -7,14 +7,12 @@ import { lineClampMap } from '../utils/options';
 interface ComponentPropsType {
 	/** 组件配置 */
 	options: ComponentUniType;
-	/** 组件的层级*/
-	index: number;
 	/** 是否是激活的组件 */
 	isActive?: boolean;
 }
 
 /** 画布中的组件 */
-const Component = ({ options, index, isActive }: ComponentPropsType) => {
+const Component = ({ options, isActive }: ComponentPropsType) => {
 	const activeEl = useCanvasStore((state) => state.activeEl);
 	const activedEl = useCanvasStore((state) => state.activedEl);
 
@@ -25,7 +23,7 @@ const Component = ({ options, index, isActive }: ComponentPropsType) => {
 		width: options.width,
 		height: options.height,
 		position: 'absolute',
-		zIndex: index,
+		zIndex: activedEl?.internal.index,
 	};
 	// 特有属性
 	const specific: any = {};
@@ -38,7 +36,7 @@ const Component = ({ options, index, isActive }: ComponentPropsType) => {
 	const handleClick = (e: React.PointerEvent<HTMLDivElement>) => {
 		e.stopPropagation();
 		if (isActive) return;
-		options.type && activeEl({ ...options });
+		options.type && activeEl(options);
 	};
 	return (
 		<div

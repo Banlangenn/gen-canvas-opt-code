@@ -131,9 +131,9 @@ export const getComponentOption = (type: ComponentType) => {
 						span: 24,
 					},
 					formItemProps: {
-						label: '图片地址',
+						label: '地址',
 						name: 'url',
-						children: <Input.TextArea />,
+						children: <Input className="w-[280px]" />,
 					},
 				},
 			],

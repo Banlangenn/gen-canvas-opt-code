@@ -1,4 +1,4 @@
-import { useCanvasSizeStore } from '../store';
+import { useCanvasSizeStore, useCanvasStore } from '../store';
 import {
 	ComponentType,
 	ComponentUniType,
@@ -9,14 +9,21 @@ import {
 import { DEFAULT_VALUES } from './constant';
 
 /** 获取画布元素默认配置 */
-export const getElDefaultOpt = (type: ComponentType, id: number) => {
+export const getElDefaultOpt = (type: ComponentType) => {
+	const elList = useCanvasStore.getState().elList;
 	const { width: canvasWidth, height: canvasHeight } =
 		useCanvasSizeStore.getState().size;
 	const defaultOpt: any = DEFAULT_VALUES[type];
+
+	// 将组件放置到画布中间
 	let x = Math.round(
 		canvasWidth / 2 - (type === 'text' ? canvasWidth : defaultOpt.width) / 2,
 	);
 	let y = Math.round(canvasHeight / 2 - defaultOpt.height / 2);
+
+	const id = new Date().getTime();
+	const index = elList.length;
+	const name = `${type}-${elList.filter((el) => el.type === type).length}`;
 	return {
 		image: {
 			type: 'image',
@@ -24,10 +31,11 @@ export const getElDefaultOpt = (type: ComponentType, id: number) => {
 			y,
 			width: defaultOpt.width,
 			height: defaultOpt.height,
-			name: `image-${id}`,
+			name,
 			url: defaultOpt.url,
 			internal: {
 				id,
+				index,
 			},
 		},
 		text: {
@@ -35,7 +43,7 @@ export const getElDefaultOpt = (type: ComponentType, id: number) => {
 			x,
 			y,
 			lineHeight: defaultOpt.lineHeight,
-			name: `text-${id}`,
+			name,
 			content: defaultOpt.content,
 			font: defaultOpt.font,
 			fillStyle: defaultOpt.fillStyle,
@@ -43,6 +51,7 @@ export const getElDefaultOpt = (type: ComponentType, id: number) => {
 			height: defaultOpt.height,
 			internal: {
 				id,
+				index,
 			},
 		},
 		rect: {
@@ -51,11 +60,12 @@ export const getElDefaultOpt = (type: ComponentType, id: number) => {
 			y,
 			width: defaultOpt.width,
 			height: defaultOpt.height,
-			name: `rect-${id}`,
+			name,
 			fillStyle: defaultOpt.fillStyle,
 			mode: defaultOpt.mode,
 			internal: {
-				id: id,
+				id,
+				index,
 			},
 		},
 	}[type] as ComponentUniType;

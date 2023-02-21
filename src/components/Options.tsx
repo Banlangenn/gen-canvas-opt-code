@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Button, Row, Col, Form, Empty, Dropdown, Space } from 'antd';
+import { Button, Row, Col, Form, Empty, Dropdown, Space, Upload } from 'antd';
 import {
 	PlusOutlined,
 	MinusCircleOutlined,
 	DeleteOutlined,
+	UploadOutlined,
 } from '@ant-design/icons';
 import { useCanvasStore } from '../store';
 import { OptionType, getComponentOption } from '../utils/options';
@@ -101,33 +102,53 @@ const OptionsForm = () => {
 		});
 	};
 
+	// 渲染表单项
+	const renderFormItem = (item: OptionType) => {
+		if (item.isOptional) {
+			return (
+				<Form.Item>
+					<Space align="baseline">
+						<Form.Item {...item.formItemProps} />
+						<MinusCircleOutlined
+							style={{
+								fontSize: 20,
+								color: '#666',
+								marginLeft: 10,
+								verticalAlign: 'middle',
+							}}
+							onClick={() =>
+								handleDelete(item.formItemProps.name as keyof ComponentUniType)
+							}
+						/>
+					</Space>
+				</Form.Item>
+			);
+		} else if (item.formItemProps.name === 'url') {
+			return (
+				<Form.Item>
+					<Space align="baseline">
+						<Form.Item {...item.formItemProps} />
+						<Upload
+							beforeUpload={() => {
+								return false;
+							}}
+						>
+							<Button icon={<UploadOutlined />} />
+						</Upload>
+					</Space>
+				</Form.Item>
+			);
+		} else {
+			return <Form.Item {...item.formItemProps} />;
+		}
+	};
+
 	return (
 		<Form form={form} onBlur={handleBlur}>
 			<Row gutter={[20, 20]}>
 				{formItems.map((item, index) => (
 					<Col key={index} {...item.colProps}>
-						{item.isOptional ? (
-							<Form.Item>
-								<Space align="baseline">
-									<Form.Item {...item.formItemProps} />
-									<MinusCircleOutlined
-										style={{
-											fontSize: 20,
-											color: '#666',
-											marginLeft: 10,
-											verticalAlign: 'middle',
-										}}
-										onClick={() =>
-											handleDelete(
-												item.formItemProps.name as keyof ComponentUniType,
-											)
-										}
-									/>
-								</Space>
-							</Form.Item>
-						) : (
-							<Form.Item {...item.formItemProps} />
-						)}
+						{renderFormItem(item)}
 					</Col>
 				))}
 				<Col span={24}>
@@ -147,7 +168,7 @@ const OptionsForm = () => {
 									style={{ width: '100%' }}
 									icon={<PlusOutlined />}
 								>
-									添加字段
+									添加配置
 								</Button>
 							</Dropdown>
 						)}

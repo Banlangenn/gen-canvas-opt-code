@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { cloneDeep } from 'lodash';
 import { devtools, persist } from 'zustand/middleware';
 import produce from 'immer';
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from './../utils/constant';
@@ -78,25 +79,31 @@ export const useCanvasStore = create<CanvasStoreType>()(
 				activeEl: (el: ComponentUniType) =>
 					set((state) =>
 						produce(state, (draftState) => {
-							if (draftState.activedEl) {
-								draftState.elList[draftState.activedEl.internal.id] =
-									draftState.activedEl;
+							if (draftState.activedEl?.internal.id) {
+								const index = draftState.elList.findIndex(
+									(el) => el.internal.id === draftState.activedEl?.internal.id,
+								);
+
+								draftState.elList[index] = cloneDeep(draftState.activedEl);
 							}
-							draftState.activedEl = { ...el };
+							draftState.activedEl = cloneDeep(el);
 						}),
 					),
 				updateActivedEl: (el: ComponentUniType) =>
 					set((state) =>
 						produce(state, (draftState) => {
-							draftState.activedEl = { ...el };
+							draftState.activedEl = cloneDeep(el);
 						}),
 					),
 				cancelActive: () =>
 					set((state) =>
 						produce(state, (draftState) => {
-							if (draftState.activedEl) {
-								draftState.elList[draftState.activedEl.internal.id] =
-									draftState.activedEl;
+							if (draftState.activedEl?.internal.id) {
+								const index = draftState.elList.findIndex(
+									(el) => el.internal.id === draftState.activedEl?.internal.id,
+								);
+
+								draftState.elList[index] = cloneDeep(draftState.activedEl);
 							}
 							draftState.activedEl = null;
 						}),

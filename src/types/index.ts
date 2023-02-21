@@ -19,6 +19,8 @@ export interface BaseComponentOpt {
 	internal: {
 		/** 组件 id */
 		id: number;
+		/** 组件层级 */
+		index: number;
 	};
 }
 

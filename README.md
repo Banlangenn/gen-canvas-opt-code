@@ -108,6 +108,8 @@ export interface BaseComponentOpt {
 	internal: {
 		/** 组件 id */
 		id: number;
+		/** 组件层级 */
+		index: number;
 	};
 }
 
@@ -125,7 +127,7 @@ export interface TextOpt extends BaseComponentOpt {
 	type: 'text';
 	/** 文本颜色 */
 	fillStyle: CanvasRenderingContext2D['fillStyle'];
-	/** 字体大小 + 字体样式 示例: '16px PingFang-SC-Medium' */
+	/** 字号字体 style weight size family 示例: 'normal 400 14px PingFangSC-Regular' */
 	font: string;
 	/** 文本内容 */
 	content: string;
@@ -141,6 +143,8 @@ export interface TextOpt extends BaseComponentOpt {
 	lineHeight?: number;
 	/** 文本装饰 目前只支持 line-through 删除线 */
 	textDecoration?: string;
+	/** 画笔透明度 范围 0-1 */
+	alpha: number;
 }
 
 /** 矩形组件配置 */
@@ -155,8 +159,17 @@ export interface RectOpt extends BaseComponentOpt {
 	/** 填充边框/线段颜色 */
 	strokeStyle?: CanvasRenderingContext2D['strokeStyle'];
 	/** 为 'both' 时表示同时填充内容和边框 */
-	mode?: string;
+	mode?: 'fill' | 'stroke' | 'both';
 }
+
+export interface ComponentOptMap {
+	image: ImageOpt;
+	text: TextOpt;
+	rect: RectOpt;
+}
+
+/** 组件联合类型 */
+export type ComponentUniType = ComponentOptMap[ComponentType];
 ```
 
 #### 画布
@@ -214,11 +227,6 @@ export interface RectOpt extends BaseComponentOpt {
 - 使用 `prettier` 中的 `format` 来格式化 `json` 字符串；
 - 使用 `react-simple-code-editor` 和 `prism-react-renderer` 来支持可编辑和高亮显示 `json` 代码；
 - 使用 `react-copy-to-clipboard` 复制代码。
-
-## BUG
-
-- 矩形填充模式
-- 向上、向左移动超出画布时偏移过大
 
 ## TODO
 
