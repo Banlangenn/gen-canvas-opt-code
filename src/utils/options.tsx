@@ -7,7 +7,7 @@ import { InputNumber, ColProps, FormItemProps, Input, Select } from 'antd';
 import { ComponentType } from '../types';
 
 /** 组件列表 */
-export const ComponentList = [
+export const ComponentListOpt = [
 	{
 		label: '图片',
 		type: 'image' as ComponentType,

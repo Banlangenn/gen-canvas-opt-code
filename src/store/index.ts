@@ -59,6 +59,8 @@ interface CanvasStoreType {
 	cancelActive: () => void;
 	/** 删除正在激活的组件 */
 	deleteActivedEl: () => void;
+	/** 更新组件列表 */
+	updateElList: (list: ComponentUniType[]) => void;
 	/** 清空画布(重置store) */
 	clearStore: () => void;
 }
@@ -115,6 +117,12 @@ export const useCanvasStore = create<CanvasStoreType>()(
 							(el) => el.internal.id !== state.activedEl?.internal?.id,
 						),
 					})),
+				updateElList: (list: ComponentUniType[]) =>
+					set((state) =>
+						produce(state, (draftState) => {
+							draftState.elList = list;
+						}),
+					),
 				clearStore: () => set({ elList: [], activedEl: null }),
 			}),
 			{

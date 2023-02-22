@@ -1,15 +1,15 @@
-import { Button } from 'antd';
 import { useEffect, useState } from 'react';
+import { Button } from 'antd';
+import { ExportOutlined, SyncOutlined } from '@ant-design/icons';
+import { useCanvasSizeStore, useCanvasStore } from './store';
+import { ComponentListOpt } from './utils/options';
+import { ComponentType } from './types';
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from './utils/constant';
 import Canvas from './components/Canvas';
 import CanvasSizeForm from './components/CanvasSizeForm';
 import SideBar from './components/SideBar';
-import { ComponentList } from './utils/options';
-import { ComponentType } from './types';
-import { CANVAS_HEIGHT, CANVAS_WIDTH } from './utils/constant';
 import Options from './components/Options';
-import { useCanvasSizeStore, useCanvasStore } from './store';
 import ExportCodeModal from './components/ExportCodeModal';
-import { ExportOutlined, SyncOutlined } from '@ant-design/icons';
 
 function App() {
 	const { cancelActive, clearStore, deleteActivedEl } = useCanvasStore(
@@ -66,8 +66,8 @@ function App() {
 	return (
 		<div className="w-[100vw] min-w-[1100px] h-[100vh] flex justify-center overflow-hidden">
 			<SideBar title="组件" width={260}>
-				<div className="flex flex-wrap">
-					{ComponentList.map((item) => (
+				<div className="flex flex-wrap px-20 pt-32">
+					{ComponentListOpt.map((item) => (
 						<div
 							key={item.type}
 							draggable
