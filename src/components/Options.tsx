@@ -130,6 +130,7 @@ const OptionsForm = () => {
 						<Form.Item {...item.formItemProps} />
 						<Upload
 							action=""
+							accept="image/*"
 							fileList={[]}
 							beforeUpload={(file) => {
 								const url = URL.createObjectURL(file);
