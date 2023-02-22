@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Button } from 'antd';
-import { ExportOutlined, SyncOutlined } from '@ant-design/icons';
+import { ExportOutlined, LeftOutlined, SyncOutlined } from '@ant-design/icons';
 import { useCanvasSizeStore, useCanvasStore } from './store';
 import { ComponentListOpt } from './utils/options';
 import { ComponentType } from './types';
@@ -12,13 +12,13 @@ import Options from './components/Options';
 import ExportCodeModal from './components/ExportCodeModal';
 
 function App() {
-	const { cancelActive, clearStore, deleteActivedEl } = useCanvasStore(
-		(state) => ({
+	const { cancelActive, clearStore, deleteActivedEl, activedEl } =
+		useCanvasStore((state) => ({
+			activedEl: state.activedEl,
 			cancelActive: state.cancelActive,
 			clearStore: state.clearStore,
 			deleteActivedEl: state.deleteActivedEl,
-		}),
-	);
+		}));
 	const canvasSize = useCanvasSizeStore((state) => state.size);
 	const updateCanvasSize = useCanvasSizeStore((state) => state.updateSize);
 	const [exportModalOpen, setExportModalOpen] = useState(false);
@@ -114,7 +114,16 @@ function App() {
 					/>
 				</div>
 			</div>
-			<SideBar title="配置" width={400} position="right">
+			<SideBar
+				title={activedEl ? '配置' : '组件列表'}
+				width={400}
+				position="right"
+				titleLeft={
+					activedEl && (
+						<LeftOutlined className="cursor-pointer" onClick={cancelActive} />
+					)
+				}
+			>
 				<Options />
 			</SideBar>
 			<ExportCodeModal open={exportModalOpen} setOpen={setExportModalOpen} />

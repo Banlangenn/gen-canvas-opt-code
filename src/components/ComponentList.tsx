@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-	DeleteFilled,
-	DeleteOutlined,
-	EditFilled,
-	EditOutlined,
-	MenuOutlined,
-} from '@ant-design/icons';
+import { DeleteFilled, EditFilled, MenuOutlined } from '@ant-design/icons';
 import type { DragEndEvent } from '@dnd-kit/core';
 import { DndContext } from '@dnd-kit/core';
 import {
@@ -68,13 +62,11 @@ const Row = ({ children, ...props }: RowProps) => {
 /** 组件列表 */
 const ComponentList = () => {
 	const elList = useCanvasStore((state) => state.elList, isEqual);
-	const { activeEl, updateActivedEl, updateElList } = useCanvasStore(
-		(state) => ({
-			activeEl: state.activeEl,
-			updateActivedEl: state.updateActivedEl,
-			updateElList: state.updateElList,
-		}),
-	);
+	const { activeEl, updateElList } = useCanvasStore((state) => ({
+		activeEl: state.activeEl,
+		updateActivedEl: state.updateActivedEl,
+		updateElList: state.updateElList,
+	}));
 	const onDragEnd = ({ active, over }: DragEndEvent) => {
 		if (active.id !== over?.id) {
 			const list = cloneDeep(elList);
