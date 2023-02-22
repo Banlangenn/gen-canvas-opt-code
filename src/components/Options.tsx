@@ -129,7 +129,12 @@ const OptionsForm = () => {
 					<Space align="baseline">
 						<Form.Item {...item.formItemProps} />
 						<Upload
-							beforeUpload={() => {
+							action=""
+							fileList={[]}
+							beforeUpload={(file) => {
+								const url = URL.createObjectURL(file);
+								form.setFieldValue('url', url);
+								handleBlur();
 								return false;
 							}}
 						>
