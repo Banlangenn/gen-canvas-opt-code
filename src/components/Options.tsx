@@ -1,5 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Button, Row, Col, Form, Empty, Dropdown, Space, Upload } from 'antd';
+import {
+	Button,
+	Row,
+	Col,
+	Form,
+	Empty,
+	Dropdown,
+	Space,
+	Upload,
+	message,
+} from 'antd';
 import {
 	PlusOutlined,
 	MinusCircleOutlined,
@@ -135,6 +145,9 @@ const OptionsForm = () => {
 							beforeUpload={(file) => {
 								const url = URL.createObjectURL(file);
 								form.setFieldValue('url', url);
+								message.info(
+									'生成图片的地址仅供本地临时使用，导出时需要自行修改为有效地址',
+								);
 								handleBlur();
 								return false;
 							}}

@@ -230,7 +230,6 @@ export type ComponentUniType = ComponentOptMap[ComponentType];
 
 ## TODO
 
-- 本地上传图片
 - 拖动列表排序
 - 预设线、圆组件
 - 导入代码
