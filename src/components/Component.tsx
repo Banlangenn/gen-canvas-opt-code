@@ -18,8 +18,7 @@ const Component = ({ options, isActive }: ComponentPropsType) => {
 
 	// 样式
 	const style: React.CSSProperties = {
-		top: options.y,
-		left: options.x,
+		transform: `translate(${options.x}px, ${options.y}px)`,
 		width: options.width,
 		height: options.height,
 		position: 'absolute',

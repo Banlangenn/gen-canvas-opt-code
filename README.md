@@ -228,8 +228,19 @@ export type ComponentUniType = ComponentOptMap[ComponentType];
 - 使用 `react-simple-code-editor` 和 `prism-react-renderer` 来支持可编辑和高亮显示 `json` 代码；
 - 使用 `react-copy-to-clipboard` 复制代码。
 
+## 画布性能优化
+
+### DOM 版
+
+- 通过 `requestAnimationFrame` 对 `mousemove` 事件进行优化，`requestAnimationFrame` 会限制 `mousemove` 的触发次数（通常是一秒 60 次，每帧触发一次），使拖动过程更流畅。
+- 通过 `transform: translate()` 来控制元素的移动，`translate` 属性可以利用 GPU 加速进行硬件加速渲染。与更改 `top` 和 `left` 属性相比，使用 `transform` 的 `translate` 属性不会触发浏览器的布局重绘和重排，因为布局引擎只需要在单独的层上对元素进行变换，而不需要重新计算文档中其他元素的位置和大小。
+
+## BUGS
+
+- 往左或往上移动超出画布时偏移量过大
+
 ## TODO
 
-- 拖动列表排序
+- 拖动列表排序（倒序）
 - 预设线、圆组件
 - 导入代码
