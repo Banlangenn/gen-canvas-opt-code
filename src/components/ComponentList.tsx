@@ -91,6 +91,8 @@ const ComponentList = () => {
 		{
 			title: '层级',
 			render: (el) => el.internal.index,
+			defaultSortOrder: 'descend',
+			sorter: (a, b) => a.internal.index - b.internal.index,
 		},
 		{
 			title: '操作',
@@ -136,6 +138,7 @@ const ComponentList = () => {
 							row: Row,
 						},
 					}}
+					showSorterTooltip={false}
 					rowKey={(el) => el.internal.id}
 					columns={columns}
 					dataSource={elList}
