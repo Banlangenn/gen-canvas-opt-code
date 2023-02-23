@@ -2,8 +2,11 @@ import {
 	PictureOutlined,
 	FontSizeOutlined,
 	BorderOutlined,
+	MinusOutlined,
+	Loading3QuartersOutlined,
 } from '@ant-design/icons';
 import { InputNumber, ColProps, FormItemProps, Input, Select } from 'antd';
+import Icon from '../components/Icon';
 import { ComponentType } from '../types';
 
 /** 组件列表 */
@@ -24,7 +27,8 @@ export const ComponentListOpt = [
 		label: '文本',
 		type: 'text' as ComponentType,
 		icon: (
-			<FontSizeOutlined
+			<Icon
+				type="icon-wenben"
 				style={{
 					fontSize: 40,
 					color: '#666',
@@ -37,6 +41,31 @@ export const ComponentListOpt = [
 		type: 'rect' as ComponentType,
 		icon: (
 			<BorderOutlined
+				style={{
+					fontSize: 40,
+					color: '#666',
+				}}
+			/>
+		),
+	},
+	{
+		label: '圆形',
+		type: 'circle' as ComponentType,
+		icon: (
+			<Icon
+				type="icon-fuxuankuangkongyuan"
+				style={{
+					fontSize: 40,
+					color: '#666',
+				}}
+			/>
+		),
+	},
+	{
+		label: '线',
+		type: 'line' as ComponentType,
+		icon: (
+			<MinusOutlined
 				style={{
 					fontSize: 40,
 					color: '#666',

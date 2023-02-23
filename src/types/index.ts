@@ -1,5 +1,5 @@
 /** 组件类型 */
-export type ComponentType = 'image' | 'text' | 'rect';
+export type ComponentType = 'image' | 'text' | 'rect' | 'line' | 'circle';
 
 /** 组件基础配置 */
 export interface BaseComponentOpt {
@@ -73,10 +73,18 @@ export interface RectOpt extends BaseComponentOpt {
 	mode?: 'fill' | 'stroke' | 'both';
 }
 
+/** 线组件配置 */
+export interface LineOpt extends RectOpt {}
+
+/** 圆组件配置 */
+export interface CircleOpt extends RectOpt {}
+
 export interface ComponentOptMap {
 	image: ImageOpt;
 	text: TextOpt;
 	rect: RectOpt;
+	line: LineOpt;
+	circle: CircleOpt;
 }
 
 /** 组件联合类型 */

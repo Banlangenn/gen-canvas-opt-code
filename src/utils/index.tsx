@@ -24,7 +24,10 @@ export const getElDefaultOpt = (type: ComponentType) => {
 
 	const id = nanoid();
 	const index = elList.length;
-	const name = `${type}-${elList.filter((el) => el.type === type).length}`;
+	let reType = type;
+	if (['line', 'circle'].includes(type)) reType = 'rect';
+	const name = `${reType}-${elList.filter((el) => el.type === reType).length}`;
+	const internal = { id, index };
 	return {
 		image: {
 			type: 'image',
@@ -34,10 +37,7 @@ export const getElDefaultOpt = (type: ComponentType) => {
 			height: defaultOpt.height,
 			name,
 			url: defaultOpt.url,
-			internal: {
-				id,
-				index,
-			},
+			internal,
 		},
 		text: {
 			type: 'text' as ComponentType,
@@ -50,10 +50,7 @@ export const getElDefaultOpt = (type: ComponentType) => {
 			fillStyle: defaultOpt.fillStyle,
 			width: defaultOpt.width,
 			height: defaultOpt.height,
-			internal: {
-				id,
-				index,
-			},
+			internal,
 		},
 		rect: {
 			type: 'rect' as ComponentType,
@@ -64,10 +61,30 @@ export const getElDefaultOpt = (type: ComponentType) => {
 			name,
 			fillStyle: defaultOpt.fillStyle,
 			mode: defaultOpt.mode,
-			internal: {
-				id,
-				index,
-			},
+			internal,
+		},
+		line: {
+			type: 'rect' as ComponentType,
+			x,
+			y,
+			width: defaultOpt.width,
+			height: defaultOpt.height,
+			name,
+			fillStyle: defaultOpt.fillStyle,
+			mode: defaultOpt.mode,
+			internal,
+		},
+		circle: {
+			type: 'rect' as ComponentType,
+			x,
+			y,
+			width: defaultOpt.width,
+			height: defaultOpt.height,
+			name,
+			fillStyle: defaultOpt.fillStyle,
+			mode: defaultOpt.mode,
+			radius: defaultOpt.radius,
+			internal,
 		},
 	}[type] as ComponentUniType;
 };

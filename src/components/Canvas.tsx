@@ -76,7 +76,7 @@ const Canvas = ({ style }: PropsType) => {
 		event.preventDefault();
 		event.stopPropagation();
 		const type = event.dataTransfer.getData('type') as ComponentType;
-		if (!['image', 'text', 'rect'].includes(type)) return;
+		if (!['image', 'text', 'rect', 'circle', 'line'].includes(type)) return;
 		const option = getElDefaultOpt(type);
 		addEl(option);
 		activeEl(option);

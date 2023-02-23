@@ -57,4 +57,26 @@ export const DEFAULT_VALUES: Record<ComponentType, ComponentDefaultOpt> = {
 		/** 图片圆角 */
 		radius: 4,
 	},
+	line: {
+		/** 填充颜色 */
+		fillStyle: '#cccccc',
+		/** 矩形路径的高度 */
+		height: 1,
+		/** 矩形路径的宽度 */
+		width: 300,
+		/** 绘制方式 stroke/fill/both */
+		mode: 'fill',
+	},
+	circle: {
+		/** 填充颜色 */
+		fillStyle: '#cccccc',
+		/** 矩形路径的高度 */
+		height: 100,
+		/** 矩形路径的宽度 */
+		width: 100,
+		/** 绘制方式 strock/fill/both */
+		mode: 'fill',
+		/** 图片圆角 */
+		radius: 50,
+	},
 };
