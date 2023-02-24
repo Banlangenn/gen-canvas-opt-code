@@ -3,13 +3,14 @@ import { Button } from 'antd';
 import { ExportOutlined, LeftOutlined, SyncOutlined } from '@ant-design/icons';
 import { useCanvasSizeStore, useCanvasStore } from './store';
 import { ComponentListOpt } from './utils/options';
-import { ComponentType } from './types';
+import { ComponentType, CodeModalType } from './types';
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from './utils/constant';
 import Canvas from './components/Canvas';
 import CanvasSizeForm from './components/CanvasSizeForm';
 import SideBar from './components/SideBar';
 import Options from './components/Options';
-import ExportCodeModal from './components/ExportCodeModal';
+import CodeModal from './components/CodeModal';
+import Icon from './components/Icon';
 
 function App() {
 	const { cancelActive, clearStore, deleteActivedEl, activedEl } =
@@ -22,6 +23,7 @@ function App() {
 	const canvasSize = useCanvasSizeStore((state) => state.size);
 	const updateCanvasSize = useCanvasSizeStore((state) => state.updateSize);
 	const [exportModalOpen, setExportModalOpen] = useState(false);
+	const [codeType, setCodeType] = useState<CodeModalType>('export');
 
 	// 注册键盘按下事件
 	useEffect(() => {
@@ -46,9 +48,10 @@ function App() {
 		clearStore();
 	};
 
-	// 导出代码
-	const handleExportCode = () => {
+	// 导入导出代码
+	const handleCode = (type: CodeModalType) => {
 		cancelActive();
+		setCodeType(type);
 		setExportModalOpen(true);
 	};
 
@@ -81,19 +84,22 @@ function App() {
 				</div>
 			</SideBar>
 			<div className="flex-1 h-[100vh] overflow-y-scroll">
-				<div className="text-center py-[100px]">
-					<CanvasSizeForm
-						width={canvasSize.width}
-						height={canvasSize.height}
-						onChange={updateCanvasSize}
-					>
+				<div className="py-[100px]">
+					<div className="w-[375px] mx-auto mb-16">
+						<Button
+							type="primary"
+							icon={<Icon type="icon-line-codesslashdaimasxiegang" />}
+							onClick={() => handleCode('import')}
+						>
+							导入代码
+						</Button>
 						<Button
 							type="primary"
 							className="ml-10"
 							icon={<ExportOutlined />}
-							onClick={handleExportCode}
+							onClick={() => handleCode('export')}
 						>
-							导出
+							导出代码
 						</Button>
 						<Button
 							type="primary"
@@ -101,9 +107,14 @@ function App() {
 							icon={<SyncOutlined />}
 							onClick={handleRest}
 						>
-							重置
+							重置画布
 						</Button>
-					</CanvasSizeForm>
+					</div>
+					<CanvasSizeForm
+						width={canvasSize.width}
+						height={canvasSize.height}
+						onChange={updateCanvasSize}
+					></CanvasSizeForm>
 					<Canvas
 						style={{
 							width: canvasSize.width,
@@ -126,7 +137,11 @@ function App() {
 			>
 				<Options />
 			</SideBar>
-			<ExportCodeModal open={exportModalOpen} setOpen={setExportModalOpen} />
+			<CodeModal
+				open={exportModalOpen}
+				setOpen={setExportModalOpen}
+				type={codeType}
+			/>
 		</div>
 	);
 }

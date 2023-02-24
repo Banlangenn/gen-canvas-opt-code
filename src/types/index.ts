@@ -102,3 +102,6 @@ export type ComponentDefaultOpt =
 	| ImageDefaultOpt
 	| TextDefaultOpt
 	| RectDefaultOpt;
+
+/** 代码弹窗类型 */
+export type CodeModalType = 'export' | 'import';

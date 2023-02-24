@@ -8,9 +8,14 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Highlight, { defaultProps } from 'prism-react-renderer';
 import theme from 'prism-react-renderer/themes/nightOwl';
 import { useCanvasStore } from '../store';
+import { CodeModalType } from '../types';
 
 interface PropsType {
+	/** 弹窗类型 导入 导出 */
+	type: CodeModalType;
+	/** 弹窗开关 */
 	open: boolean;
+	/** 设置弹窗开关 */
 	setOpen: (open: boolean) => void;
 }
 
@@ -27,27 +32,33 @@ const parserConfig = {
 	plugins: [parser],
 };
 
-/** 导出代码弹窗 */
-const ExportCodeModal = ({ open, setOpen }: PropsType) => {
+/** 导入导出代码弹窗 */
+const CodeModal = ({ type = 'export', open, setOpen }: PropsType) => {
 	const elList = useCanvasStore((state) => state.elList);
 	const [code, setCode] = useState('');
 
 	useEffect(() => {
-		const elListJsonStr = JSON.stringify(
-			elList.map((el) => {
-				const expKeys = Object.keys(el).filter(
-					(k) =>
-						!(el.type === 'text' && /width|height/.test(k)) && k !== 'internal',
-				);
-				const expObj: any = {};
-				expKeys.forEach((key) => {
-					// @ts-ignore
-					expObj[key] = el[key];
-				});
-				return expObj;
-			}),
-		);
-		setCode(format(elListJsonStr, parserConfig));
+		if (!open) return;
+		if (type === 'export') {
+			const elListJsonStr = JSON.stringify(
+				elList.map((el) => {
+					const expKeys = Object.keys(el).filter(
+						(k) =>
+							!(el.type === 'text' && /width|height/.test(k)) &&
+							k !== 'internal',
+					);
+					const expObj: any = {};
+					expKeys.forEach((key) => {
+						// @ts-ignore
+						expObj[key] = el[key];
+					});
+					return expObj;
+				}),
+			);
+			setCode(format(elListJsonStr, parserConfig));
+		} else {
+			setCode('');
+		}
 	}, [open]);
 
 	const highlight = (code: string) => (
@@ -104,4 +115,4 @@ const ExportCodeModal = ({ open, setOpen }: PropsType) => {
 	);
 };
 
-export default ExportCodeModal;
+export default CodeModal;

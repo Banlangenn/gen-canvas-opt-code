@@ -241,6 +241,5 @@ export type ComponentUniType = ComponentOptMap[ComponentType];
 
 ## TODO
 
-- 拖动列表排序（倒序）
-- 预设线、圆组件
 - 导入代码
+- hover 到组件列表项时显示对应组件的 hover 状态

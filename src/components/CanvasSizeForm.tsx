@@ -20,15 +20,18 @@ const CanvasSizeForm = ({
 	children,
 }: PropsType) => {
 	return (
-		<div className="flex items-center text-16 text-555 justify-center mb-16">
-			<span className="mr-6">画布尺寸</span>
+		<div
+			className="flex items-center flex-wrap text-16 text-555 mb-16 mx-auto"
+			style={{ width }}
+		>
+			<span className="mr-10">画布尺寸</span>
 			<InputNumber
 				min={1}
 				max={375}
 				value={width}
 				onChange={(val) => onChange(val || 1, height)}
 			/>
-			<span className="mx-6">x</span>
+			<span className="mx-10">x</span>
 			<InputNumber
 				min={1}
 				value={height}
