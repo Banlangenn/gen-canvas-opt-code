@@ -49,6 +49,8 @@ interface CanvasStoreType {
 	elList: ComponentUniType[];
 	/** 当前激活的组件 */
 	activedEl: ComponentUniType | null;
+	/** 当前组件列表中 hover 的组件 */
+	hoveredElId: string | null;
 	/** 添加组件 */
 	addEl: (el: ComponentUniType) => void;
 	/** 激活组件，将上一次激活的组件(如果有的话)同步到列表 */
@@ -63,6 +65,8 @@ interface CanvasStoreType {
 	updateElList: (list: ComponentUniType[]) => void;
 	/** 清空画布(重置store) */
 	clearStore: () => void;
+	/** 设置 hover */
+	setHoveredEl: (id: string | null) => void;
 }
 
 /** 画布状态 */
@@ -70,15 +74,16 @@ export const useCanvasStore = create<CanvasStoreType>()(
 	devtools(
 		persist(
 			(set) => ({
-				elList: [] as ComponentUniType[],
+				elList: [],
 				activedEl: null,
-				addEl: (el: ComponentUniType) =>
+				hoveredElId: null,
+				addEl: (el) =>
 					set((state) =>
 						produce(state, (draftState) => {
 							draftState.elList = draftState.elList.concat(el);
 						}),
 					),
-				activeEl: (el: ComponentUniType) =>
+				activeEl: (el) =>
 					set((state) =>
 						produce(state, (draftState) => {
 							if (draftState.activedEl?.internal.id) {
@@ -91,7 +96,7 @@ export const useCanvasStore = create<CanvasStoreType>()(
 							draftState.activedEl = cloneDeep(el);
 						}),
 					),
-				updateActivedEl: (el: ComponentUniType) =>
+				updateActivedEl: (el) =>
 					set((state) =>
 						produce(state, (draftState) => {
 							draftState.activedEl = cloneDeep(el);
@@ -117,13 +122,19 @@ export const useCanvasStore = create<CanvasStoreType>()(
 							(el) => el.internal.id !== state.activedEl?.internal?.id,
 						),
 					})),
-				updateElList: (list: ComponentUniType[]) =>
+				updateElList: (list) =>
 					set((state) =>
 						produce(state, (draftState) => {
 							draftState.elList = list;
 						}),
 					),
 				clearStore: () => set({ elList: [], activedEl: null }),
+				setHoveredEl: (id) =>
+					set((state) =>
+						produce(state, (draftState) => {
+							draftState.hoveredElId = id;
+						}),
+					),
 			}),
 			{
 				name: 'canvas-storage',

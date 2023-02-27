@@ -14,7 +14,9 @@ interface ComponentPropsType {
 /** 画布中的组件 */
 const Component = ({ options, isActive }: ComponentPropsType) => {
 	const activeEl = useCanvasStore((state) => state.activeEl);
+	const hoveredElId = useCanvasStore((state) => state.hoveredElId);
 	const activedEl = useCanvasStore((state) => state.activedEl);
+	const isHovered = hoveredElId === options?.internal.id;
 
 	// 样式
 	const style: React.CSSProperties = {
@@ -37,13 +39,14 @@ const Component = ({ options, isActive }: ComponentPropsType) => {
 		if (isActive) return;
 		options.type && activeEl(options);
 	};
+
 	return (
 		<div
 			type={options.type}
 			style={style}
-			className={`${!isActive && !activedEl && 'hover:!el-active'} ${
+			className={`${!isActive && !activedEl && 'hover:!el-hover'} ${
 				isActive && 'cursor-move'
-			}`}
+			} ${isHovered && '!el-hover'}`}
 			{...specific}
 			draggable="false"
 			data-type="move"

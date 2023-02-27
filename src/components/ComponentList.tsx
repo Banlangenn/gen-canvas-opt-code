@@ -1,5 +1,5 @@
 import React from 'react';
-import { DeleteFilled, EditFilled, MenuOutlined } from '@ant-design/icons';
+import { DeleteFilled, MenuOutlined } from '@ant-design/icons';
 import type { DragEndEvent } from '@dnd-kit/core';
 import { DndContext } from '@dnd-kit/core';
 import {
@@ -37,6 +37,7 @@ const Row = ({ children, ...props }: RowProps) => {
 		transform: CSS.Transform.toString(transform && { ...transform, scaleY: 1 }),
 		transition,
 		...(isDragging ? { position: 'relative', zIndex: 9999 } : {}),
+		cursor: 'pointer',
 	};
 
 	return (
@@ -62,9 +63,9 @@ const Row = ({ children, ...props }: RowProps) => {
 /** 组件列表 */
 const ComponentList = () => {
 	const elList = useCanvasStore((state) => state.elList, isEqual);
-	const { activeEl, updateElList } = useCanvasStore((state) => ({
+	const { activeEl, updateElList, setHoveredEl } = useCanvasStore((state) => ({
 		activeEl: state.activeEl,
-		updateActivedEl: state.updateActivedEl,
+		setHoveredEl: state.setHoveredEl,
 		updateElList: state.updateElList,
 	}));
 	const onDragEnd = ({ active, over }: DragEndEvent) => {
@@ -98,13 +99,6 @@ const ComponentList = () => {
 			title: '操作',
 			render: (el) => (
 				<>
-					<Button
-						type="primary"
-						ghost
-						icon={<EditFilled />}
-						className="mr-10"
-						onClick={() => activeEl(el)}
-					/>
 					<Popconfirm
 						title="删除组件"
 						description="确定删除该组件？"
@@ -116,7 +110,13 @@ const ComponentList = () => {
 							);
 						}}
 					>
-						<Button danger icon={<DeleteFilled />} />
+						<Button
+							danger
+							icon={<DeleteFilled />}
+							onClick={(e) => e.stopPropagation()}
+						>
+							删除
+						</Button>
 					</Popconfirm>
 				</>
 			),
@@ -137,6 +137,13 @@ const ComponentList = () => {
 						body: {
 							row: Row,
 						},
+					}}
+					onRow={(record) => {
+						return {
+							onMouseEnter: () => setHoveredEl(record.internal.id), // 鼠标移入行
+							onMouseLeave: () => setHoveredEl(null),
+							onClick: () => activeEl(record),
+						};
 					}}
 					showSorterTooltip={false}
 					rowKey={(el) => el.internal.id}
