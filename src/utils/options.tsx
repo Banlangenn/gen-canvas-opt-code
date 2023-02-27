@@ -286,6 +286,18 @@ export const getComponentOption = (type: ComponentType) => {
 						span: 24,
 					},
 					formItemProps: {
+						label: '透明度',
+						name: 'alpha',
+						children: (
+							<InputNumber className="min-w-100" min={0} step={0.1} max={1} />
+						),
+					},
+				},
+				{
+					colProps: {
+						span: 24,
+					},
+					formItemProps: {
 						label: '文本装饰',
 						name: 'textDecoration',
 						children: (

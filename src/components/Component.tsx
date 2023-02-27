@@ -62,6 +62,9 @@ const Component = ({ options, isActive }: ComponentPropsType) => {
 							className={`w-full h-full select-none line-clamp-1 ${lineClampMap(
 								options.rowCount || 1,
 							)}`}
+							style={{
+								opacity: options.alpha || 1,
+							}}
 						>
 							{options.content}
 						</div>

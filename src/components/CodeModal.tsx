@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Modal, message } from 'antd';
-import { CopyOutlined } from '@ant-design/icons';
+import { nanoid } from 'nanoid';
+import { Alert, Button, Modal, message } from 'antd';
+import { CheckCircleOutlined, CopyOutlined } from '@ant-design/icons';
 import { format } from 'prettier';
 import parser from 'prettier/parser-babel';
 import Editor from 'react-simple-code-editor';
@@ -9,6 +10,7 @@ import Highlight, { defaultProps } from 'prism-react-renderer';
 import theme from 'prism-react-renderer/themes/nightOwl';
 import { useCanvasStore } from '../store';
 import { CodeModalType } from '../types';
+import { verifyImportCode } from '../utils';
 
 interface PropsType {
 	/** 弹窗类型 导入 导出 */
@@ -35,6 +37,7 @@ const parserConfig = {
 /** 导入导出代码弹窗 */
 const CodeModal = ({ type = 'export', open, setOpen }: PropsType) => {
 	const elList = useCanvasStore((state) => state.elList);
+	const updateElList = useCanvasStore((state) => state.updateElList);
 	const [code, setCode] = useState('');
 
 	useEffect(() => {
@@ -57,7 +60,7 @@ const CodeModal = ({ type = 'export', open, setOpen }: PropsType) => {
 			);
 			setCode(format(elListJsonStr, parserConfig));
 		} else {
-			setCode('');
+			setCode('[]');
 		}
 	}, [open]);
 
@@ -81,16 +84,58 @@ const CodeModal = ({ type = 'export', open, setOpen }: PropsType) => {
 		message.success('复制成功');
 	};
 
+	// 确认导入
+	const handleImport = () => {
+		try {
+			const list = JSON.parse(code);
+			if (verifyImportCode(list)) {
+				list.forEach((item: any, index: number) => {
+					item.internal.id = nanoid();
+					item.internal.index = index;
+				});
+				message.success('导入成功');
+				updateElList(list);
+			}
+		} catch (error) {
+			Modal.error({
+				title: '导入失败！',
+				content: String(error),
+				okText: '确定',
+			});
+		}
+	};
+
 	return (
 		<Modal
-			title="导出代码"
+			title={`${type === 'export' ? '导出' : '导入'}代码`}
 			width={800}
 			open={open}
 			onCancel={() => setOpen(false)}
 			centered
 			footer={null}
 		>
+			{type === 'import' && (
+				<Alert
+					message="导入代码只支持 json 格式，并且需要将动态参数都转为真实值，才可正确渲染。"
+					type="warning"
+					className="my-16"
+				/>
+			)}
+
 			<div className="relative">
+				{type === 'import' && (
+					<Button
+						type="dashed"
+						size="small"
+						ghost
+						icon={<CheckCircleOutlined />}
+						className="absolute top-[10px] right-[120px] z-50"
+						onClick={handleImport}
+					>
+						确认导入
+					</Button>
+				)}
+
 				<CopyToClipboard onCopy={handleCopyed} text={code}>
 					<Button
 						type="dashed"

@@ -147,3 +147,39 @@ export const setElOpt = (
 		}
 	}
 };
+
+// 没有必需的key
+const noReuiredKey = (key: string, item: object) => {
+	throw new Error(
+		`数组项必需存在：${key}，\n 错误位置：${JSON.stringify(item)}`,
+	);
+};
+// 不符合的枚举值
+const nonEnumValue = (value: string, item: object) => {
+	throw new Error(`错误的取值：${value}，\n 错误位置：${JSON.stringify(item)}`);
+};
+/** 验证导入数据的格式 */
+export const verifyImportCode = (data: any) => {
+	if (!Array.isArray(data)) throw new TypeError('必需传入一个数组');
+	if (data.length === 0) return true;
+	for (const item of data) {
+		if (!item) throw new Error('数组项不能为空');
+		if (item.toString() !== '[object Object]')
+			throw new TypeError('数组项必需为object');
+		const keys = Object.keys(item);
+		if (!keys.includes('type')) noReuiredKey('type', item);
+		if (!keys.includes('name')) noReuiredKey('name', item);
+		if (!keys.includes('x')) noReuiredKey('x', item);
+		if (!keys.includes('y')) noReuiredKey('y', item);
+		if (!['image', 'text', 'rect'].includes(item.type))
+			nonEnumValue('type', item.type);
+		if (item.type === 'image' && !item.url) noReuiredKey('url', item);
+		if (item.type === 'text' && !item.fillStyle)
+			noReuiredKey('fillStyle', item);
+		if (item.type === 'text' && !item.font) noReuiredKey('font', item);
+		if (item.type === 'text' && !item.content) noReuiredKey('content', item);
+		if (item.type === 'rect' && !item.fillStyle)
+			noReuiredKey('fillStyle', item);
+	}
+	return true;
+};

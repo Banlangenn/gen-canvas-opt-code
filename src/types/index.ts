@@ -55,7 +55,7 @@ export interface TextOpt extends BaseComponentOpt {
 	/** 文本装饰 目前只支持 line-through 删除线 */
 	textDecoration?: string;
 	/** 画笔透明度 范围 0-1 */
-	alpha: number;
+	alpha?: number;
 }
 
 /** 矩形组件配置 */

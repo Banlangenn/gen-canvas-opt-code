@@ -1,5 +1,5 @@
 import React from 'react';
-import { DeleteFilled, MenuOutlined } from '@ant-design/icons';
+import { DeleteOutlined, MenuOutlined } from '@ant-design/icons';
 import type { DragEndEvent } from '@dnd-kit/core';
 import { DndContext } from '@dnd-kit/core';
 import {
@@ -9,7 +9,7 @@ import {
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Empty, Table, Button, Popconfirm } from 'antd';
+import { Empty, Table, Button } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useCanvasStore } from '../store';
 import { isEqual, cloneDeep } from 'lodash';
@@ -99,25 +99,18 @@ const ComponentList = () => {
 			title: '操作',
 			render: (el) => (
 				<>
-					<Popconfirm
-						title="删除组件"
-						description="确定删除该组件？"
-						okText="确定"
-						cancelText="取消"
-						onConfirm={() => {
+					<Button
+						danger
+						icon={<DeleteOutlined />}
+						onClick={(e) => {
+							e.stopPropagation();
 							updateElList(
 								elList.filter((i) => i.internal.id !== el.internal.id),
 							);
 						}}
 					>
-						<Button
-							danger
-							icon={<DeleteFilled />}
-							onClick={(e) => e.stopPropagation()}
-						>
-							删除
-						</Button>
-					</Popconfirm>
+						删除
+					</Button>
 				</>
 			),
 		},
