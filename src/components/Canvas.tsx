@@ -125,6 +125,25 @@ const Canvas = ({ style }: PropsType) => {
 			width = w + -offsetX;
 		}
 
+		// 四角操作点等比例缩放
+		if (
+			[
+				'pointer-top-left',
+				'pointer-top-right',
+				'pointer-bottom-left',
+				'pointer-bottom-right',
+			].includes(type)
+		) {
+			if (height > width) {
+				width = height;
+				left = x + (type === 'pointer-top-left' ? offsetY : -offsetY);
+			}
+			if (width > height) {
+				height = width;
+				top = y + (type === 'pointer-top-left' ? offsetX : -offsetX);
+			}
+		}
+
 		// 底部和右侧边界
 		const bottom = top + height + 1;
 		const right = left + width + 1;

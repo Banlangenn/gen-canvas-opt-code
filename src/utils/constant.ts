@@ -77,6 +77,6 @@ export const DEFAULT_VALUES: Record<ComponentType, ComponentDefaultOpt> = {
 		/** 绘制方式 strock/fill/both */
 		mode: 'fill',
 		/** 图片圆角 */
-		radius: 50,
+		radius: 999,
 	},
 };
