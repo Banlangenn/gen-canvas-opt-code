@@ -98,6 +98,7 @@ const CodeModal = ({ type = 'export', open, setOpen }: PropsType) => {
 				});
 				message.success('导入成功');
 				updateElList(list);
+				setOpen(false);
 			}
 		} catch (error) {
 			Modal.error({
