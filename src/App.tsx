@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import { ExportOutlined, LeftOutlined, SyncOutlined } from '@ant-design/icons';
 import { useCanvasSizeStore, useCanvasStore } from './store';
 import { ComponentListOpt } from './utils/options';
-import { ComponentType, CodeModalType } from './types';
+import { ComponentType, CodeModalType, MoveDirection } from './types';
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from './utils/constant';
 import Canvas from './components/Canvas';
 import CanvasSizeForm from './components/CanvasSizeForm';
@@ -13,19 +13,14 @@ import CodeModal from './components/CodeModal';
 import Icon from './components/Icon';
 
 function App() {
-	const {
-		cancelActive,
-		clearStore,
-		deleteActivedEl,
-		activedEl,
-		updateActivedEl,
-	} = useCanvasStore((state) => ({
-		activedEl: state.activedEl,
-		updateActivedEl: state.updateActivedEl,
-		cancelActive: state.cancelActive,
-		clearStore: state.clearStore,
-		deleteActivedEl: state.deleteActivedEl,
-	}));
+	const { cancelActive, clearStore, deleteActivedEl, activedEl, moveActiveEl } =
+		useCanvasStore((state) => ({
+			activedEl: state.activedEl,
+			moveActiveEl: state.moveActiveEl,
+			cancelActive: state.cancelActive,
+			clearStore: state.clearStore,
+			deleteActivedEl: state.deleteActivedEl,
+		}));
 	const canvasSize = useCanvasSizeStore((state) => state.size);
 	const updateCanvasSize = useCanvasSizeStore((state) => state.updateSize);
 	const [exportModalOpen, setExportModalOpen] = useState(false);
@@ -72,14 +67,9 @@ function App() {
 			deleteActivedEl();
 		}
 		// 上下左右方向键 移动组件
-		// if (['ArrowUp', 'ArrowDown'].includes(e.code) && activedEl) {
-		// 	const offest = e.code === 'ArrowUp' ? -1 : 1;
-		// 	updateActivedEl({ ...activedEl, y: activedEl.y + offest });
-		// }
-		// if (['ArrowLeft', 'ArrowRight'].includes(e.code) && activedEl) {
-		// 	const offest = e.code === 'ArrowLeft' ? -1 : 1;
-		// 	updateActivedEl({ ...activedEl, x: activedEl.x + offest });
-		// }
+		if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
+			moveActiveEl(e.code as MoveDirection);
+		}
 	};
 
 	return (
@@ -161,5 +151,20 @@ function App() {
 		</div>
 	);
 }
+
+// document.addEventListener('keydown', (e: KeyboardEvent) => {
+// 	// 删除键，删除正在激活的组件
+// 	if (
+// 		e.code === 'Backspace' &&
+// 		// @ts-ignore
+// 		!['INPUT', 'TEXTAREA'].includes(e?.target?.nodeName)
+// 	) {
+// 		useCanvasStore().deleteActivedEl();
+// 	}
+// 	// 上下左右方向键 移动组件
+// 	if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
+// 		useCanvasStore().moveActiveEl(e.code as MoveDirection);
+// 	}
+// });
 
 export default App;

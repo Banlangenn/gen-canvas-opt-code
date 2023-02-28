@@ -3,7 +3,7 @@ import { cloneDeep } from 'lodash';
 import { devtools, persist } from 'zustand/middleware';
 import produce from 'immer';
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from './../utils/constant';
-import { ComponentUniType } from '../types';
+import { ComponentUniType, MoveDirection } from '../types';
 
 interface CanvasSizeStoreType {
 	size: {
@@ -67,6 +67,8 @@ interface CanvasStoreType {
 	clearStore: () => void;
 	/** 设置 hover */
 	setHoveredEl: (id: string | null) => void;
+	/** 上下左右微调组件位置 */
+	moveActiveEl: (type: MoveDirection) => void;
 }
 
 /** 画布状态 */
@@ -133,6 +135,20 @@ export const useCanvasStore = create<CanvasStoreType>()(
 					set((state) =>
 						produce(state, (draftState) => {
 							draftState.hoveredElId = id;
+						}),
+					),
+				moveActiveEl: (type) =>
+					set((state) =>
+						produce(state, (draftState) => {
+							if (!draftState.activedEl) return;
+							if (['ArrowUp', 'ArrowDown'].includes(type)) {
+								draftState.activedEl.y =
+									draftState.activedEl.y + (type === 'ArrowUp' ? -1 : 1);
+							}
+							if (['ArrowLeft', 'ArrowRight'].includes(type)) {
+								draftState.activedEl.x =
+									draftState.activedEl.x + (type === 'ArrowLeft' ? -1 : 1);
+							}
 						}),
 					),
 			}),

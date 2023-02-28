@@ -105,3 +105,10 @@ export type ComponentDefaultOpt =
 
 /** 代码弹窗类型 */
 export type CodeModalType = 'export' | 'import';
+
+/** 微调移动类型 */
+export type MoveDirection =
+	| 'ArrowUp'
+	| 'ArrowDown'
+	| 'ArrowLeft'
+	| 'ArrowRight';

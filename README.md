@@ -241,5 +241,5 @@ export type ComponentUniType = ComponentOptMap[ComponentType];
 
 ## PREF
 
-- 上下左右方向键移动组件
+- 上下左右方向键移动组件 ✅
 - 表单回车、步进时更新状态 ✅
