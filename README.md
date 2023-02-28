@@ -239,12 +239,8 @@ export type ComponentUniType = ComponentOptMap[ComponentType];
 
 - 往左或往上移动超出画布时偏移量过大
 
-## TODO
-
-- 导入代码
-- hover 到组件列表项时显示对应组件的 hover 状态
-
 ## PREF
 
+- 四个操作点限制为等比例缩放
 - 上下左右方向键移动组件
 - 表单回车、步进时更新状态
