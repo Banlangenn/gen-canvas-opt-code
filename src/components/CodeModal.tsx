@@ -91,8 +91,10 @@ const CodeModal = ({ type = 'export', open, setOpen }: PropsType) => {
 			const list = JSON.parse(code);
 			if (verifyImportCode(list)) {
 				list.forEach((item: any, index: number) => {
-					item.internal.id = nanoid();
-					item.internal.index = index;
+					item.internal = {
+						id: nanoid(),
+						index,
+					};
 				});
 				message.success('导入成功');
 				updateElList(list);
