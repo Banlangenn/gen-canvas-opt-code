@@ -241,6 +241,5 @@ export type ComponentUniType = ComponentOptMap[ComponentType];
 
 ## PREF
 
-- 四个操作点限制为等比例缩放
 - 上下左右方向键移动组件
 - 表单回车、步进时更新状态

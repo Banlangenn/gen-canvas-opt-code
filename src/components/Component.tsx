@@ -63,7 +63,7 @@ const Component = ({ options, isActive }: ComponentPropsType) => {
 								options.rowCount || 1,
 							)}`}
 							style={{
-								opacity: options.alpha || 1,
+								opacity: options.alpha ?? 1,
 							}}
 						>
 							{options.content}

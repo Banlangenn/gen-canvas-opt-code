@@ -92,7 +92,10 @@ export interface OptionsMapType {
 }
 
 /** 组件配置表单 */
-export const getComponentOption = (type: ComponentType) => {
+export const getComponentOption = (
+	type: ComponentType,
+	syncState: () => void,
+) => {
 	if (!type) return [[], []];
 	/** 基础配置 */
 	const baseOptions: OptionsMapType = {
@@ -104,7 +107,14 @@ export const getComponentOption = (type: ComponentType) => {
 				formItemProps: {
 					label: 'X',
 					name: 'x',
-					children: <InputNumber className="min-w-100" min={0} />,
+					children: (
+						<InputNumber
+							className="min-w-100"
+							min={0}
+							onStep={syncState}
+							onPressEnter={syncState}
+						/>
+					),
 				},
 			},
 			{
@@ -114,7 +124,14 @@ export const getComponentOption = (type: ComponentType) => {
 				formItemProps: {
 					label: 'Y',
 					name: 'y',
-					children: <InputNumber className="min-w-100" min={0} />,
+					children: (
+						<InputNumber
+							className="min-w-100"
+							min={0}
+							onStep={syncState}
+							onPressEnter={syncState}
+						/>
+					),
 				},
 			},
 			{
@@ -124,7 +141,14 @@ export const getComponentOption = (type: ComponentType) => {
 				formItemProps: {
 					label: '宽',
 					name: 'width',
-					children: <InputNumber className="min-w-100" min={0} />,
+					children: (
+						<InputNumber
+							className="min-w-100"
+							min={0}
+							onStep={syncState}
+							onPressEnter={syncState}
+						/>
+					),
 				},
 			},
 			{
@@ -134,7 +158,14 @@ export const getComponentOption = (type: ComponentType) => {
 				formItemProps: {
 					label: '高',
 					name: 'height',
-					children: <InputNumber className="min-w-100" min={0} />,
+					children: (
+						<InputNumber
+							className="min-w-100"
+							min={0}
+							onStep={syncState}
+							onPressEnter={syncState}
+						/>
+					),
 				},
 			},
 			{
@@ -162,7 +193,7 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '地址',
 						name: 'url',
-						children: <Input className="w-[280px]" />,
+						children: <Input className="w-[280px]" onPressEnter={syncState} />,
 					},
 				},
 			],
@@ -174,7 +205,14 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '圆角',
 						name: 'radius',
-						children: <InputNumber className="min-w-100" min={0} />,
+						children: (
+							<InputNumber
+								className="min-w-100"
+								min={0}
+								onStep={syncState}
+								onPressEnter={syncState}
+							/>
+						),
 					},
 				},
 			],
@@ -188,7 +226,13 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '颜色',
 						name: 'fillStyle',
-						children: <Input className="min-w-100" type="color" />,
+						children: (
+							<Input
+								className="min-w-100"
+								type="color"
+								onPressEnter={syncState}
+							/>
+						),
 					},
 				},
 				{
@@ -199,7 +243,10 @@ export const getComponentOption = (type: ComponentType) => {
 						label: '字体相关',
 						name: 'font',
 						children: (
-							<Input placeholder="示例：normal 400 14px PingFangSC-Regular" />
+							<Input
+								placeholder="示例：normal 400 14px PingFangSC-Regular"
+								onPressEnter={syncState}
+							/>
 						),
 					},
 				},
@@ -210,7 +257,7 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '内容',
 						name: 'content',
-						children: <Input.TextArea />,
+						children: <Input.TextArea onPressEnter={syncState} />,
 					},
 				},
 			],
@@ -224,6 +271,7 @@ export const getComponentOption = (type: ComponentType) => {
 						name: 'align',
 						children: (
 							<Select
+								onChange={syncState}
 								options={[
 									{ value: 'left', label: '左' },
 									{ value: 'center', label: '中' },
@@ -242,6 +290,7 @@ export const getComponentOption = (type: ComponentType) => {
 						name: 'baseline',
 						children: (
 							<Select
+								onChange={syncState}
 								options={[
 									{ value: 'top', label: '上' },
 									{ value: 'middle', label: '中' },
@@ -258,7 +307,14 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '最大宽度',
 						name: 'maxWidth',
-						children: <InputNumber className="min-w-100" min={0} />,
+						children: (
+							<InputNumber
+								className="min-w-100"
+								min={0}
+								onStep={syncState}
+								onPressEnter={syncState}
+							/>
+						),
 					},
 				},
 				{
@@ -268,7 +324,14 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '最多行数',
 						name: 'rowCount',
-						children: <InputNumber className="min-w-100" min={1} />,
+						children: (
+							<InputNumber
+								className="min-w-100"
+								min={1}
+								onStep={syncState}
+								onPressEnter={syncState}
+							/>
+						),
 					},
 				},
 				{
@@ -278,7 +341,14 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '行高',
 						name: 'lineHeight',
-						children: <InputNumber className="min-w-100" min={0} />,
+						children: (
+							<InputNumber
+								className="min-w-100"
+								min={0}
+								onStep={syncState}
+								onPressEnter={syncState}
+							/>
+						),
 					},
 				},
 				{
@@ -288,8 +358,16 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '透明度',
 						name: 'alpha',
+						tooltip: '取值0-1',
 						children: (
-							<InputNumber className="min-w-100" min={0} step={0.1} max={1} />
+							<InputNumber
+								className="min-w-100"
+								min={0}
+								step={0.1}
+								max={1}
+								onStep={syncState}
+								onPressEnter={syncState}
+							/>
 						),
 					},
 				},
@@ -301,7 +379,10 @@ export const getComponentOption = (type: ComponentType) => {
 						label: '文本装饰',
 						name: 'textDecoration',
 						children: (
-							<Select options={[{ value: 'line-through', label: '删除线' }]} />
+							<Select
+								onChange={syncState}
+								options={[{ value: 'line-through', label: '删除线' }]}
+							/>
 						),
 					},
 				},
@@ -328,6 +409,7 @@ export const getComponentOption = (type: ComponentType) => {
 						name: 'mode',
 						children: (
 							<Select
+								onChange={syncState}
 								options={[
 									{ value: 'fill', label: '填充内容区域' },
 									{ value: 'stroke', label: '填充边框' },
@@ -346,7 +428,14 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '圆角',
 						name: 'radius',
-						children: <InputNumber className="min-w-100" min={0} />,
+						children: (
+							<InputNumber
+								className="min-w-100"
+								min={0}
+								onStep={syncState}
+								onPressEnter={syncState}
+							/>
+						),
 					},
 				},
 				{
@@ -356,7 +445,14 @@ export const getComponentOption = (type: ComponentType) => {
 					formItemProps: {
 						label: '边框宽度',
 						name: 'lineWidth',
-						children: <InputNumber className="min-w-100" min={0} />,
+						children: (
+							<InputNumber
+								className="min-w-100"
+								min={0}
+								onStep={syncState}
+								onPressEnter={syncState}
+							/>
+						),
 					},
 				},
 				{

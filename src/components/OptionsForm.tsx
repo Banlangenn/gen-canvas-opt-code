@@ -29,7 +29,10 @@ const OptionsForm = () => {
 
 	useEffect(() => {
 		/** requiredOpt: 必有字段 optionalOpt: 可选字段 */
-		const [requiredOpt, optionalOpt] = getComponentOption(activedEl.type);
+		const [requiredOpt, optionalOpt] = getComponentOption(
+			activedEl.type,
+			handleSyncState,
+		);
 		/** 根据必有字段和可选字段中有值的字段得出 */
 		const items: OptionType[] = [];
 
@@ -94,8 +97,8 @@ const OptionsForm = () => {
 		deleteActivedEl();
 	};
 
-	// 失去焦点，同步状态
-	const handleBlur = () => {
+	// 同步状态
+	const handleSyncState = () => {
 		const values = form.getFieldsValue();
 		updateActivedEl({
 			...activedEl,
@@ -139,7 +142,7 @@ const OptionsForm = () => {
 								message.info(
 									'生成图片的地址仅供本地临时使用，导出时需要自行修改为有效地址',
 								);
-								handleBlur();
+								handleSyncState();
 								return false;
 							}}
 						>
@@ -154,7 +157,7 @@ const OptionsForm = () => {
 	};
 
 	return (
-		<Form form={form} onBlur={handleBlur}>
+		<Form form={form} onBlur={handleSyncState}>
 			<Row gutter={[20, 20]}>
 				{formItems.map((item, index) => (
 					<Col key={index} {...item.colProps}>

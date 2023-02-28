@@ -25,6 +25,7 @@ const styles = {
 	root: {
 		boxSizing: 'border-box',
 		fontFamily: 'Menlo, Monaco, "Courier New", monospace',
+		borderRadius: 10,
 		...theme.plain,
 	},
 };
