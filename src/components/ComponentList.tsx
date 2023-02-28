@@ -135,7 +135,10 @@ const ComponentList = () => {
 						return {
 							onMouseEnter: () => setHoveredEl(record.internal.id), // 鼠标移入行
 							onMouseLeave: () => setHoveredEl(null),
-							onClick: () => activeEl(record),
+							onClick: () => {
+								activeEl(record);
+								setHoveredEl(null);
+							},
 						};
 					}}
 					showSorterTooltip={false}
