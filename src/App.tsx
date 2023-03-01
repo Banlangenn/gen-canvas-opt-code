@@ -58,7 +58,6 @@ function App() {
 
 	// 键盘按下
 	const handleKeyDown = (e: KeyboardEvent) => {
-		console.log('[ e.code ] >', e.code);
 		// 删除键，删除正在激活的组件
 		if (
 			e.code === 'Backspace' &&

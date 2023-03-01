@@ -33,7 +33,7 @@ const SideBar = ({
 						: '5px 0 20px 0 rgba(0,0,0,0.25)',
 			}}
 		>
-			<div className="bg-[#cccccc50] h-[60px] flex items-center justify-between text-444 text-24 font-medium sticky top-0 z-50 left-0 px-16">
+			<div className="bg-[#f5f5f5] h-[60px] flex items-center justify-between text-333 text-22 font-medium sticky top-0 z-50 left-0 px-16">
 				{titleLeft || <div />}
 				{title}
 				{titleRight || <div />}
