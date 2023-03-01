@@ -58,6 +58,7 @@ function App() {
 
 	// 键盘按下
 	const handleKeyDown = (e: KeyboardEvent) => {
+		console.log('[ e.code ] >', e.code);
 		// 删除键，删除正在激活的组件
 		if (
 			e.code === 'Backspace' &&
@@ -69,6 +70,11 @@ function App() {
 		// 上下左右方向键 移动组件
 		if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
 			moveActiveEl(e.code as MoveDirection);
+		}
+
+		// Esc 取消选择
+		if (e.code === 'Escape') {
+			cancelActive();
 		}
 	};
 

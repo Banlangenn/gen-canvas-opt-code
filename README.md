@@ -244,3 +244,16 @@ export type ComponentUniType = ComponentOptMap[ComponentType];
 
 - 上下左右方向键移动组件 ✅
 - 表单回车、步进时更新状态 ✅
+
+## 使用教程
+
+### 快捷键
+
+#### 选中元素时
+
+- **ArrowUp 上箭头** 向上移动元素
+- **ArrowDown 下箭头** 向下移动元素
+- **ArrowLeft 左箭头** 向左移动元素
+- **ArrowRight 右箭头** 向右移动元素
+- **Backspace 删除键** 删除选中的元素
+- **Escape Esc** 取消选中元素
