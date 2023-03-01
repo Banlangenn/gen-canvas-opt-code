@@ -238,6 +238,7 @@ export type ComponentUniType = ComponentOptMap[ComponentType];
 ## BUGS
 
 - 往左或往上移动超出画布时偏移量过大
+- 文本组件的宽高问题 ✅
 
 ## PREF
 

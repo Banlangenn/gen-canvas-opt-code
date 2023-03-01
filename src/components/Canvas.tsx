@@ -87,7 +87,8 @@ const Canvas = ({ style }: PropsType) => {
 		const target = e.target as ElTargetType;
 		const { type, actived } = target.dataset;
 
-		if (!type || !actived) return;
+		if (!type || !actived || (type !== 'move' && activedEl?.type === 'text'))
+			return;
 		crtOperElRef.current = {
 			type,
 			mouseX: e.clientX,

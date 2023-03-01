@@ -13,24 +13,24 @@
 		height: 6px;
 		position: absolute;
 		background: theme('colors.white');
-		border: 2px solid theme('colors.primary');
+		border: 1px solid theme('colors.primary');
 		-webkit-user-drag: none;
 		user-select: none;
 		&-top-left {
-			top: -6px;
-			left: -6px;
+			top: -5px;
+			left: -5px;
 		}
 		&-top-right {
-			top: -6px;
-			right: -6px;
+			top: -5px;
+			right: -5px;
 		}
 		&-bottom-left {
-			bottom: -6px;
-			left: -6px;
+			bottom: -5px;
+			left: -5px;
 		}
 		&-bottom-right {
-			bottom: -6px;
-			right: -6px;
+			bottom: -5px;
+			right: -5px;
 		}
 	}
 
@@ -42,28 +42,28 @@
 		user-select: none;
 		&-top,
 		&-bottom {
-			height: 2px;
+			height: 1px;
 			width: 100%;
 		}
 		&-top {
-			top: -2px;
+			top: -1px;
 			left: 0;
 		}
 		&-bottom {
-			bottom: -2px;
+			bottom: -1px;
 			left: 0;
 		}
 		&-left,
 		&-right {
 			height: 100%;
-			width: 2px;
+			width: 1px;
 		}
 		&-left {
-			left: -2px;
+			left: -1px;
 			top: 0;
 		}
 		&-right {
-			right: -2px;
+			right: -1px;
 			top: 0;
 		}
 	}
@@ -71,14 +71,14 @@
 	/** 标尺线 */
 	.ruler-line {
 		width: 100%;
-		height: 2px;
+		height: 1px;
 		background-color: theme('colors.orange');
 		position: relative;
 		&::before {
 			display: inline-block;
 			position: absolute;
 			content: '';
-			width: 2px;
+			width: 1px;
 			height: 9px;
 			background-color: theme('colors.orange');
 			top: -4px;
@@ -88,7 +88,7 @@
 			display: inline-block;
 			position: absolute;
 			content: '';
-			width: 2px;
+			width: 1px;
 			height: 9px;
 			background-color: theme('colors.orange');
 			top: -4px;

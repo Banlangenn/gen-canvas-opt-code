@@ -8,6 +8,7 @@ import {
 	RectOpt,
 } from '../types';
 import { DEFAULT_VALUES } from './constant';
+import { verticalAlignMap } from './options';
 
 /** 获取画布元素默认配置 */
 export const getElDefaultOpt = (type: ComponentType) => {
@@ -44,6 +45,7 @@ export const getElDefaultOpt = (type: ComponentType) => {
 			x,
 			y,
 			lineHeight: defaultOpt.lineHeight,
+			maxWidth: defaultOpt.maxWidth,
 			name,
 			content: defaultOpt.content,
 			font: defaultOpt.font,
@@ -115,9 +117,12 @@ export const setElOpt = (
 			style.fontFamily = fontFamily;
 			// @ts-ignore
 			style.color = opt.fillStyle;
-			style.textAlign = opt.align || 'left';
-			opt.baseline && (style.verticalAlign = opt.baseline);
+			style.display = 'flex';
+			style.justifyContent = opt.align || 'left';
+			opt.baseline && (style.alignItems = verticalAlignMap[opt.baseline]);
 			opt.lineHeight && (style.lineHeight = `${opt.lineHeight}px`);
+			style.height = opt.lineHeight || 'auto';
+			style.width = opt.maxWidth || 'auto';
 			opt.textDecoration && (style.textDecoration = opt.textDecoration);
 			if (opt.rowCount && opt.rowCount > 0) {
 				style.height = Math.round(
@@ -125,7 +130,6 @@ export const setElOpt = (
 				);
 			}
 			if (opt.maxWidth && opt.maxWidth > 0) {
-				style.width = opt.maxWidth;
 				style.maxWidth = opt.maxWidth;
 			}
 			break;

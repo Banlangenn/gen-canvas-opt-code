@@ -69,58 +69,66 @@ const Component = ({ options, isActive }: ComponentPropsType) => {
 							{options.content}
 						</div>
 					)}
-					{isActive && (
-						<>
-							<div
-								className="line line-top cursor-ns-resize"
-								data-type="line-top"
-								data-actived={isActive}
-								draggable={false}
-							></div>
-							<div
-								className="line line-bottom cursor-ns-resize"
-								data-type="line-bottom"
-								data-actived={isActive}
-								draggable={false}
-							></div>
-							<div
-								className="line line-left cursor-ew-resize"
-								data-type="line-left"
-								data-actived={isActive}
-								draggable={false}
-							></div>
-							<div
-								className="line line-right cursor-ew-resize"
-								data-type="line-right"
-								data-actived={isActive}
-								draggable={false}
-							></div>
-							<div
-								className="pointer pointer-top-left cursor-nwse-resize"
-								data-type="pointer-top-left"
-								data-actived={isActive}
-								draggable={false}
-							></div>
-							<div
-								className="pointer pointer-top-right cursor-nesw-resize"
-								data-type="pointer-top-right"
-								data-actived={isActive}
-								draggable={false}
-							></div>
-							<div
-								className="pointer pointer-bottom-left cursor-nesw-resize"
-								data-type="pointer-bottom-left"
-								data-actived={isActive}
-								draggable={false}
-							></div>
-							<div
-								className="pointer pointer-bottom-right cursor-nwse-resize"
-								data-type="pointer-bottom-right"
-								data-actived={isActive}
-								draggable={false}
-							></div>
-						</>
-					)}
+					{isActive &&
+						(options.type === 'text' ? (
+							<>
+								<div className="line line-top" draggable={false}></div>
+								<div className="line line-bottom" draggable={false}></div>
+								<div className="line line-left" draggable={false}></div>
+								<div className="line line-right" draggable={false}></div>
+							</>
+						) : (
+							<>
+								<div
+									className="line line-top cursor-ns-resize"
+									data-type="line-top"
+									data-actived={isActive}
+									draggable={false}
+								></div>
+								<div
+									className="line line-bottom cursor-ns-resize"
+									data-type="line-bottom"
+									data-actived={isActive}
+									draggable={false}
+								></div>
+								<div
+									className="line line-left cursor-ew-resize"
+									data-type="line-left"
+									data-actived={isActive}
+									draggable={false}
+								></div>
+								<div
+									className="line line-right cursor-ew-resize"
+									data-type="line-right"
+									data-actived={isActive}
+									draggable={false}
+								></div>
+								<div
+									className="pointer pointer-top-left cursor-nwse-resize"
+									data-type="pointer-top-left"
+									data-actived={isActive}
+									draggable={false}
+								></div>
+								<div
+									className="pointer pointer-top-right cursor-nesw-resize"
+									data-type="pointer-top-right"
+									data-actived={isActive}
+									draggable={false}
+								></div>
+								<div
+									className="pointer pointer-bottom-left cursor-nesw-resize"
+									data-type="pointer-bottom-left"
+									data-actived={isActive}
+									draggable={false}
+								></div>
+								<div
+									className="pointer pointer-bottom-right cursor-nwse-resize"
+									data-type="pointer-bottom-right"
+									data-actived={isActive}
+									draggable={false}
+								></div>
+							</>
+						))}
 				</>
 			}
 		/>

@@ -134,40 +134,46 @@ export const getComponentOption = (
 					),
 				},
 			},
-			{
-				colProps: {
-					span: 12,
-				},
-				formItemProps: {
-					label: '宽',
-					name: 'width',
-					children: (
-						<InputNumber
-							className="min-w-100"
-							min={0}
-							onStep={syncState}
-							onPressEnter={syncState}
-						/>
-					),
-				},
-			},
-			{
-				colProps: {
-					span: 12,
-				},
-				formItemProps: {
-					label: '高',
-					name: 'height',
-					children: (
-						<InputNumber
-							className="min-w-100"
-							min={0}
-							onStep={syncState}
-							onPressEnter={syncState}
-						/>
-					),
-				},
-			},
+			// 文本组件不能修改宽高
+			...(type !== 'text'
+				? [
+						{
+							colProps: {
+								span: 12,
+							},
+							formItemProps: {
+								label: '宽',
+								name: 'width',
+								children: (
+									<InputNumber
+										className="min-w-100"
+										min={0}
+										onStep={syncState}
+										onPressEnter={syncState}
+									/>
+								),
+							},
+						},
+						{
+							colProps: {
+								span: 12,
+							},
+							formItemProps: {
+								label: '高',
+								name: 'height',
+								children: (
+									<InputNumber
+										className="min-w-100"
+										min={0}
+										onStep={syncState}
+										onPressEnter={syncState}
+									/>
+								),
+							},
+						},
+				  ]
+				: []),
+
 			{
 				colProps: {
 					span: 24,
@@ -490,4 +496,11 @@ export const lineClampMap = (row: number) => {
 		10: 'line-clamp-10',
 	};
 	return maps[row];
+};
+
+/** 垂直对齐 */
+export const verticalAlignMap: any = {
+	top: 'start',
+	middle: 'center',
+	bottom: 'end',
 };
