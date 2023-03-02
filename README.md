@@ -240,6 +240,10 @@ export type ComponentUniType = ComponentOptMap[ComponentType];
 - 往左或往上移动超出画布时偏移量过大
 - 文本组件的宽高问题 ✅
 
+## TODOS
+
+- cv 复制粘贴正在激活的组件，粘贴时组件 x、y 加 5；
+
 ## PREF
 
 - 上下左右方向键移动组件 ✅

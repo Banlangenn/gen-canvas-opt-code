@@ -1,13 +1,12 @@
 import {
 	PictureOutlined,
-	FontSizeOutlined,
 	BorderOutlined,
 	MinusOutlined,
-	Loading3QuartersOutlined,
 } from '@ant-design/icons';
 import { InputNumber, ColProps, FormItemProps, Input, Select } from 'antd';
 import Icon from '../components/Icon';
 import { ComponentType } from '../types';
+import ColorPicker from '../components/ColorPicker';
 
 /** 组件列表 */
 export const ComponentListOpt = [
@@ -232,13 +231,7 @@ export const getComponentOption = (
 					formItemProps: {
 						label: '颜色',
 						name: 'fillStyle',
-						children: (
-							<Input
-								className="min-w-100"
-								type="color"
-								onPressEnter={syncState}
-							/>
-						),
+						children: <ColorPicker onComplete={syncState} />,
 					},
 				},
 				{
@@ -403,7 +396,10 @@ export const getComponentOption = (
 					formItemProps: {
 						label: '填充颜色',
 						name: 'fillStyle',
-						children: <Input className="min-w-100" type="color" />,
+						style: {
+							width: 130,
+						},
+						children: <ColorPicker onComplete={syncState} />,
 					},
 				},
 				{
@@ -468,7 +464,7 @@ export const getComponentOption = (
 					formItemProps: {
 						label: '边框颜色',
 						name: 'strokeStyle',
-						children: <Input className="min-w-100" type="color" />,
+						children: <ColorPicker onComplete={syncState} />,
 					},
 				},
 			],

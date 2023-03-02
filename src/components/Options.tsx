@@ -3,7 +3,6 @@ import { useCanvasStore } from '../store';
 
 import ComponentList from './ComponentList';
 import OptionsForm from './OptionsForm';
-
 /** 组件配置 */
 const Options = () => {
 	const activedEl = useCanvasStore((state) => state.activedEl);
