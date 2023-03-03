@@ -31,26 +31,14 @@ interface CanvasSizeStoreType {
 
 #### 画布内容 store
 
-画布内容 store 中有 `elList` 和 `activedEl` 两个状态：
-
-- `elList`：画布中的组件列表，渲染时将正在激活的组件从列表中剔除；
-- `activedEl`：当前激活的组件，画布中使用该状态单独渲染组件，后续在画布或配置栏操作该组件时，只需单独更新该组件的状态。
-
-更新状态：
-
-- `addEl`：添加一个新的组件，更新组件列表，添加组件后应该立即调用 `activeEl` 方法来激活该组件；
-- `activeEl`：激活组件，将该组件状态添加到 `activedEl`，将上一个激活的组件（如果有）同步到组件列表中；
-- `updateActivedEl`：更新当前激活的组件的状态，在画布或配置栏中操作激活的组件时，使用该方法来更新状态；
-- `cancelActive`：取消激活，将当前激活的组件同步到组件列表，取消组件的激活状态；
-- `deleteActivedEl`： 删除正在激活的组件，重置激活组件；
-- `clearStore`：清空画布（重置 store）。
-
 ```ts
 interface CanvasStoreType {
 	/** 画布中的组件列表 */
 	elList: ComponentUniType[];
 	/** 当前激活的组件 */
 	activedEl: ComponentUniType | null;
+	/** 当前组件列表中 hover 的组件 */
+	hoveredElId: string | null;
 	/** 添加组件 */
 	addEl: (el: ComponentUniType) => void;
 	/** 激活组件，将上一次激活的组件(如果有的话)同步到列表 */
@@ -61,8 +49,14 @@ interface CanvasStoreType {
 	cancelActive: () => void;
 	/** 删除正在激活的组件 */
 	deleteActivedEl: () => void;
+	/** 更新组件列表 */
+	updateElList: (list: ComponentUniType[]) => void;
 	/** 清空画布(重置store) */
 	clearStore: () => void;
+	/** 设置 hover */
+	setHoveredEl: (id: string | null) => void;
+	/** 上下左右微调组件位置 */
+	moveActiveEl: (type: MoveDirection) => void;
 }
 ```
 
@@ -88,7 +82,7 @@ interface CanvasStoreType {
 
 ```ts
 /** 组件类型 */
-export type ComponentType = 'image' | 'text' | 'rect';
+export type ComponentType = 'image' | 'text' | 'rect' | 'line' | 'circle';
 
 /** 组件基础配置 */
 export interface BaseComponentOpt {
@@ -107,7 +101,7 @@ export interface BaseComponentOpt {
 	/** 内置状态 用于组件交互 导出代码时过滤掉 */
 	internal: {
 		/** 组件 id */
-		id: number;
+		id: string;
 		/** 组件层级 */
 		index: number;
 	};
@@ -144,7 +138,7 @@ export interface TextOpt extends BaseComponentOpt {
 	/** 文本装饰 目前只支持 line-through 删除线 */
 	textDecoration?: string;
 	/** 画笔透明度 范围 0-1 */
-	alpha: number;
+	alpha?: number;
 }
 
 /** 矩形组件配置 */
@@ -162,10 +156,18 @@ export interface RectOpt extends BaseComponentOpt {
 	mode?: 'fill' | 'stroke' | 'both';
 }
 
+/** 线组件配置 */
+export interface LineOpt extends RectOpt {}
+
+/** 圆组件配置 */
+export interface CircleOpt extends RectOpt {}
+
 export interface ComponentOptMap {
 	image: ImageOpt;
 	text: TextOpt;
 	rect: RectOpt;
+	line: LineOpt;
+	circle: CircleOpt;
 }
 
 /** 组件联合类型 */
@@ -213,20 +215,22 @@ export type ComponentUniType = ComponentOptMap[ComponentType];
 - 剩余的的可选字段存储到 `optionalItems` 列表中，添加按钮的 `Dropdown` 使用 `optionalItems` 渲染，选择其中的字段时，给当前激活的组件添加对应的属性；
 - 点击删除按钮时，触发 store 中的 `deleteActivedEl` 方法。
 
-#### 导出代码弹窗
+#### 导出导入代码弹窗
 
 功能点：
 
 - 高亮显示格式化后的小程序画海报需要的 `json` 代码；
 - 支持编辑代码；
-- 支持复制代码；。
+- 支持复制代码；
+- 支持导入代码.
 
 实现：
 
 - 从画布内容 store 中取出 `elList` 组件列表，遍历组件列表，剔除里面的 `internal` 属性（小程序不需要此属性），使用 `JSON.stringify` 序列化处理后的 `elList` 列表；
 - 使用 `prettier` 中的 `format` 来格式化 `json` 字符串；
 - 使用 `react-simple-code-editor` 和 `prism-react-renderer` 来支持可编辑和高亮显示 `json` 代码；
-- 使用 `react-copy-to-clipboard` 复制代码。
+- 使用 `react-copy-to-clipboard` 复制代码；
+- 编写验证方法验证导出的 JSON 代码。
 
 ## 画布性能优化
 
