@@ -3,7 +3,12 @@ import { Button } from 'antd';
 import { ExportOutlined, LeftOutlined, SyncOutlined } from '@ant-design/icons';
 import { useCanvasSizeStore, useCanvasStore } from './store';
 import { ComponentListOpt } from './utils/options';
-import { ComponentType, CodeModalType, MoveDirection } from './types';
+import {
+	ComponentType,
+	CodeModalType,
+	MoveDirection,
+	ComponentUniType,
+} from './types';
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from './utils/constant';
 import Canvas from './components/Canvas';
 import CanvasSizeForm from './components/CanvasSizeForm';
@@ -11,16 +16,32 @@ import SideBar from './components/SideBar';
 import Options from './components/Options';
 import CodeModal from './components/CodeModal';
 import Icon from './components/Icon';
+import { cloneDeep } from 'lodash';
+import { nanoid } from 'nanoid';
+
+/** 剪贴板 */
+let clipboardEl: ComponentUniType | null = null;
 
 function App() {
-	const { cancelActive, clearStore, deleteActivedEl, activedEl, moveActiveEl } =
-		useCanvasStore((state) => ({
-			activedEl: state.activedEl,
-			moveActiveEl: state.moveActiveEl,
-			cancelActive: state.cancelActive,
-			clearStore: state.clearStore,
-			deleteActivedEl: state.deleteActivedEl,
-		}));
+	const {
+		cancelActive,
+		clearStore,
+		deleteActivedEl,
+		activedEl,
+		elList,
+		moveActiveEl,
+		activeEl,
+		addEl,
+	} = useCanvasStore((state) => ({
+		activedEl: state.activedEl,
+		elList: state.elList,
+		moveActiveEl: state.moveActiveEl,
+		cancelActive: state.cancelActive,
+		clearStore: state.clearStore,
+		deleteActivedEl: state.deleteActivedEl,
+		activeEl: state.activeEl,
+		addEl: state.addEl,
+	}));
 	const canvasSize = useCanvasSizeStore((state) => state.size);
 	const updateCanvasSize = useCanvasSizeStore((state) => state.updateSize);
 	const [exportModalOpen, setExportModalOpen] = useState(false);
@@ -74,6 +95,22 @@ function App() {
 		// Esc 取消选择
 		if (e.code === 'Escape') {
 			cancelActive();
+		}
+
+		// 复制
+		if ((e.ctrlKey || e.metaKey) && e.code === 'KeyC') {
+			if (activedEl) {
+				clipboardEl = cloneDeep(activedEl);
+				clipboardEl.x += 5;
+				clipboardEl.y += 5;
+				clipboardEl.internal.id = nanoid();
+				clipboardEl.internal.index = elList.length;
+			}
+		}
+		// 粘贴
+		if ((e.ctrlKey || e.metaKey) && e.code === 'KeyV' && clipboardEl) {
+			addEl(clipboardEl);
+			activeEl(clipboardEl);
 		}
 	};
 
@@ -156,20 +193,5 @@ function App() {
 		</div>
 	);
 }
-
-// document.addEventListener('keydown', (e: KeyboardEvent) => {
-// 	// 删除键，删除正在激活的组件
-// 	if (
-// 		e.code === 'Backspace' &&
-// 		// @ts-ignore
-// 		!['INPUT', 'TEXTAREA'].includes(e?.target?.nodeName)
-// 	) {
-// 		useCanvasStore().deleteActivedEl();
-// 	}
-// 	// 上下左右方向键 移动组件
-// 	if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
-// 		useCanvasStore().moveActiveEl(e.code as MoveDirection);
-// 	}
-// });
 
 export default App;
