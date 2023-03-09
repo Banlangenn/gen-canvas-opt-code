@@ -247,6 +247,12 @@ export type ComponentUniType = ComponentOptMap[ComponentType];
 ## TODOS
 
 - cv 复制粘贴正在激活的组件，粘贴时组件 x、y 加 5；
+- 强耦合的属性，一起加
+- 填充模式和背景颜色边框颜色联动
+- 点击灰色背景区域取消选中
+- 选中元素是不在最上面
+- name 放到最上面
+- 内置圆属性，导出时计算宽度的一般圆角，圆属性不能单独修改宽高，只能等比例修改
 
 ## PREF
 

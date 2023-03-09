@@ -86,7 +86,7 @@ const ComponentList = () => {
 			key: 'sort',
 		},
 		{
-			title: 'Name',
+			title: '名称',
 			dataIndex: 'name',
 		},
 		{

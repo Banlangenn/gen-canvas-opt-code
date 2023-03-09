@@ -101,6 +101,16 @@ export const getComponentOption = (
 		required: [
 			{
 				colProps: {
+					span: 24,
+				},
+				formItemProps: {
+					label: '名称',
+					name: 'name',
+					children: <Input />,
+				},
+			},
+			{
+				colProps: {
 					span: 12,
 				},
 				formItemProps: {
@@ -172,17 +182,6 @@ export const getComponentOption = (
 						},
 				  ]
 				: []),
-
-			{
-				colProps: {
-					span: 24,
-				},
-				formItemProps: {
-					label: 'name',
-					name: 'name',
-					children: <Input />,
-				},
-			},
 		],
 		optional: [],
 	};
