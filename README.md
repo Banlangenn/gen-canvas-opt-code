@@ -255,6 +255,7 @@ export type ComponentUniType = ComponentOptMap[ComponentType];
 - 内置圆属性，导出时计算宽度的一般圆角，圆属性不能单独修改宽高，只能等比例修改
 - 移动，不能超出画布边界
 - 边框移动上去不闪动
+- 删除操作二次确认
 
 ## PREF
 
