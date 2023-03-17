@@ -10,15 +10,15 @@
 这样做的原因：
 
 1. 视图层直接从 store 存取数据，这样不同的视图可以独立出来，每个视图只关注自己的逻辑；
-2. 在 store 上定义数据格式，确保导出正确的数据；
-3. 视图内部可以使用不同的技术实现（例如 Canvas 和 DOM），只要确保输出的数据一致。
+2. 在 store 上定义数据格式，相当于约束了视图对外的数据格式，确保导出正确的数据；
+3. 视图内部可以使用不同的技术实现（例如 Canvas 和 DOM），只需要确保输出的数据一致即可。
 
 ### 全局状态层
 
 有两个 store：
 
-- 画布尺寸：存储画布的宽高
-- 画布内容：存储画布中的组件列表和当前激活的组件
+- 画布尺寸：存储画布的宽高以及改变宽高的方法；
+- 画布内容：存储画布中的组件数据以及一些改变数据的方法。
 
 #### 画布尺寸 store
 
@@ -238,6 +238,17 @@ export type ComponentUniType = ComponentOptMap[ComponentType];
 - 使用 `react-copy-to-clipboard` 复制代码；
 - 编写验证方法验证导出的 JSON 代码。
 
+## 快捷键
+
+### 选中元素时
+
+- **ArrowUp 上箭头** 向上移动元素
+- **ArrowDown 下箭头** 向下移动元素
+- **ArrowLeft 左箭头** 向左移动元素
+- **ArrowRight 右箭头** 向右移动元素
+- **Backspace 删除键** 删除选中的元素
+- **Escape Esc** 取消选中元素
+
 ## 画布性能优化
 
 ### DOM 版
@@ -267,16 +278,3 @@ export type ComponentUniType = ComponentOptMap[ComponentType];
 
 - 上下左右方向键移动组件 ✅
 - 表单回车、步进时更新状态 ✅
-
-## 使用教程
-
-### 快捷键
-
-#### 选中元素时
-
-- **ArrowUp 上箭头** 向上移动元素
-- **ArrowDown 下箭头** 向下移动元素
-- **ArrowLeft 左箭头** 向左移动元素
-- **ArrowRight 右箭头** 向右移动元素
-- **Backspace 删除键** 删除选中的元素
-- **Escape Esc** 取消选中元素
