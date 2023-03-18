@@ -52,8 +52,8 @@ const operationElDefault: OperationElType = {
 
 /** 画布 */
 const Canvas = ({ style }: PropsType) => {
-	const elList = useCanvasStore((state) => state.elList, isEqual);
-	const activedEl = useCanvasStore((state) => state.activedEl, isEqual);
+	const elList = useCanvasStore((state) => state.elList);
+	const activedEl = useCanvasStore((state) => state.activedEl);
 	const { activeEl, addEl, updateActivedEl, cancelActive } = useCanvasStore(
 		(state) => ({
 			activeEl: state.activeEl,
@@ -274,6 +274,7 @@ const Canvas = ({ style }: PropsType) => {
 				['image', 'text', 'rect'].includes(activedEl?.type || '') && (
 					<Component isActive options={activedEl} />
 				)}
+			{/* x、y标尺线 */}
 			{isMoving && (
 				<>
 					{/* top */}
@@ -305,7 +306,7 @@ const Canvas = ({ style }: PropsType) => {
 					</div>
 				</>
 			)}
-			{/* size */}
+			{/* 宽高值 */}
 			{isReSize && (
 				<div
 					className="bg-primary px-[5px] h-[16px] rounded-4 flex justify-center items-center text-8 text-white select-none absolute z-[999]"

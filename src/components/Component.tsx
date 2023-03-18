@@ -24,7 +24,7 @@ const Component = ({ options, isActive }: ComponentPropsType) => {
 		width: options.width,
 		height: options.height,
 		position: 'absolute',
-		zIndex: activedEl?.internal.index,
+		zIndex: options?.internal.index,
 	};
 	// 特有属性
 	const specific: any = {};
@@ -44,7 +44,7 @@ const Component = ({ options, isActive }: ComponentPropsType) => {
 		<div
 			type={options.type}
 			style={style}
-			className={`${!isActive && !activedEl && 'hover:!el-hover'} ${
+			className={`box-border ${!isActive && 'hover:!el-hover'} ${
 				isActive && 'cursor-move'
 			} ${isHovered && '!el-hover'}`}
 			{...specific}
@@ -129,6 +129,7 @@ const Component = ({ options, isActive }: ComponentPropsType) => {
 								></div>
 							</>
 						))}
+					<div className="w-full h-full hidden hover-border" />
 				</>
 			}
 		/>
