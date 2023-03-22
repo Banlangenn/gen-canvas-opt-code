@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button } from 'antd';
+import { Button, Modal } from 'antd';
 import { ExportOutlined, LeftOutlined, SyncOutlined } from '@ant-design/icons';
 import { useCanvasSizeStore, useCanvasStore } from './store';
 import { ComponentListOpt } from './utils/options';
@@ -13,7 +13,7 @@ import CodeModal from './components/CodeModal';
 import Icon from './components/Icon';
 
 function App() {
-	const { cancelActive, clearStore, deleteActivedEl, activedEl, moveActiveEl } =
+	const { cancelActive, clearStore, activedEl, moveActiveEl, deleteActivedEl } =
 		useCanvasStore((state) => ({
 			activedEl: state.activedEl,
 			moveActiveEl: state.moveActiveEl,
@@ -32,7 +32,7 @@ function App() {
 		return () => {
 			document.removeEventListener('keydown', handleKeyDown);
 		};
-	}, []);
+	}, [activedEl]);
 
 	// 开始拖拽
 	const handleDragStart = (
@@ -60,14 +60,22 @@ function App() {
 	const handleKeyDown = (e: KeyboardEvent) => {
 		// 删除键，删除正在激活的组件
 		if (
+			activedEl &&
 			e.code === 'Backspace' &&
 			// @ts-ignore
 			!['INPUT', 'TEXTAREA'].includes(e?.target?.nodeName)
 		) {
-			deleteActivedEl();
+			Modal.confirm({
+				title: '提示',
+				content: '确定删除该组件吗？',
+				onOk() {
+					deleteActivedEl();
+				},
+			});
 		}
 		// 上下左右方向键 移动组件
 		if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
+			e.preventDefault();
 			moveActiveEl(e.code as MoveDirection);
 		}
 
@@ -156,20 +164,5 @@ function App() {
 		</div>
 	);
 }
-
-// document.addEventListener('keydown', (e: KeyboardEvent) => {
-// 	// 删除键，删除正在激活的组件
-// 	if (
-// 		e.code === 'Backspace' &&
-// 		// @ts-ignore
-// 		!['INPUT', 'TEXTAREA'].includes(e?.target?.nodeName)
-// 	) {
-// 		useCanvasStore().deleteActivedEl();
-// 	}
-// 	// 上下左右方向键 移动组件
-// 	if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
-// 		useCanvasStore().moveActiveEl(e.code as MoveDirection);
-// 	}
-// });
 
 export default App;

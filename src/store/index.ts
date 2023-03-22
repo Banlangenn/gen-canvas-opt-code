@@ -88,11 +88,12 @@ export const useCanvasStore = create<CanvasStoreType>()(
 				activeEl: (el) =>
 					set((state) =>
 						produce(state, (draftState) => {
+							console.log(Object.is(state, draftState));
+
 							if (draftState.activedEl?.internal.id) {
 								const index = draftState.elList.findIndex(
 									(el) => el.internal.id === draftState.activedEl?.internal.id,
 								);
-
 								draftState.elList[index] = cloneDeep(draftState.activedEl);
 							}
 							draftState.activedEl = cloneDeep(el);

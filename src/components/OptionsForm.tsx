@@ -1,5 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Button, Row, Col, Form, Dropdown, Space, Upload, message } from 'antd';
+import {
+	Button,
+	Row,
+	Col,
+	Form,
+	Dropdown,
+	Space,
+	Upload,
+	message,
+	Modal,
+} from 'antd';
 import {
 	PlusOutlined,
 	MinusCircleOutlined,
@@ -94,7 +104,13 @@ const OptionsForm = () => {
 
 	// 删除组件
 	const handleDeleteEl = () => {
-		deleteActivedEl();
+		Modal.confirm({
+			title: '提示',
+			content: '确定删除该组件吗？',
+			onOk() {
+				deleteActivedEl();
+			},
+		});
 	};
 
 	// 同步状态

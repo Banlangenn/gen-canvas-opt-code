@@ -9,7 +9,7 @@ import {
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Empty, Table, Button } from 'antd';
+import { Empty, Table, Button, Modal } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useCanvasStore } from '../store';
 import { isEqual, cloneDeep } from 'lodash';
@@ -104,9 +104,15 @@ const ComponentList = () => {
 						icon={<DeleteOutlined />}
 						onClick={(e) => {
 							e.stopPropagation();
-							updateElList(
-								elList.filter((i) => i.internal.id !== el.internal.id),
-							);
+							Modal.confirm({
+								title: '提示',
+								content: '确认删除该组件？',
+								onOk() {
+									updateElList(
+										elList.filter((i) => i.internal.id !== el.internal.id),
+									);
+								},
+							});
 						}}
 					>
 						删除
