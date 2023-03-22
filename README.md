@@ -263,6 +263,7 @@ export type ComponentUniType = ComponentOptMap[ComponentType];
 - 边框移动上去不闪动 ✅
 - 删除操作二次确认 ✅
 - 文本组件可以直接输入
+- 导出代码弹窗固定高度，局部滚动
 
 ## PREF
 
