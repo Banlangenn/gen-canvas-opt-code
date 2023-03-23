@@ -37,8 +37,10 @@ const parserConfig = {
 
 /** 导入导出代码弹窗 */
 const CodeModal = ({ type = 'export', open, setOpen }: PropsType) => {
-	const elList = useCanvasStore((state) => state.elList);
-	const updateElList = useCanvasStore((state) => state.updateElList);
+	const { elList, updateElList } = useCanvasStore((state) => ({
+		updateElList: state.updateElList,
+		elList: state.elList,
+	}));
 	const [code, setCode] = useState('');
 
 	useEffect(() => {

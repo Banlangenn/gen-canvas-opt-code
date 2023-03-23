@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import { isEqual } from 'lodash';
 import { useCanvasStore } from '../store';
 import { ComponentType, ComponentUniType } from '../types';
 import { getElDefaultOpt } from '../utils';
@@ -52,16 +51,8 @@ const operationElDefault: OperationElType = {
 
 /** 画布 */
 const Canvas = ({ style }: PropsType) => {
-	const elList = useCanvasStore((state) => state.elList);
-	const activedEl = useCanvasStore((state) => state.activedEl);
-	const { activeEl, addEl, updateActivedEl, cancelActive } = useCanvasStore(
-		(state) => ({
-			activeEl: state.activeEl,
-			addEl: state.addEl,
-			updateActivedEl: state.updateActivedEl,
-			cancelActive: state.cancelActive,
-		}),
-	);
+	const { elList, activedEl, activeEl, addEl, updateActivedEl, cancelActive } =
+		useCanvasStore();
 
 	// 是否正在移动（显示标尺）
 	const [isMoving, setIsMoving] = useState(false);

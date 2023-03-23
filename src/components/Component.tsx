@@ -13,9 +13,10 @@ interface ComponentPropsType {
 
 /** 画布中的组件 */
 const Component = ({ options, isActive }: ComponentPropsType) => {
-	const activeEl = useCanvasStore((state) => state.activeEl);
-	const hoveredElId = useCanvasStore((state) => state.hoveredElId);
-	const activedEl = useCanvasStore((state) => state.activedEl);
+	const { activeEl, hoveredElId } = useCanvasStore((state) => ({
+		activeEl: state.activeEl,
+		hoveredElId: state.hoveredElId,
+	}));
 	const isHovered = hoveredElId === options?.internal.id;
 
 	// 样式

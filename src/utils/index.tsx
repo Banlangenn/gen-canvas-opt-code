@@ -41,21 +41,21 @@ export const getElDefaultOpt = (type: ComponentType) => {
 			internal,
 		},
 		text: {
-			type: 'text' as ComponentType,
+			type: 'text',
 			x,
 			y,
 			lineHeight: defaultOpt.lineHeight,
-			maxWidth: defaultOpt.maxWidth,
+			maxWidth: canvasWidth,
 			name,
 			content: defaultOpt.content,
 			font: defaultOpt.font,
 			fillStyle: defaultOpt.fillStyle,
-			width: defaultOpt.width,
+			width: canvasWidth,
 			height: defaultOpt.height,
 			internal,
 		},
 		rect: {
-			type: 'rect' as ComponentType,
+			type: 'rect',
 			x,
 			y,
 			width: defaultOpt.width,
@@ -66,7 +66,7 @@ export const getElDefaultOpt = (type: ComponentType) => {
 			internal,
 		},
 		line: {
-			type: 'rect' as ComponentType,
+			type: 'rect',
 			x,
 			y,
 			width: defaultOpt.width,
@@ -77,7 +77,7 @@ export const getElDefaultOpt = (type: ComponentType) => {
 			internal,
 		},
 		circle: {
-			type: 'rect' as ComponentType,
+			type: 'rect',
 			x,
 			y,
 			width: defaultOpt.width,
@@ -118,7 +118,7 @@ export const setElOpt = (
 			// @ts-ignore
 			style.color = opt.fillStyle;
 			style.display = 'flex';
-			style.justifyContent = opt.align || 'left';
+			style.textAlign = opt.align || 'left';
 			opt.baseline && (style.alignItems = verticalAlignMap[opt.baseline]);
 			opt.lineHeight && (style.lineHeight = `${opt.lineHeight}px`);
 			style.height = opt.lineHeight || 'auto';
