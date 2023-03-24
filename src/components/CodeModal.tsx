@@ -26,6 +26,7 @@ const styles = {
 		boxSizing: 'border-box',
 		fontFamily: 'Menlo, Monaco, "Courier New", monospace',
 		borderRadius: 10,
+		minHeight: 400,
 		...theme.plain,
 	},
 };
@@ -37,8 +38,10 @@ const parserConfig = {
 
 /** 导入导出代码弹窗 */
 const CodeModal = ({ type = 'export', open, setOpen }: PropsType) => {
-	const elList = useCanvasStore((state) => state.elList);
-	const updateElList = useCanvasStore((state) => state.updateElList);
+	const { elList, updateElList } = useCanvasStore((state) => ({
+		updateElList: state.updateElList,
+		elList: state.elList,
+	}));
 	const [code, setCode] = useState('');
 
 	useEffect(() => {
@@ -151,14 +154,15 @@ const CodeModal = ({ type = 'export', open, setOpen }: PropsType) => {
 						复制代码
 					</Button>
 				</CopyToClipboard>
-
-				<Editor
-					value={code}
-					onValueChange={setCode}
-					highlight={highlight}
-					padding={10}
-					style={styles.root as React.CSSProperties}
-				/>
+				<div className="w-full min-h-[400px] max-h-[600px] rounded-[10px] overflow-y-scroll">
+					<Editor
+						value={code}
+						onValueChange={setCode}
+						highlight={highlight}
+						padding={10}
+						style={styles.root as React.CSSProperties}
+					/>
+				</div>
 			</div>
 		</Modal>
 	);

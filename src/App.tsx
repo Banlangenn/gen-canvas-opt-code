@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button } from 'antd';
+import { Button, Modal } from 'antd';
 import { ExportOutlined, LeftOutlined, SyncOutlined } from '@ant-design/icons';
 import { useCanvasSizeStore, useCanvasStore } from './store';
 import { ComponentListOpt } from './utils/options';
@@ -23,25 +23,14 @@ import { nanoid } from 'nanoid';
 let clipboardEl: ComponentUniType | null = null;
 
 function App() {
-	const {
-		cancelActive,
-		clearStore,
-		deleteActivedEl,
-		activedEl,
-		elList,
-		moveActiveEl,
-		activeEl,
-		addEl,
-	} = useCanvasStore((state) => ({
-		activedEl: state.activedEl,
-		elList: state.elList,
-		moveActiveEl: state.moveActiveEl,
-		cancelActive: state.cancelActive,
-		clearStore: state.clearStore,
-		deleteActivedEl: state.deleteActivedEl,
-		activeEl: state.activeEl,
-		addEl: state.addEl,
-	}));
+	const { cancelActive, clearStore, activedEl, moveActiveEl, deleteActivedEl } =
+		useCanvasStore((state) => ({
+			activedEl: state.activedEl,
+			moveActiveEl: state.moveActiveEl,
+			cancelActive: state.cancelActive,
+			clearStore: state.clearStore,
+			deleteActivedEl: state.deleteActivedEl,
+		}));
 	const canvasSize = useCanvasSizeStore((state) => state.size);
 	const updateCanvasSize = useCanvasSizeStore((state) => state.updateSize);
 	const [exportModalOpen, setExportModalOpen] = useState(false);
@@ -53,7 +42,7 @@ function App() {
 		return () => {
 			document.removeEventListener('keydown', handleKeyDown);
 		};
-	}, []);
+	}, [activedEl]);
 
 	// 开始拖拽
 	const handleDragStart = (
@@ -81,14 +70,22 @@ function App() {
 	const handleKeyDown = (e: KeyboardEvent) => {
 		// 删除键，删除正在激活的组件
 		if (
+			activedEl &&
 			e.code === 'Backspace' &&
 			// @ts-ignore
 			!['INPUT', 'TEXTAREA'].includes(e?.target?.nodeName)
 		) {
-			deleteActivedEl();
+			Modal.confirm({
+				title: '提示',
+				content: '确定删除该组件吗？',
+				onOk() {
+					deleteActivedEl();
+				},
+			});
 		}
 		// 上下左右方向键 移动组件
 		if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
+			e.preventDefault();
 			moveActiveEl(e.code as MoveDirection);
 		}
 
@@ -97,21 +94,21 @@ function App() {
 			cancelActive();
 		}
 
-		// 复制
-		if ((e.ctrlKey || e.metaKey) && e.code === 'KeyC') {
-			if (activedEl) {
-				clipboardEl = cloneDeep(activedEl);
-				clipboardEl.x += 5;
-				clipboardEl.y += 5;
-				clipboardEl.internal.id = nanoid();
-				clipboardEl.internal.index = elList.length;
-			}
-		}
-		// 粘贴
-		if ((e.ctrlKey || e.metaKey) && e.code === 'KeyV' && clipboardEl) {
-			addEl(clipboardEl);
-			activeEl(clipboardEl);
-		}
+		// // 复制
+		// if ((e.ctrlKey || e.metaKey) && e.code === 'KeyC') {
+		// 	if (activedEl) {
+		// 		clipboardEl = cloneDeep(activedEl);
+		// 		clipboardEl.x += 5;
+		// 		clipboardEl.y += 5;
+		// 		clipboardEl.internal.id = nanoid();
+		// 		clipboardEl.internal.index = elList.length;
+		// 	}
+		// }
+		// // 粘贴
+		// if ((e.ctrlKey || e.metaKey) && e.code === 'KeyV' && clipboardEl) {
+		// 	addEl(clipboardEl);
+		// 	activeEl(clipboardEl);
+		// }
 	};
 
 	return (

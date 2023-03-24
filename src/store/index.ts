@@ -92,7 +92,6 @@ export const useCanvasStore = create<CanvasStoreType>()(
 								const index = draftState.elList.findIndex(
 									(el) => el.internal.id === draftState.activedEl?.internal.id,
 								);
-
 								draftState.elList[index] = cloneDeep(draftState.activedEl);
 							}
 							draftState.activedEl = cloneDeep(el);

@@ -3,6 +3,8 @@ export type ComponentType = 'image' | 'text' | 'rect' | 'line' | 'circle';
 
 /** 组件基础配置 */
 export interface BaseComponentOpt {
+	/** 组件类型 */
+	type: ComponentType;
 	/** 距离画布左侧 px */
 	x: number;
 	/** 距离画布顶部 px */
@@ -13,8 +15,6 @@ export interface BaseComponentOpt {
 	height: number;
 	/** 标识符 */
 	name: string;
-	/** 组件类型 */
-	type: ComponentType;
 	/** 内置状态 用于组件交互 导出代码时过滤掉 */
 	internal: {
 		/** 组件 id */
@@ -79,16 +79,13 @@ export interface LineOpt extends RectOpt {}
 /** 圆组件配置 */
 export interface CircleOpt extends RectOpt {}
 
-export interface ComponentOptMap {
-	image: ImageOpt;
-	text: TextOpt;
-	rect: RectOpt;
-	line: LineOpt;
-	circle: CircleOpt;
-}
-
 /** 组件联合类型 */
-export type ComponentUniType = ComponentOptMap[ComponentType];
+export type ComponentUniType =
+	| ImageOpt
+	| TextOpt
+	| RectOpt
+	| LineOpt
+	| CircleOpt;
 
 /** 组件默认配置 */
 export type NotNeededFilds = Exclude<

@@ -1,20 +1,28 @@
-# 拖拽生成小程序海报画布配置代码
+# 提高小程序画图效率 - 拖拽生成配置代码
 
-## 架构
+背景：
+
+- 在小程序中画分享图时，往往需要写很多配置项，每次修改配置项时，都需要重新编译小程序，开发效率不高。开发此项目的目的就是希望能在小程序画图的这个场景中提高我们的开发效率，通过在 PC 端使用拖拽 + 配置表单的方式，可以实时预览结果并导出小程序画图配置代码，在小程序中稍加修改（动态数据的部分）即可使用。
 
 系统分为两个部分：
 
-- 全局状态层
+- 状态层
 - 视图层
 
-### 全局状态层
+这样做的好处：
 
-有两个 `store`：
+1. 视图层直接从 store 存取数据，这样不同的视图可以独立出来，每个视图只关注自己的逻辑；
+2. 在 store 上定义数据格式，可以约束视图对外的数据格式，确保导出正确的数据；
+3. 视图内部可以使用不同的技术实现（例如 Canvas 和 DOM），只要确保输出的数据格式一致即可。
 
-- 画布尺寸：存储画布的宽高
-- 画布内容：存储画布中的组件列表和当前激活的组件
+## 状态层
 
-#### 画布尺寸 store
+有两个 store：
+
+- 画布尺寸：存储画布的宽度、高度和更改宽度和高度的方法；
+- 画布内容：存储画布中的组件数据和一些更改数据的方法。
+
+### 画布尺寸 store
 
 ```ts
 interface CanvasSizeStoreType {
@@ -29,7 +37,7 @@ interface CanvasSizeStoreType {
 }
 ```
 
-#### 画布内容 store
+### 画布内容 store
 
 ```ts
 interface CanvasStoreType {
@@ -60,7 +68,7 @@ interface CanvasStoreType {
 }
 ```
 
-### 视图层
+## 视图层
 
 分为四个部分：
 
@@ -69,12 +77,12 @@ interface CanvasStoreType {
 - 配置栏
 - 导出代码弹窗
 
-#### 组件栏
+### 组件栏
 
 功能点：
 
-- 展示组件列表
-- 组件均可拖拽放置到画布中
+- 展示组件列表；
+- 组件均可拖拽放置到画布中。
 
 实现：
 
@@ -86,6 +94,8 @@ export type ComponentType = 'image' | 'text' | 'rect' | 'line' | 'circle';
 
 /** 组件基础配置 */
 export interface BaseComponentOpt {
+	/** 组件类型 */
+	type: ComponentType;
 	/** 距离画布左侧 px */
 	x: number;
 	/** 距离画布顶部 px */
@@ -96,8 +106,6 @@ export interface BaseComponentOpt {
 	height: number;
 	/** 标识符 */
 	name: string;
-	/** 组件类型 */
-	type: ComponentType;
 	/** 内置状态 用于组件交互 导出代码时过滤掉 */
 	internal: {
 		/** 组件 id */
@@ -162,19 +170,16 @@ export interface LineOpt extends RectOpt {}
 /** 圆组件配置 */
 export interface CircleOpt extends RectOpt {}
 
-export interface ComponentOptMap {
-	image: ImageOpt;
-	text: TextOpt;
-	rect: RectOpt;
-	line: LineOpt;
-	circle: CircleOpt;
-}
-
 /** 组件联合类型 */
-export type ComponentUniType = ComponentOptMap[ComponentType];
+export type ComponentUniType =
+	| ImageOpt
+	| TextOpt
+	| RectOpt
+	| LineOpt
+	| CircleOpt;
 ```
 
-#### 画布
+### 画布
 
 功能点：
 
@@ -187,42 +192,33 @@ export type ComponentUniType = ComponentOptMap[ComponentType];
   - 移动组件时在组件左上角显示标尺线，显示距离画布顶部和左边的距离；
   - 鼠标移动到组件四边显示垂直或水平箭头样式，按住移动鼠标可以改变组件宽高；
   - 鼠标移动到四角操作点显示斜的箭头，按住可以等比例改变组件宽高。
+  - 改变组件宽高时，显示宽高值。
 
-实现：
-
-- 使用画布内容 store 中的 `elList` 来存储组件列表；
-- 添加新组件时，使用列表的长度设置该组件的 id，同时也是该组件的层级；
-- `hover` 时添加蓝色边框；
-- 使用画布内容 store 中的 `activeEl` 来激活组件，使用 `activedEl` 来单独渲染激活的组件，使用 `updateActivedEl` 来更新激活组件的状态；
-- 激活组件的处理：
-  - 子元素有四条可操作边框线和四角操作点，每个子元素通过 `data-type` 属性来标示自己的操作类型，在画布元素上捕获这些子元素身上触发的事件，从而修改组件宽高；
-  - 组件自身设置 `data-type` 为 `move`，被画布捕获到 `move` 类型时，表示在激活组件内容区按下鼠标，此时的操作为“移动组件”；
-  - 在组件移动时，设置 `isMove` 标示，根据组件 `x` 和 `y` 坐标值来显示标尺线；
-
-#### 配置栏
+### 配置栏
 
 功能点：
 
-- 没有激活的组件时显示占位图；
-- 根据当前激活组件有值的字段渲染表单字段；
+- 没有激活的组件时显示组件列表，可以拖拽改变组件的层级；
+- 根据当前激活的组件渲染对应的配置表单；
 - 可以动态添加、删除字段，根据组件类型而定；
-- 可以删除当前激活的组件。
+- 可以删除当前激活的组件；
+- 上传图片功能，用于本地临时预览。
 
 实现：
 
-- 画布内容 store 中 `activedEl` 为 `null` 时渲染占位图；
+- 画布内容 store 中 `activedEl` 为 `null` 时渲染组件列表；
 - 编写不同类型组件的必填配置列表和可选配置列表，在 `form` 中先设置必填字段的值，再遍历可选字段配置列表，将有值的字段添加到 `form` 中；
 - 剩余的的可选字段存储到 `optionalItems` 列表中，添加按钮的 `Dropdown` 使用 `optionalItems` 渲染，选择其中的字段时，给当前激活的组件添加对应的属性；
-- 点击删除按钮时，触发 store 中的 `deleteActivedEl` 方法。
+- 点击删除按钮时，触发 store 中的 `deleteActivedEl` 方法删除组件。
 
-#### 导出导入代码弹窗
+### 导出导入代码弹窗
 
 功能点：
 
 - 高亮显示格式化后的小程序画海报需要的 `json` 代码；
 - 支持编辑代码；
 - 支持复制代码；
-- 支持导入代码.
+- 支持导入代码，导入代码时验证格式。
 
 实现：
 
@@ -231,6 +227,17 @@ export type ComponentUniType = ComponentOptMap[ComponentType];
 - 使用 `react-simple-code-editor` 和 `prism-react-renderer` 来支持可编辑和高亮显示 `json` 代码；
 - 使用 `react-copy-to-clipboard` 复制代码；
 - 编写验证方法验证导出的 JSON 代码。
+
+## 快捷键
+
+### 选中元素时
+
+- **ArrowUp 上箭头** 向上移动元素
+- **ArrowDown 下箭头** 向下移动元素
+- **ArrowLeft 左箭头** 向左移动元素
+- **ArrowRight 右箭头** 向右移动元素
+- **Backspace 删除键** 删除选中的元素
+- **Escape Esc** 取消选中元素
 
 ## 画布性能优化
 
@@ -243,25 +250,24 @@ export type ComponentUniType = ComponentOptMap[ComponentType];
 
 - 往左或往上移动超出画布时偏移量过大
 - 文本组件的宽高问题 ✅
+- 激活圆形组件再激活矩形组件时矩形组件会变成圆形
 
 ## TODOS
 
-- cv 复制粘贴正在激活的组件，粘贴时组件 x、y 加 5；
+- cv 复制粘贴正在激活的组件，粘贴时组件 x、y 加 5 ⌛️
+- 强耦合的属性，一起加
+- 填充模式和背景颜色边框颜色联动
+- 点击灰色背景区域取消选中
+- 选中元素是不在最上面 ✅
+- name 放到最上面 ✅
+- 内置圆属性，导出时计算宽度的一半圆角，圆属性不能单独修改宽高，只能等比例修改
+- 移动，不能超出画布边界 ⌛️
+- 边框移动上去不闪动 ✅
+- 删除操作二次确认 ✅
+- 文本组件可以直接输入
+- 导出代码弹窗固定高度，局部滚动 ✅
 
 ## PREF
 
 - 上下左右方向键移动组件 ✅
 - 表单回车、步进时更新状态 ✅
-
-## 使用教程
-
-### 快捷键
-
-#### 选中元素时
-
-- **ArrowUp 上箭头** 向上移动元素
-- **ArrowDown 下箭头** 向下移动元素
-- **ArrowLeft 左箭头** 向左移动元素
-- **ArrowRight 右箭头** 向右移动元素
-- **Backspace 删除键** 删除选中的元素
-- **Escape Esc** 取消选中元素

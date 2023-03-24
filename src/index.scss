@@ -4,7 +4,13 @@
 
 @layer components {
 	.el-hover {
-		border: 2px solid #4f81ff;
+		.hover-border {
+			display: block;
+			position: absolute;
+			top: -2px;
+			left: -2px;
+			border: 2px solid #4f81ff;
+		}
 	}
 
 	/** 组件操作点 */

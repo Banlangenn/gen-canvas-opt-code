@@ -9,10 +9,10 @@ import {
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Empty, Table, Button } from 'antd';
+import { Empty, Table, Button, Modal } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useCanvasStore } from '../store';
-import { isEqual, cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash';
 import { ComponentUniType } from '../types';
 
 interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {
@@ -62,12 +62,14 @@ const Row = ({ children, ...props }: RowProps) => {
 
 /** 组件列表 */
 const ComponentList = () => {
-	const elList = useCanvasStore((state) => state.elList, isEqual);
-	const { activeEl, updateElList, setHoveredEl } = useCanvasStore((state) => ({
-		activeEl: state.activeEl,
-		setHoveredEl: state.setHoveredEl,
-		updateElList: state.updateElList,
-	}));
+	const { elList, activeEl, updateElList, setHoveredEl } = useCanvasStore(
+		(state) => ({
+			activeEl: state.activeEl,
+			setHoveredEl: state.setHoveredEl,
+			updateElList: state.updateElList,
+			elList: state.elList,
+		}),
+	);
 	const onDragEnd = ({ active, over }: DragEndEvent) => {
 		if (active.id !== over?.id) {
 			const list = cloneDeep(elList);
@@ -86,7 +88,7 @@ const ComponentList = () => {
 			key: 'sort',
 		},
 		{
-			title: 'Name',
+			title: '名称',
 			dataIndex: 'name',
 		},
 		{
@@ -104,9 +106,15 @@ const ComponentList = () => {
 						icon={<DeleteOutlined />}
 						onClick={(e) => {
 							e.stopPropagation();
-							updateElList(
-								elList.filter((i) => i.internal.id !== el.internal.id),
-							);
+							Modal.confirm({
+								title: '提示',
+								content: '确认删除该组件？',
+								onOk() {
+									updateElList(
+										elList.filter((i) => i.internal.id !== el.internal.id),
+									);
+								},
+							});
 						}}
 					>
 						删除
