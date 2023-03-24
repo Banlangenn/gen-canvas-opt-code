@@ -53,9 +53,6 @@ const operationElDefault: OperationElType = {
 const Canvas = ({ style }: PropsType) => {
 	const { elList, activedEl, activeEl, addEl, updateActivedEl, cancelActive } =
 		useCanvasStore();
-	const {
-		size: { width: canvasWidth, height: canvasHeight },
-	} = useCanvasSizeStore();
 
 	// 是否正在移动（显示标尺）
 	const [isMoving, setIsMoving] = useState(false);
@@ -153,9 +150,9 @@ const Canvas = ({ style }: PropsType) => {
 		if (type === 'move') {
 			if (top < 0) top = 0;
 			if (left < 0) left = 0;
-			// console.log(left + width, canvasWidth);
-			// if (left + width >= canvasWidth) left -= left + width - canvasWidth;
-			// if (top + height >= canvasHeight) top -= top + height -canvasHeight;
+			// console.log(left + width, style.width);
+			// if (left + width >= style.width) left -= left + width - style.width;
+			// if (top + height >= style.height) top -= top + height -style.height;
 		}
 
 		// 需要改变的状态

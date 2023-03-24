@@ -12,7 +12,7 @@ interface ComponentPropsType {
 }
 
 /** 画布中的组件 */
-const Component = ({ options, isActive }: ComponentPropsType) => {
+const Component = React.memo(({ options, isActive }: ComponentPropsType) => {
 	const { activeEl, hoveredElId } = useCanvasStore((state) => ({
 		activeEl: state.activeEl,
 		hoveredElId: state.hoveredElId,
@@ -135,6 +135,6 @@ const Component = ({ options, isActive }: ComponentPropsType) => {
 			}
 		/>
 	);
-};
+});
 
 export default Component;
