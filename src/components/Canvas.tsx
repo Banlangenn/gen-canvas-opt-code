@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { useCanvasStore } from '../store';
+import { useCanvasSizeStore, useCanvasStore } from '../store';
 import { ComponentType, ComponentUniType } from '../types';
 import { getElDefaultOpt } from '../utils';
 import Component from './Component';
@@ -53,6 +53,9 @@ const operationElDefault: OperationElType = {
 const Canvas = ({ style }: PropsType) => {
 	const { elList, activedEl, activeEl, addEl, updateActivedEl, cancelActive } =
 		useCanvasStore();
+	const {
+		size: { width: canvasWidth, height: canvasHeight },
+	} = useCanvasSizeStore();
 
 	// 是否正在移动（显示标尺）
 	const [isMoving, setIsMoving] = useState(false);
@@ -140,11 +143,20 @@ const Canvas = ({ style }: PropsType) => {
 		const bottom = top + height + 1;
 		const right = left + width + 1;
 
-		// 不能超出边界
+		// 不能超出自身边界
 		if (height < 0) height = 1;
 		if (width < 0) width = 1;
 		if (top > bottom) top = bottom;
 		if (left > right) left = right;
+
+		// 移动时不能超出画布边界
+		if (type === 'move') {
+			if (top < 0) top = 0;
+			if (left < 0) left = 0;
+			// console.log(left + width, canvasWidth);
+			// if (left + width >= canvasWidth) left -= left + width - canvasWidth;
+			// if (top + height >= canvasHeight) top -= top + height -canvasHeight;
+		}
 
 		// 需要改变的状态
 		let newState: any = {};
@@ -254,7 +266,7 @@ const Canvas = ({ style }: PropsType) => {
 				})
 			}
 			onMouseUp={handleMouseUp}
-			// onMouseLeave={handleMouseLeave}
+			onMouseLeave={handleMouseLeave}
 		>
 			{elList.map((el, index) =>
 				el.internal.id === activedEl?.internal?.id ? null : (

@@ -26,6 +26,7 @@ const styles = {
 		boxSizing: 'border-box',
 		fontFamily: 'Menlo, Monaco, "Courier New", monospace',
 		borderRadius: 10,
+		minHeight: 400,
 		...theme.plain,
 	},
 };
@@ -153,14 +154,15 @@ const CodeModal = ({ type = 'export', open, setOpen }: PropsType) => {
 						复制代码
 					</Button>
 				</CopyToClipboard>
-
-				<Editor
-					value={code}
-					onValueChange={setCode}
-					highlight={highlight}
-					padding={10}
-					style={styles.root as React.CSSProperties}
-				/>
+				<div className="w-full min-h-[400px] max-h-[600px] rounded-[10px] overflow-y-scroll">
+					<Editor
+						value={code}
+						onValueChange={setCode}
+						highlight={highlight}
+						padding={10}
+						style={styles.root as React.CSSProperties}
+					/>
+				</div>
 			</div>
 		</Modal>
 	);

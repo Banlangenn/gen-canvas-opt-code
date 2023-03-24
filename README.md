@@ -1,22 +1,26 @@
-# 拖拽生成小程序画图配置
+# 提高小程序画图效率 - 拖拽生成配置代码
+
+背景：
+
+- 在小程序中画分享图时，往往需要写很多配置项，每次修改配置项时，都需要重新编译小程序，开发效率不高。开发此项目的目的就是希望能在小程序画图的这个场景中提高我们的开发效率，通过在 PC 端使用拖拽 + 配置表单的方式，可以实时预览结果并导出小程序画图配置代码，在小程序中稍加修改（动态数据的部分）即可使用。
 
 系统分为两个部分：
 
-- 全局状态层
+- 状态层
 - 视图层
 
 这样做的好处：
 
 1. 视图层直接从 store 存取数据，这样不同的视图可以独立出来，每个视图只关注自己的逻辑；
-2. 在 store 上定义数据格式，相当于约束了视图对外的数据格式，确保导出正确的数据；
-3. 视图内部可以使用不同的技术实现（例如 Canvas 和 DOM），只需要确保输出的数据一致即可。
+2. 在 store 上定义数据格式，可以约束视图对外的数据格式，确保导出正确的数据；
+3. 视图内部可以使用不同的技术实现（例如 Canvas 和 DOM），只要确保输出的数据格式一致即可。
 
-## 全局状态层
+## 状态层
 
 有两个 store：
 
-- 画布尺寸：存储画布的宽高以及改变宽高的方法；
-- 画布内容：存储画布中的组件数据以及一些改变数据的方法。
+- 画布尺寸：存储画布的宽度、高度和更改宽度和高度的方法；
+- 画布内容：存储画布中的组件数据和一些更改数据的方法。
 
 ### 画布尺寸 store
 
@@ -77,8 +81,8 @@ interface CanvasStoreType {
 
 功能点：
 
-- 展示组件列表
-- 组件均可拖拽放置到画布中
+- 展示组件列表；
+- 组件均可拖拽放置到画布中。
 
 实现：
 
@@ -90,6 +94,8 @@ export type ComponentType = 'image' | 'text' | 'rect' | 'line' | 'circle';
 
 /** 组件基础配置 */
 export interface BaseComponentOpt {
+	/** 组件类型 */
+	type: ComponentType;
 	/** 距离画布左侧 px */
 	x: number;
 	/** 距离画布顶部 px */
@@ -100,8 +106,6 @@ export interface BaseComponentOpt {
 	height: number;
 	/** 标识符 */
 	name: string;
-	/** 组件类型 */
-	type: ComponentType;
 	/** 内置状态 用于组件交互 导出代码时过滤掉 */
 	internal: {
 		/** 组件 id */
@@ -166,16 +170,13 @@ export interface LineOpt extends RectOpt {}
 /** 圆组件配置 */
 export interface CircleOpt extends RectOpt {}
 
-export interface ComponentOptMap {
-	image: ImageOpt;
-	text: TextOpt;
-	rect: RectOpt;
-	line: LineOpt;
-	circle: CircleOpt;
-}
-
 /** 组件联合类型 */
-export type ComponentUniType = ComponentOptMap[ComponentType];
+export type ComponentUniType =
+	| ImageOpt
+	| TextOpt
+	| RectOpt
+	| LineOpt
+	| CircleOpt;
 ```
 
 ### 画布
@@ -191,7 +192,7 @@ export type ComponentUniType = ComponentOptMap[ComponentType];
   - 移动组件时在组件左上角显示标尺线，显示距离画布顶部和左边的距离；
   - 鼠标移动到组件四边显示垂直或水平箭头样式，按住移动鼠标可以改变组件宽高；
   - 鼠标移动到四角操作点显示斜的箭头，按住可以等比例改变组件宽高。
-  - 改变组件宽高时，显示宽高值；
+  - 改变组件宽高时，显示宽高值。
 
 ### 配置栏
 
@@ -260,11 +261,11 @@ export type ComponentUniType = ComponentOptMap[ComponentType];
 - 选中元素是不在最上面 ✅
 - name 放到最上面 ✅
 - 内置圆属性，导出时计算宽度的一半圆角，圆属性不能单独修改宽高，只能等比例修改
-- 移动，不能超出画布边界
+- 移动，不能超出画布边界 ⌛️
 - 边框移动上去不闪动 ✅
 - 删除操作二次确认 ✅
 - 文本组件可以直接输入
-- 导出代码弹窗固定高度，局部滚动
+- 导出代码弹窗固定高度，局部滚动 ✅
 
 ## PREF
 
