@@ -22,15 +22,38 @@ import { nanoid } from 'nanoid';
 /** 剪贴板 */
 let clipboardEl: ComponentUniType | null = null;
 
+// 复制元素
+const copyEl = (activedEl: ComponentUniType | null, index: number) => {
+	if (activedEl) {
+		clipboardEl = cloneDeep(activedEl);
+		clipboardEl.x += 5;
+		clipboardEl.y += 5;
+		clipboardEl.internal.id = nanoid();
+		clipboardEl.internal.index = index;
+		clipboardEl.name = `${clipboardEl.type}-${index}`;
+	}
+};
+
 function App() {
-	const { cancelActive, clearStore, activedEl, moveActiveEl, deleteActivedEl } =
-		useCanvasStore((state) => ({
-			activedEl: state.activedEl,
-			moveActiveEl: state.moveActiveEl,
-			cancelActive: state.cancelActive,
-			clearStore: state.clearStore,
-			deleteActivedEl: state.deleteActivedEl,
-		}));
+	const {
+		activedEl,
+		elList,
+		cancelActive,
+		clearStore,
+		moveActiveEl,
+		deleteActivedEl,
+		addEl,
+		activeEl,
+	} = useCanvasStore((state) => ({
+		elList: state.elList,
+		activedEl: state.activedEl,
+		moveActiveEl: state.moveActiveEl,
+		cancelActive: state.cancelActive,
+		clearStore: state.clearStore,
+		deleteActivedEl: state.deleteActivedEl,
+		addEl: state.addEl,
+		activeEl: state.activeEl,
+	}));
 	const canvasSize = useCanvasSizeStore((state) => state.size);
 	const updateCanvasSize = useCanvasSizeStore((state) => state.updateSize);
 	const [exportModalOpen, setExportModalOpen] = useState(false);
@@ -94,21 +117,19 @@ function App() {
 			cancelActive();
 		}
 
-		// // 复制
-		// if ((e.ctrlKey || e.metaKey) && e.code === 'KeyC') {
-		// 	if (activedEl) {
-		// 		clipboardEl = cloneDeep(activedEl);
-		// 		clipboardEl.x += 5;
-		// 		clipboardEl.y += 5;
-		// 		clipboardEl.internal.id = nanoid();
-		// 		clipboardEl.internal.index = elList.length;
-		// 	}
-		// }
-		// // 粘贴
-		// if ((e.ctrlKey || e.metaKey) && e.code === 'KeyV' && clipboardEl) {
-		// 	addEl(clipboardEl);
-		// 	activeEl(clipboardEl);
-		// }
+		// 复制
+		if ((e.ctrlKey || e.metaKey) && e.code === 'KeyC') {
+			e.preventDefault();
+			copyEl(activedEl, elList.length);
+		}
+		// 粘贴
+		if ((e.ctrlKey || e.metaKey) && e.code === 'KeyV' && clipboardEl) {
+			e.preventDefault();
+			addEl(clipboardEl);
+			activeEl(clipboardEl);
+			// 将最新元素添加到粘贴板
+			copyEl(clipboardEl, clipboardEl.internal.index + 1);
+		}
 	};
 
 	return (
