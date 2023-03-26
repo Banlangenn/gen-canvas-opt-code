@@ -65,7 +65,7 @@ function App() {
 		return () => {
 			document.removeEventListener('keydown', handleKeyDown);
 		};
-	}, [activedEl]);
+	}, [activedEl, elList]);
 
 	// 开始拖拽
 	const handleDragStart = (
@@ -128,7 +128,7 @@ function App() {
 			addEl(clipboardEl);
 			activeEl(clipboardEl);
 			// 将最新元素添加到粘贴板
-			copyEl(clipboardEl, clipboardEl.internal.index + 1);
+			copyEl(clipboardEl, elList.length);
 		}
 	};
 
