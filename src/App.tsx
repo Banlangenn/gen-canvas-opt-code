@@ -11,6 +11,7 @@ import {
 } from './types';
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from './utils/constant';
 import Canvas from './components/Canvas';
+import Canvas2 from './components/Canvas2';
 import CanvasSizeForm from './components/CanvasSizeForm';
 import SideBar from './components/SideBar';
 import Options from './components/Options';
@@ -191,7 +192,8 @@ function App() {
 						height={canvasSize.height}
 						onChange={updateCanvasSize}
 					></CanvasSizeForm>
-					<Canvas style={canvasStyle} />
+					{/* <Canvas style={canvasStyle} /> */}
+					<Canvas2 style={canvasStyle} />
 				</div>
 			</div>
 			<SideBar
