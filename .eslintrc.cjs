@@ -19,9 +19,9 @@ module.exports = {
 	plugins: ['react', '@typescript-eslint', 'prettier'],
 	rules: {
 		'prettier/prettier': 'warn',
-		'no-console': 1,
-		'no-unused-vars': 1,
+		'no-console': 'warn',
 		'react/react-in-jsx-scope': 'off',
-		'typescript/ban-ts-comment': 'off',
+		'@typescript-eslint/ban-ts-comment': 'off',
+		'@typescript-eslint/no-explicit-any': 'off',
 	},
 };

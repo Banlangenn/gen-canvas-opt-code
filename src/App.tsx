@@ -59,7 +59,6 @@ function App() {
 	const updateCanvasSize = useCanvasSizeStore((state) => state.updateSize);
 	const [exportModalOpen, setExportModalOpen] = useState(false);
 	const [codeType, setCodeType] = useState<CodeModalType>('export');
-	console.log('[ rende ] >');
 
 	const canvasStyle = useMemo(
 		() => ({
@@ -68,7 +67,7 @@ function App() {
 			margin: '0 auto',
 			flexShrink: 0,
 		}),
-		[canvasSize],
+		[canvasSize]
 	);
 
 	// 注册键盘按下事件
@@ -82,7 +81,7 @@ function App() {
 	// 开始拖拽
 	const handleDragStart = (
 		event: React.DragEvent<HTMLDivElement>,
-		type: ComponentType,
+		type: ComponentType
 	) => {
 		// 设置组件类型
 		event.dataTransfer.setData('type', type);
@@ -107,6 +106,7 @@ function App() {
 		if (
 			activedEl &&
 			e.code === 'Backspace' &&
+			// @ts-ignore
 			!['INPUT', 'TEXTAREA'].includes(e?.target?.nodeName)
 		) {
 			Modal.confirm({
@@ -129,12 +129,23 @@ function App() {
 		}
 
 		// 复制
-		if ((e.ctrlKey || e.metaKey) && e.code === 'KeyC') {
+		if (
+			// @ts-ignore
+			!['INPUT', 'TEXTAREA'].includes(e?.target?.nodeName) &&
+			(e.ctrlKey || e.metaKey) &&
+			e.code === 'KeyC'
+		) {
 			e.preventDefault();
 			copyEl(activedEl, elList.length);
 		}
 		// 粘贴
-		if ((e.ctrlKey || e.metaKey) && e.code === 'KeyV' && clipboardEl) {
+		if (
+			// @ts-ignore
+			!['INPUT', 'TEXTAREA'].includes(e?.target?.nodeName) &&
+			(e.ctrlKey || e.metaKey) &&
+			e.code === 'KeyV' &&
+			clipboardEl
+		) {
 			e.preventDefault();
 			addEl(clipboardEl);
 			activeEl(clipboardEl);

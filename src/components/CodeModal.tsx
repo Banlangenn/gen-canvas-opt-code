@@ -52,7 +52,7 @@ const CodeModal = ({ type = 'export', open, setOpen }: PropsType) => {
 					const expKeys = Object.keys(el).filter(
 						(k) =>
 							!(el.type === 'text' && /width|height/.test(k)) &&
-							k !== 'internal',
+							k !== 'internal'
 					);
 					const expObj: any = {};
 					expKeys.forEach((key) => {
@@ -60,7 +60,7 @@ const CodeModal = ({ type = 'export', open, setOpen }: PropsType) => {
 						expObj[key] = el[key];
 					});
 					return expObj;
-				}),
+				})
 			);
 			setCode(format(elListJsonStr, parserConfig));
 		} else {
@@ -73,9 +73,9 @@ const CodeModal = ({ type = 'export', open, setOpen }: PropsType) => {
 			{({ className, style, tokens, getLineProps, getTokenProps }) => (
 				<>
 					{tokens.map((line, i) => (
-						<div {...getLineProps({ line, key: i })}>
+						<div key={i} {...getLineProps({ line, key: i })}>
 							{line.map((token, key) => (
-								<span {...getTokenProps({ token, key })} />
+								<span key={key} {...getTokenProps({ token, key })} />
 							))}
 						</div>
 					))}

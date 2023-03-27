@@ -24,7 +24,7 @@ import { DEFAULT_VALUES } from '../utils/constant';
 /** 配置表单 */
 const OptionsForm = () => {
 	const activedEl = useCanvasStore(
-		(state) => state.activedEl,
+		(state) => state.activedEl
 	) as ComponentUniType;
 	const { updateActivedEl, deleteActivedEl } = useCanvasStore((state) => ({
 		updateActivedEl: state.updateActivedEl,
@@ -41,7 +41,7 @@ const OptionsForm = () => {
 		/** requiredOpt: 必有字段 optionalOpt: 可选字段 */
 		const [requiredOpt, optionalOpt] = getComponentOption(
 			activedEl.type,
-			handleSyncState,
+			handleSyncState
 		);
 		/** 根据必有字段和可选字段中有值的字段得出 */
 		const items: OptionType[] = [];
@@ -59,7 +59,7 @@ const OptionsForm = () => {
 				// 字段名
 				const key = opt.formItemProps.name as unknown as keyof ComponentUniType;
 				// 根据 state 中是否有值确定是否将可选项加入表单
-				if (key && activedEl.hasOwnProperty(key)) {
+				if (key && Object.prototype.hasOwnProperty.call(activedEl, key)) {
 					// 可选项添加标识
 					opt.isOptional = true;
 					form.setFieldValue(key, activedEl[key]);
@@ -68,7 +68,7 @@ const OptionsForm = () => {
 					return false;
 				}
 				return true;
-			}),
+			})
 		);
 
 		setFormItems(items);
@@ -156,7 +156,7 @@ const OptionsForm = () => {
 								const url = URL.createObjectURL(file);
 								form.setFieldValue('url', url);
 								message.info(
-									'生成图片的地址仅供本地临时使用，导出时需要自行修改为有效地址',
+									'生成图片的地址仅供本地临时使用，导出时需要自行修改为有效地址'
 								);
 								handleSyncState();
 								return false;

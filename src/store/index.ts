@@ -30,9 +30,9 @@ export const useCanvasSizeStore = create<CanvasSizeStoreType>()(
 			}),
 			{
 				name: 'canvas-size-storage',
-			},
-		),
-	),
+			}
+		)
+	)
 );
 
 /**
@@ -83,58 +83,58 @@ export const useCanvasStore = create<CanvasStoreType>()(
 					set((state) =>
 						produce(state, (draftState) => {
 							draftState.elList = draftState.elList.concat(el);
-						}),
+						})
 					),
 				activeEl: (el) =>
 					set((state) =>
 						produce(state, (draftState) => {
 							if (draftState.activedEl?.internal.id) {
 								const index = draftState.elList.findIndex(
-									(el) => el.internal.id === draftState.activedEl?.internal.id,
+									(el) => el.internal.id === draftState.activedEl?.internal.id
 								);
 								draftState.elList[index] = cloneDeep(draftState.activedEl);
 							}
 							draftState.activedEl = cloneDeep(el);
-						}),
+						})
 					),
 				updateActivedEl: (el) =>
 					set((state) =>
 						produce(state, (draftState) => {
 							draftState.activedEl = cloneDeep(el);
-						}),
+						})
 					),
 				cancelActive: () =>
 					set((state) =>
 						produce(state, (draftState) => {
 							if (draftState.activedEl?.internal.id) {
 								const index = draftState.elList.findIndex(
-									(el) => el.internal.id === draftState.activedEl?.internal.id,
+									(el) => el.internal.id === draftState.activedEl?.internal.id
 								);
 
 								draftState.elList[index] = cloneDeep(draftState.activedEl);
 							}
 							draftState.activedEl = null;
-						}),
+						})
 					),
 				deleteActivedEl: () =>
 					set((state) => ({
 						activedEl: null,
 						elList: state.elList.filter(
-							(el) => el.internal.id !== state.activedEl?.internal?.id,
+							(el) => el.internal.id !== state.activedEl?.internal?.id
 						),
 					})),
 				updateElList: (list) =>
 					set((state) =>
 						produce(state, (draftState) => {
 							draftState.elList = list;
-						}),
+						})
 					),
 				clearStore: () => set({ elList: [], activedEl: null }),
 				setHoveredEl: (id) =>
 					set((state) =>
 						produce(state, (draftState) => {
 							draftState.hoveredElId = id;
-						}),
+						})
 					),
 				moveActiveEl: (type) =>
 					set((state) =>
@@ -148,12 +148,12 @@ export const useCanvasStore = create<CanvasStoreType>()(
 								draftState.activedEl.x =
 									draftState.activedEl.x + (type === 'ArrowLeft' ? -1 : 1);
 							}
-						}),
+						})
 					),
 			}),
 			{
 				name: 'canvas-storage',
-			},
-		),
-	),
+			}
+		)
+	)
 );
