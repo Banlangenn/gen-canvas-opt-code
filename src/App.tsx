@@ -66,7 +66,7 @@ function App() {
 			margin: '0 auto',
 			flexShrink: 0,
 		}),
-		[canvasSize],
+		[canvasSize]
 	);
 
 	// 注册键盘按下事件
@@ -80,7 +80,7 @@ function App() {
 	// 开始拖拽
 	const handleDragStart = (
 		event: React.DragEvent<HTMLDivElement>,
-		type: ComponentType,
+		type: ComponentType
 	) => {
 		// 设置组件类型
 		event.dataTransfer.setData('type', type);
