@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Button, Modal } from 'antd';
 import { ExportOutlined, LeftOutlined, SyncOutlined } from '@ant-design/icons';
 import { useCanvasSizeStore, useCanvasStore } from './store';
@@ -58,6 +58,17 @@ function App() {
 	const updateCanvasSize = useCanvasSizeStore((state) => state.updateSize);
 	const [exportModalOpen, setExportModalOpen] = useState(false);
 	const [codeType, setCodeType] = useState<CodeModalType>('export');
+	console.log('[ rende ] >');
+
+	const canvasStyle = useMemo(
+		() => ({
+			width: canvasSize.width,
+			height: canvasSize.height,
+			margin: '0 auto',
+			flexShrink: 0,
+		}),
+		[canvasSize],
+	);
 
 	// 注册键盘按下事件
 	useEffect(() => {
@@ -95,7 +106,6 @@ function App() {
 		if (
 			activedEl &&
 			e.code === 'Backspace' &&
-			// @ts-ignore
 			!['INPUT', 'TEXTAREA'].includes(e?.target?.nodeName)
 		) {
 			Modal.confirm({
@@ -181,14 +191,7 @@ function App() {
 						height={canvasSize.height}
 						onChange={updateCanvasSize}
 					></CanvasSizeForm>
-					<Canvas
-						style={{
-							width: canvasSize.width,
-							height: canvasSize.height,
-							margin: '0 auto',
-							flexShrink: 0,
-						}}
-					/>
+					<Canvas style={canvasStyle} />
 				</div>
 			</div>
 			<SideBar
