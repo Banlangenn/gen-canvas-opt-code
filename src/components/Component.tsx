@@ -61,7 +61,7 @@ const Component = ({ options, isActive }: ComponentPropsType) => {
 						data-actived={isActive}
 						// 坑：twcss不支持动态构造类名 https://tailwindcss.com/docs/content-configuration#dynamic-class-names
 						className={`w-full h-full select-none line-clamp-1 whitespace-pre-wrap ${lineClampMap(
-							options.rowCount || 1,
+							options.rowCount || 1
 						)}`}
 						style={{
 							opacity: options.alpha ?? 1,

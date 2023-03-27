@@ -275,7 +275,7 @@ const Canvas = ({ style }: PropsType) => {
 			{elList.map((el, index) =>
 				el.internal.id === activedEl?.internal?.id ? null : (
 					<Component key={index} options={el} />
-				),
+				)
 			)}
 			{activedEl &&
 				['image', 'text', 'rect'].includes(activedEl?.type || '') && (

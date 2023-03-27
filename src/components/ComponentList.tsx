@@ -68,7 +68,7 @@ const ComponentList = () => {
 			setHoveredEl: state.setHoveredEl,
 			updateElList: state.updateElList,
 			elList: state.elList,
-		}),
+		})
 	);
 	const onDragEnd = ({ active, over }: DragEndEvent) => {
 		if (active.id !== over?.id) {
@@ -111,7 +111,7 @@ const ComponentList = () => {
 								content: '确认删除该组件？',
 								onOk() {
 									updateElList(
-										elList.filter((i) => i.internal.id !== el.internal.id),
+										elList.filter((i) => i.internal.id !== el.internal.id)
 									);
 								},
 							});

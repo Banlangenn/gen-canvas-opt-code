@@ -52,7 +52,7 @@ const CodeModal = ({ type = 'export', open, setOpen }: PropsType) => {
 					const expKeys = Object.keys(el).filter(
 						(k) =>
 							!(el.type === 'text' && /width|height/.test(k)) &&
-							k !== 'internal',
+							k !== 'internal'
 					);
 					const expObj: any = {};
 					expKeys.forEach((key) => {
@@ -60,7 +60,7 @@ const CodeModal = ({ type = 'export', open, setOpen }: PropsType) => {
 						expObj[key] = el[key];
 					});
 					return expObj;
-				}),
+				})
 			);
 			setCode(format(elListJsonStr, parserConfig));
 		} else {
