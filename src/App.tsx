@@ -58,7 +58,6 @@ function App() {
 	const updateCanvasSize = useCanvasSizeStore((state) => state.updateSize);
 	const [exportModalOpen, setExportModalOpen] = useState(false);
 	const [codeType, setCodeType] = useState<CodeModalType>('export');
-	console.log('[ rende ] >');
 
 	const canvasStyle = useMemo(
 		() => ({
@@ -106,6 +105,7 @@ function App() {
 		if (
 			activedEl &&
 			e.code === 'Backspace' &&
+			// @ts-ignore
 			!['INPUT', 'TEXTAREA'].includes(e?.target?.nodeName)
 		) {
 			Modal.confirm({
@@ -128,12 +128,23 @@ function App() {
 		}
 
 		// 复制
-		if ((e.ctrlKey || e.metaKey) && e.code === 'KeyC') {
+		if (
+			// @ts-ignore
+			!['INPUT', 'TEXTAREA'].includes(e?.target?.nodeName) &&
+			(e.ctrlKey || e.metaKey) &&
+			e.code === 'KeyC'
+		) {
 			e.preventDefault();
 			copyEl(activedEl, elList.length);
 		}
 		// 粘贴
-		if ((e.ctrlKey || e.metaKey) && e.code === 'KeyV' && clipboardEl) {
+		if (
+			// @ts-ignore
+			!['INPUT', 'TEXTAREA'].includes(e?.target?.nodeName) &&
+			(e.ctrlKey || e.metaKey) &&
+			e.code === 'KeyV' &&
+			clipboardEl
+		) {
 			e.preventDefault();
 			addEl(clipboardEl);
 			activeEl(clipboardEl);

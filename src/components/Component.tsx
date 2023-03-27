@@ -12,7 +12,7 @@ interface ComponentPropsType {
 }
 
 /** 画布中的组件 */
-const Component = React.memo(({ options, isActive }: ComponentPropsType) => {
+const Component = ({ options, isActive }: ComponentPropsType) => {
 	const { activeEl, hoveredElId } = useCanvasStore((state) => ({
 		activeEl: state.activeEl,
 		hoveredElId: state.hoveredElId,
@@ -53,88 +53,87 @@ const Component = React.memo(({ options, isActive }: ComponentPropsType) => {
 			data-type="move"
 			data-actived={isActive}
 			onClick={handleClick}
-			children={
-				<>
-					{options.type === 'text' && (
-						<div
-							data-type="move"
-							data-actived={isActive}
-							// 坑：twcss不支持动态构造类名 https://tailwindcss.com/docs/content-configuration#dynamic-class-names
-							className={`w-full h-full select-none line-clamp-1 whitespace-pre-wrap ${lineClampMap(
-								options.rowCount || 1,
-							)}`}
-							style={{
-								opacity: options.alpha ?? 1,
-							}}
-						>
-							{options.content}
-						</div>
-					)}
-					{isActive &&
-						(options.type === 'text' ? (
-							<>
-								<div className="line line-top" draggable={false}></div>
-								<div className="line line-bottom" draggable={false}></div>
-								<div className="line line-left" draggable={false}></div>
-								<div className="line line-right" draggable={false}></div>
-							</>
-						) : (
-							<>
-								<div
-									className="line line-top cursor-ns-resize"
-									data-type="line-top"
-									data-actived={isActive}
-									draggable={false}
-								></div>
-								<div
-									className="line line-bottom cursor-ns-resize"
-									data-type="line-bottom"
-									data-actived={isActive}
-									draggable={false}
-								></div>
-								<div
-									className="line line-left cursor-ew-resize"
-									data-type="line-left"
-									data-actived={isActive}
-									draggable={false}
-								></div>
-								<div
-									className="line line-right cursor-ew-resize"
-									data-type="line-right"
-									data-actived={isActive}
-									draggable={false}
-								></div>
-								<div
-									className="pointer pointer-top-left cursor-nwse-resize"
-									data-type="pointer-top-left"
-									data-actived={isActive}
-									draggable={false}
-								></div>
-								<div
-									className="pointer pointer-top-right cursor-nesw-resize"
-									data-type="pointer-top-right"
-									data-actived={isActive}
-									draggable={false}
-								></div>
-								<div
-									className="pointer pointer-bottom-left cursor-nesw-resize"
-									data-type="pointer-bottom-left"
-									data-actived={isActive}
-									draggable={false}
-								></div>
-								<div
-									className="pointer pointer-bottom-right cursor-nwse-resize"
-									data-type="pointer-bottom-right"
-									data-actived={isActive}
-									draggable={false}
-								></div>
-							</>
-						))}
-					<div className="w-full h-full hidden hover-border" />
-				</>
-			}
-		/>
+		>
+			<>
+				{options.type === 'text' && (
+					<div
+						data-type="move"
+						data-actived={isActive}
+						// 坑：twcss不支持动态构造类名 https://tailwindcss.com/docs/content-configuration#dynamic-class-names
+						className={`w-full h-full select-none line-clamp-1 whitespace-pre-wrap ${lineClampMap(
+							options.rowCount || 1,
+						)}`}
+						style={{
+							opacity: options.alpha ?? 1,
+						}}
+					>
+						{options.content}
+					</div>
+				)}
+				{isActive &&
+					(options.type === 'text' ? (
+						<>
+							<div className="line line-top" draggable={false}></div>
+							<div className="line line-bottom" draggable={false}></div>
+							<div className="line line-left" draggable={false}></div>
+							<div className="line line-right" draggable={false}></div>
+						</>
+					) : (
+						<>
+							<div
+								className="line line-top cursor-ns-resize"
+								data-type="line-top"
+								data-actived={isActive}
+								draggable={false}
+							></div>
+							<div
+								className="line line-bottom cursor-ns-resize"
+								data-type="line-bottom"
+								data-actived={isActive}
+								draggable={false}
+							></div>
+							<div
+								className="line line-left cursor-ew-resize"
+								data-type="line-left"
+								data-actived={isActive}
+								draggable={false}
+							></div>
+							<div
+								className="line line-right cursor-ew-resize"
+								data-type="line-right"
+								data-actived={isActive}
+								draggable={false}
+							></div>
+							<div
+								className="pointer pointer-top-left cursor-nwse-resize"
+								data-type="pointer-top-left"
+								data-actived={isActive}
+								draggable={false}
+							></div>
+							<div
+								className="pointer pointer-top-right cursor-nesw-resize"
+								data-type="pointer-top-right"
+								data-actived={isActive}
+								draggable={false}
+							></div>
+							<div
+								className="pointer pointer-bottom-left cursor-nesw-resize"
+								data-type="pointer-bottom-left"
+								data-actived={isActive}
+								draggable={false}
+							></div>
+							<div
+								className="pointer pointer-bottom-right cursor-nwse-resize"
+								data-type="pointer-bottom-right"
+								data-actived={isActive}
+								draggable={false}
+							></div>
+						</>
+					))}
+				<div className="w-full h-full hidden hover-border" />
+			</>
+		</div>
 	);
-});
+};
 
-export default Component;
+export default React.memo(Component);

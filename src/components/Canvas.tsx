@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useRef, useState } from 'react';
 import { useCanvasStore } from '../store';
 import { ComponentType, ComponentUniType } from '../types';
 import { getElDefaultOpt } from '../utils';
@@ -60,18 +60,6 @@ const Canvas = ({ style }: PropsType) => {
 			updateActivedEl: state.updateActivedEl,
 			cancelActive: state.cancelActive,
 		}));
-
-	// useEffect(() => {
-	// 	console.log('[ render ] >');
-	// }, [
-	// 	elList,
-	// 	activedEl,
-	// 	activeEl,
-	// 	addEl,
-	// 	updateActivedEl,
-	// 	cancelActive,
-	// 	style,
-	// ]);
 
 	// 是否正在移动（显示标尺）
 	const [isMoving, setIsMoving] = useState(false);
@@ -341,4 +329,4 @@ const Canvas = ({ style }: PropsType) => {
 	);
 };
 
-export default Canvas;
+export default memo(Canvas);

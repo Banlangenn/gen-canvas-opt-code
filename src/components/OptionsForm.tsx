@@ -59,7 +59,7 @@ const OptionsForm = () => {
 				// 字段名
 				const key = opt.formItemProps.name as unknown as keyof ComponentUniType;
 				// 根据 state 中是否有值确定是否将可选项加入表单
-				if (key && activedEl.hasOwnProperty(key)) {
+				if (key && Object.prototype.hasOwnProperty.call(activedEl, key)) {
 					// 可选项添加标识
 					opt.isOptional = true;
 					form.setFieldValue(key, activedEl[key]);
