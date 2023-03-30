@@ -273,6 +273,7 @@ export class Crop extends EventHub {
 			} else {
 				this.renderer.clearRenderingCanvas(this.context, x, y)
 				// 当前屏幕的笔记
+
 				this.drawGraphics(this.context.renderingCanvasContext)
 			}
 		}
@@ -713,16 +714,12 @@ export class Crop extends EventHub {
 	public clear(): void {
 		//  清除当前屏幕的 所有笔记
 		this.currentPage = []
-		this.currentGraphics = null as any
 		// switchGroup(this.context, this.model, name)
 		// this.model = clearGroup(this.model)
 		// 清除画布 // 需要渲染的时候在 清除
 		if (this.canRender) {
 			this.renderer.clearCanvas(this.context)
 		}
-
-		// this.history.clear()
-
 		this.emit('data', { v: { value: '', name: 'clear' }, t: Date.now() })
 	}
 	// 只带有 get不带有 set的存取器自动被推断为 readonly
@@ -920,7 +917,7 @@ export class Crop extends EventHub {
 						this.events.emit('clearCapturingCanvas')
 						// 双击自己
 						graphics.setEditStatus(false)
-						const { x, y } = graphics.getData()
+						const { x, y } = graphics.data
 						this.currentGraphics.initPending(
 							context,
 							{ x, y, t: Date.now() },
@@ -1122,9 +1119,15 @@ export class Crop extends EventHub {
 	// 	this.capturingDrawCurrentStroke(newCrashActiveLine)
 	// }
 
-	getCurrentPageData() {
+	/**
+	 *
+	 * @param append 要不要把编辑 的图形 丢进全局
+
+	 * @returns
+	 */
+	getCurrentPageData(append = true) {
 		const currentG = this.currentGraphics
-		if (currentG) {
+		if (append && currentG) {
 			currentG.setEditStatus(false)
 			this.events.emit('appendCurrentPage', currentG)
 			this.currentGraphics = null as any
@@ -1297,13 +1300,11 @@ export class Crop extends EventHub {
 	}
 
 	public capturingGraphicsToRender() {
-		const currentGraphics = this.currentGraphics
-		if (!currentGraphics) return
-		currentGraphics.setEditStatus(false)
-		this.drawGraphics(this.context.renderingCanvasContext, currentGraphics)
+		if (!this.currentGraphics) return
+		this.currentGraphics.setEditStatus(false)
+		this.drawGraphics(this.context.renderingCanvasContext, this.currentGraphics)
 		this.renderer.clearCapturingCanvas(this.context)
-		this.currentPage.push(currentGraphics)
-	
+		this.currentPage.push(this.currentGraphics)
 		this.currentGraphics = null as any
 	}
 	public add(g: GraphicsIns) {
@@ -1342,7 +1343,7 @@ export class Crop extends EventHub {
 	public getGraphicsById(id: string, out = false) {
 		for (let index = 0; index < this.currentPage.length; index++) {
 			const item = this.currentPage[index]
-			if (item.getData().id === id) {
+			if (item.data.id === id) {
 				if (out) {
 					this.currentPage.splice(index, 1)
 				}
@@ -1355,7 +1356,6 @@ export class Crop extends EventHub {
 
 	public setCurrentGraphicsById(id: string) {
 		const graphics = this.getGraphicsById(id, true)
-	
 		if (graphics) {
 			this.capturingGraphicsToRender()
 			graphics.setEditStatus(true)

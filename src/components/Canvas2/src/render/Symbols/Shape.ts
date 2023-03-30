@@ -59,7 +59,36 @@ export function fnAfter(
 //     }
 // }
 
-
+// const base: Pick<T, keyof ExcalidrawElement> = {
+//     type: extra.type || element.type,
+//     // all elements must have version > 0 so getSceneVersion() will pick up
+//     // newly added elements
+//     version: element.version || 1,
+//     versionNonce: element.versionNonce ?? 0,
+//     isDeleted: element.isDeleted ?? false,
+//     id: element.id || randomId(),
+//     fillStyle: element.fillStyle || 'hachure',
+//     strokeWidth: element.strokeWidth || 1,
+//     strokeStyle: element.strokeStyle ?? 'solid',
+//     roughness: element.roughness ?? 1,
+//     opacity: element.opacity == null ? 100 : element.opacity,
+//     angle: element.angle || 0,
+//     x: extra.x ?? element.x ?? 0,
+//     y: extra.y ?? element.y ?? 0,
+//     strokeColor: element.strokeColor,
+//     backgroundColor: element.backgroundColor,
+//     width: element.width || 0,
+//     height: element.height || 0,
+//     seed: element.seed ?? 1,
+//     groupIds: element.groupIds ?? [],
+//     strokeSharpness:
+//       element.strokeSharpness ??
+//       (isLinearElementType(element.type) ? 'round' : 'sharp'),
+//     boundElements: element.boundElementIds
+//       ? element.boundElementIds.map((id) => ({ type: 'arrow', id }))
+//       : element.boundElements ?? [],
+//     updated: element.updated ?? getUpdatedTimestamp(),
+//   }
 export interface properties {
 	version: number
 	versionNonce: number
@@ -88,12 +117,12 @@ export interface properties {
 // 外边会用到的
 export abstract class BaseShape<T extends Partial<properties> = properties> {
 	// 画当前图形
-	static readonly key: number | string
-	static readonly cache: boolean
-	name = ' '
-	private appendPointCallTimes = 0
-	 disabled = false
-	 data: Required<T>
+	static key: number | string
+	static cache = false
+	name = ''
+	appendPointCallTimes = 0
+	disabled = false
+	data: Required<T>
 	threshold = 4
 	transformHandles: TransformHandles = {}
 	limitValue: limitValue = {
@@ -831,12 +860,12 @@ export const getResizeOffsetXY = (
 	selectedElement: BaseShape<properties>,
 	pointer: point,
 ): point => {
-	const { x: x1, y: y1, width, height , angle: _angle} = selectedElement.getData()
+	const { x: x1, y: y1, width, height } = selectedElement.data
 	const x2 = x1 + width
 	const y2 = y1 + height
 	const cx = (x1 + x2) / 2
 	const cy = (y1 + y2) / 2
-	const angle = _angle || 0
+	const angle = selectedElement.data.angle || 0
 	const { x, y } = rotate(pointer.x, pointer.y, cx, cy, -angle)
 	switch (transformHandleType) {
 		case 'n':

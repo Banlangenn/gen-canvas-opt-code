@@ -99,8 +99,10 @@ export default class ImageShape extends BaseShape<ImageShapeProperties> {
 		if (this.data.imageOrUri !== imageOrUri) {
 			this.image = undefined as any
 		}
+
 		return this
 	}
+
 	initPointerDownState(p = { x: 0, y: 0 }) {
 		const { x, y, width, height, angle = 0 } = this.data
 
@@ -138,7 +140,7 @@ export default class ImageShape extends BaseShape<ImageShapeProperties> {
 		// this.drawAttributeInit(ctx)
 		// 取走一个点 能够拿到x，y
 		// 所谓缓存都是用 canvas  再画一个放在 一个
-		
+
 		if (!this.image) {
 			await this.initImageData()
 		}
@@ -208,11 +210,10 @@ export default class ImageShape extends BaseShape<ImageShapeProperties> {
 			const maybeTransformHandleType = this.resizeTest(p, this.transformHandles)
 			this.maybeTransformHandleType = maybeTransformHandleType
 			if (maybeTransformHandleType) {
-				this.pointerDownState.offset = getResizeOffsetXY(
-					maybeTransformHandleType,
-					this,
-					p,
-				)
+				this.pointerDownState = {
+					...(this.pointerDownState || {}),
+					offset: getResizeOffsetXY(maybeTransformHandleType, this, p),
+				}
 				return true
 			}
 		}

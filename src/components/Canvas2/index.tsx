@@ -110,6 +110,8 @@ const genData = (data: any) => {
 		}
 
 		case 'text': {
+			const fontSize = Number(data.font.match(/\d+(?=px)/)[0]);
+
 			const textData = {
 				ellipsis: data.rowCount && data.rowCount > 0,
 				height: data.rowCount
@@ -118,11 +120,12 @@ const genData = (data: any) => {
 				textAlign: data.align,
 				x: data.x,
 				y: data.y,
+				fontSize,
 				color: data.fillStyle as string,
 				fillColor: data.fillStyle as string,
 				strokeColor: data.fillStyle,
 				lineHeight: data.lineHeight,
-				width: data.maxWidth,
+				width: data.maxWidth || data.content.length * fontSize,
 				text: data.content as string,
 				alpha: data.alpha as string,
 				id: data.internal.id,
@@ -163,7 +166,14 @@ const genIdMap = (list: { internal: { id: string } }[]) => {
 /** 画布 */
 const Canvas = ({ style }: PropsType) => {
 	const { elList, activedEl, activeEl, addEl, updateActivedEl, cancelActive } =
-		useCanvasStore();
+		useCanvasStore((state) => ({
+			elList: state.elList,
+			activedEl: state.activedEl,
+			activeEl: state.activeEl,
+			addEl: state.addEl,
+			updateActivedEl: state.updateActivedEl,
+			cancelActive: state.cancelActive,
+		}));
 
 	const idMap = useRef(genIdMap(elList as any));
 
@@ -178,10 +188,12 @@ const Canvas = ({ style }: PropsType) => {
 
 			elList.forEach((e) => {
 				const result = genData(e);
+
 				if (!result) {
 					return;
 				}
 				const [key, data] = result;
+
 				containerRef.current?.appendToImage({
 					...data,
 					key,
@@ -198,14 +210,14 @@ const Canvas = ({ style }: PropsType) => {
 
 	// TODO: 图片渲染有问题
 	// 全部删除有问题
-	// 
+	//
 	useEffect(() => {
 		if (elList.length !== Object.keys(idMap.current.idsObj).length) {
 			idMap.current = genIdMap(elList as any);
 		}
-		containerRef.current?.capturingGraphicsToRender();
-		const allG = containerRef.current?.getCurrentPageData();
+		const allG = containerRef.current?.getCurrentPageData(false);
 		if (elList.length === 0) {
+			// containerRef.current?.capturingGraphicsToRender();
 			containerRef.current?.reset();
 		} else if (elList.length < (allG?.length || 0)) {
 			// 有删除 对比一下是哪个
@@ -214,12 +226,10 @@ const Canvas = ({ style }: PropsType) => {
 			if (!deleteItem) {
 				return;
 			}
-			containerRef.current?.capturingGraphicsToRender();
+			// containerRef.current?.capturingGraphicsToRender();
 			containerRef.current?.getGraphicsById(deleteItem?.id, true);
 			containerRef.current?.render();
 		}
-
-		console.log(containerRef.current?.getCurrentPageData()?.length);
 	}, [elList.length]);
 
 	// 是否正在移动（显示标尺）
@@ -253,6 +263,10 @@ const Canvas = ({ style }: PropsType) => {
 	};
 
 	useEffect(() => {
+		// 自己触发的操作  需要return--
+		// ---
+		if (elList.length === 0) return;
+
 		if (!activedEl) {
 			containerRef.current?.capturingGraphicsToRender();
 			return;
